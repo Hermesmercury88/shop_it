@@ -1,0 +1,22 @@
+{
+    "sourceFile": "deliveries.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758461057182,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758461075849,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,8 +54,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-// ✅ เสร็จแล้วเด้งกลับไปหน้า index.html\r\n-header(\"Location: index.html\");\r\n-exit;\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a>\";\r\n ?>\r\n"
+                }
+            ],
+            "date": 1758461057182,
+            "name": "Commit-0",
+            "content": "<?php\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\";\r\n\r\n// เชื่อมต่อฐานข้อมูล\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    die(\"เชื่อมต่อฐานข้อมูลล้มเหลว: \" . $conn->connect_error);\r\n}\r\n\r\n// ตรวจสอบ method\r\nif ($_SERVER['REQUEST_METHOD'] !== 'POST') {\r\n    die(\"กรุณาส่งข้อมูลด้วย POST\");\r\n}\r\n\r\n// รับค่าจากฟอร์ม\r\n$delivery_no    = $_POST['delivery_no']    ?? '';\r\n$customer_name  = $_POST['customer_name']  ?? '';\r\n$customer_address = $_POST['customer_address'] ?? '';\r\n$order_no       = $_POST['order_no']       ?? '';\r\n\r\n$item_names = $_POST['item_name'] ?? [];\r\n$qtys       = $_POST['qty']       ?? [];\r\n$units      = $_POST['unit']      ?? [];\r\n\r\n// บันทึกใบส่งของ\r\n$stmt = $conn->prepare(\"INSERT INTO deliveries (delivery_no, customer_name, customer_address, order_no) VALUES (?, ?, ?, ?)\");\r\nif (!$stmt) {\r\n    die(\"Prepare failed: \" . $conn->error);\r\n}\r\n$stmt->bind_param(\"ssss\", $delivery_no, $customer_name, $customer_address, $order_no);\r\n$stmt->execute();\r\n$delivery_id = $stmt->insert_id;\r\n$stmt->close();\r\n\r\n// บันทึกรายการสินค้า\r\nif (!empty($item_names)) {\r\n    $stmt = $conn->prepare(\"INSERT INTO delivery_items (delivery_id, item_name, qty, unit) VALUES (?, ?, ?, ?)\");\r\n    if (!$stmt) {\r\n        die(\"Prepare failed: \" . $conn->error);\r\n    }\r\n\r\n    for ($i = 0; $i < count($item_names); $i++) {\r\n        $name  = $item_names[$i];\r\n        $qty   = $qtys[$i]   ?? 0;\r\n        $unit  = $units[$i]  ?? '';\r\n\r\n        $stmt->bind_param(\"isis\", $delivery_id, $name, $qty, $unit);\r\n        $stmt->execute();\r\n    }\r\n    $stmt->close();\r\n}\r\n\r\n$conn->close();\r\n\r\n// ✅ เสร็จแล้วเด้งกลับไปหน้า index.html\r\nheader(\"Location: index.html\");\r\nexit;\r\n?>\r\n"
+        }
+    ]
+}

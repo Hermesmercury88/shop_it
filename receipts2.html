@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ใบเสร็จรับเงิน</title>
+
+<!-- Site Icons -->
+<link rel="shortcut icon" href="pic/mylogo.png" type="image/x-icon" />
+<link rel="icon" href="pic/mylogo.png" type="image/x-icon" />
+<link rel="apple-touch-icon" href="pic/mylogo.png" />
+<link href="css/receipts2.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container" id="receiptContent">
+
+    <!-- ส่วนหัว -->
+    <div class="header-info">
+        <div class="company">
+            <h2>ร้านเลิศชัยไอที</h2>
+            <p>222 หมู่ 14 ตำบลดงลิง อำเภอกมลาไสย จังหวัดกาฬสินธุ์ 46130</p>
+            <p>โทร. 082-1053870</p>
+            <p>gลขประจำตัวผู้เสียภาษีอากร  1460300026921</p>
+            <p>ทะเบียนการค้าเลขที่ 4651552000789</p>
+        </div>
+        <div class="logo">
+            <img src="./pic/mylogo.png" alt="logo">
+        </div>
+    </div>
+
+    <!-- ฟอร์ม -->
+    <form action="http://localhost/shop/receipts2.php" method="post" id="receiptForm">
+
+        <div class="doc-title">
+            <h2>ใบเสร็จรับเงิน</h2>
+            <div class="doc-info">
+                <label>เลขที่ / NO. : <input type="text" name="order_no" required></label>
+                <span><b>วันที่ / Date :</b> ............................................</span>
+            </div>
+        </div>
+
+        <div class="customer-info">
+            <label>ชื่อลูกค้า: <input type="text" name="customer_name" required></label><br>
+            <label>ที่อยู่ลูกค้า: <textarea name="customer_address" rows="2" required></textarea></label>
+        </div>
+
+        <br>
+        <h3>รายละเอียดสินค้า</h3>
+        <table id="itemsTable">
+            <thead>
+                <tr>
+                    <th>ลำดับ</th>
+                    <th>รายการ</th>
+                    <th>จำนวน</th>
+                    <th>ราคา</th>
+                    <th>หน่วย</th>
+                    <th>ราคารวม</th>
+                    <th>ลบ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" name="item_name[]"></td>
+                    <td><input type="number" name="qty[]" class="qty"></td>
+                    <td><input type="number" name="price[]" class="price"> </td>
+                    <td><input type="text" name="unit[]"></td>
+                    <td><input type="text" name="total[]" class="total" readonly></td>
+                    <td><button type="button" class="remove-btn">-</button></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <!-- รวมเป็นเงินทั้งสิ้น -->
+                 <tr>
+                    <td colspan="5" style="text-align:center;font-weight:bold;">รวมเป็นเงินทั้งสิ้น</td>
+                    <td style="text-align:right;font-weight:bold;">
+                        <span id="grandTotalDisplay">0.00</span>
+                    </td>
+                    <td></td>
+                </tr>
+                <!-- ตัวอักษร -->
+                 <tr>
+                    <td colspan="7" style="text-align:left;font-weight:bold;">
+                        (ตัวอักษร: <span id="thaiTextDisplay">ศูนย์บาทถ้วน</span>)
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <input type="hidden" name="grand_total" id="grand_total_input">
+
+        <button type="button" class="add-btn">+</button>
+        <button type="button" class="button btn-back" onclick="window.location.href='index.html'">ย้อนกลับ</button>
+        <button type="submit" class="button btn-save">บันทึกใบเสร็จ</button>
+        <button type="button" class="button btn-print" onclick="printPDF()">พิมพ์ PDF</button>
+    </form>
+
+
+    <div class="signature">
+        <br>
+        <p>(..............................................................)<br>( นายเลิศชัย อุดมพันธุ์ )<br>ผู้รับเงิน</p>
+    </div>
+</div>
+
+<script>
+// แปลงตัวเลขเป็นภาษาไทย
+function numberToThaiText(number) {
+    const txtnum = ["ศูนย์","หนึ่ง","สอง","สาม","สี่","ห้า","หก","เจ็ด","แปด","เก้า"];
+    const txtdigit = ["","สิบ","ร้อย","พัน","หมื่น","แสน","ล้าน"];
+    if(number === 0) return "ศูนย์บาทถ้วน";
+    let bahtText = "";
+    let numStr = number.toFixed(2).toString();
+    let [intPart, decPart] = numStr.split(".");
+    let intLen = intPart.length;
+
+    for(let i=0; i<intLen; i++){
+        let n = parseInt(intPart.charAt(i));
+        let pos = intLen - i - 1;
+        if(n!==0){
+            if(pos==1 && n==1) bahtText += "สิบ";
+            else if(pos==1 && n==2) bahtText += "ยี่สิบ";
+            else if(pos==0 && n==1 && intLen>1) bahtText += "เอ็ด";
+            else bahtText += txtnum[n] + (pos>0?txtdigit[pos]:"");
+        }
+    }
+    bahtText += "บาท";
+    if(decPart=="00") bahtText += "ถ้วน";
+    else {
+        let d1 = parseInt(decPart.charAt(0));
+        let d2 = parseInt(decPart.charAt(1));
+        if(d1!=0){
+            if(d1==1) bahtText += "สิบ";
+            else if(d1==2) bahtText += "ยี่สิบ";
+            else bahtText += txtnum[d1]+"สิบ";
+        }
+        if(d2!=0){
+            if(d2==1) bahtText += "เอ็ดสตางค์";
+            else bahtText += txtnum[d2]+"สตางค์";
+        }
+    }
+    return bahtText;
+}
+
+// คำนวณราคารวม
+function calculateTotals() {
+    let qtys = document.querySelectorAll(".qty");
+    let prices = document.querySelectorAll(".price");
+    let totals = document.querySelectorAll(".total");
+    let grandTotal = 0;
+
+    qtys.forEach((qty, i) => {
+        let q = parseFloat(qty.value) || 0;
+        let p = parseFloat(prices[i].value) || 0;
+        let sum = q * p;
+        totals[i].value = sum.toFixed(2);
+        grandTotal += sum;
+    });
+
+    // แสดงผลรวม
+    document.getElementById("grandTotalDisplay").innerText = grandTotal.toFixed(2);
+    document.getElementById("grand_total_input").value = grandTotal.toFixed(2);
+
+    // แสดงตัวอักษร
+    document.getElementById("thaiTextDisplay").innerText = numberToThaiText(grandTotal);
+}
+
+// event คำนวณอัตโนมัติ
+document.addEventListener("input", function(e){
+    if(e.target.classList.contains("qty") || e.target.classList.contains("price")){
+        calculateTotals();
+    }
+});
+
+// เพิ่มแถวสินค้า
+document.querySelector(".add-btn").addEventListener("click", function(){
+    let table = document.getElementById("itemsTable").getElementsByTagName("tbody")[0];
+    let rowCount = table.rows.length;
+    let row = table.insertRow();
+    row.innerHTML = `
+        <td>${rowCount+1}</td>
+        <td><input type="text" name="item_name[]"></td>
+        <td><input type="number" name="qty[]" class="qty"></td>
+        <td><input type="number" name="price[]" class="price"></td>
+        <td><input type="text" name="unit[]"></td>
+        <td><input type="text" name="total[]" class="total" readonly></td>
+        <td><button type="button" class="remove-btn">-</button></td>
+    `;
+});
+
+// ลบแถวสินค้า
+document.getElementById("itemsTable").addEventListener("click", function(e){
+    if(e.target.classList.contains("remove-btn")){
+        let row = e.target.closest("tr");
+        row.parentNode.removeChild(row);
+        calculateTotals();
+        let rows = document.querySelectorAll("#itemsTable tbody tr");
+        rows.forEach((r, i) => r.cells[0].innerText = i+1);
+    }
+});
+
+// ปุ่มพิมพ์ PDF
+function printPDF() {
+  window.print();
+}
+
+</script>
+</body>
+</html>

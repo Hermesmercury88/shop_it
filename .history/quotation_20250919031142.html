@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ใบเสร็จรับเงิน</title>
+    <link href="css/quotation.css" rel="stylesheet"
+
+</head>
+
+<body>
+    <h2>ใบเสร็จรับเงิน</h2>
+
+    <form action="save.php" method="post">
+        <label>ชื่อลูกค้า:</label>
+        <input type="text" name="customer_name" required><br>
+
+        <label>ที่อยู่ลูกค้า:</label>
+        <textarea name="customer_address" required></textarea><br><br>
+
+        <h3>รายละเอียดสินค้า</h3>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <tr>
+                <th>ลำดับ</th>
+                <th>รายการ</th>
+                <th>จำนวน</th>
+                <th>หน่วย</th>
+                <th>ราคา/หน่วย</th>
+                <th>ราคารวม</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td><input type="text" name="item[]"></td>
+                <td><input type="number" name="qty[]" min="1"></td>
+                <td><input type="text" name="unit[]"></td>
+                <td><input type="number" name="price[]" step="0.01"></td>
+                <td><input type="number" name="total[]" step="0.01"></td>
+            </tr>
+            <!-- สามารถเพิ่ม row ด้วย JS ได้ภายหลัง -->
+        </table>
+
+        <br>
+        <label>รวมทั้งหมด:</label>
+        <input type="number" name="grand_total" step="0.01"><br><br>
+
+        <button class="button btn-save">บันทึกใบเสร็จ</button>
+    </form>
+
+    <br>
+    <a href="index.html" class="button btn-home">⬅ กลับหน้าหลัก</a>
+</body>
+</html>

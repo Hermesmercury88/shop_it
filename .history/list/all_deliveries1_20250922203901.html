@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>รายการส่งของ</title>
+  <style>
+    body {
+      font-family: "TH Sarabun New", sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .toolbar input, .toolbar button {
+      padding: 6px 10px;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    table thead {
+      background: #007BFF;
+      color: #fff;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    table tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+    table tfoot {
+      font-weight: bold;
+      background: #f1f1f1;
+    }
+    .btn-pdf {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-pdf:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>รายการส่งของ</h2>
+
+  <div class="toolbar">
+    <div>
+      ค้นหา: <input type="text" id="searchInput" placeholder="พิมพ์คำค้น...">
+      วันที่: <input type="date"> ถึง <input type="date">
+    </div>
+    <div>
+      <button class="btn-pdf" onclick="window.print()">พิมพ์ PDF</button>
+    </div>
+  </div>
+
+  <table id="deliveryTable">
+    <thead>
+      <tr>
+        <th>ลำดับ</th>
+        <th>เลขที่ส่ง</th>
+        <th>วันที่ส่ง</th>
+        <th>ลูกค้า</th>
+        <th>สินค้า</th>
+        <th>จำนวน</th>
+        <th>ราคา</th>
+        <th>รวม</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="8">กำลังโหลดข้อมูล...</td></tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7" style="text-align: right;">รวมทั้งหมด</td>
+        <td id="totalSum">0</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <script>
+    // ฟังก์ชันดึงข้อมูลจาก PHP
+    async function loadDeliveries() {
+      try {
+        let res = await fetch("http://localhost/shop/list/all_deliveries1.php");
+        let data = await res.json();
+
+        let tbody = document.querySelector("#deliveryTable tbody");
+        let totalSum = 0;
+
+        if (!data || data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8">ไม่มีข้อมูล</td></tr>`;
+          document.getElementById("totalSum").textContent = "0";
+          return;
+        }
+
+        tbody.innerHTML = "";
+        data.forEach((item, index) => {
+          let sum = parseFloat(item.qty) * parseFloat(item.price);
+          totalSum += sum;
+          tbody.innerHTML += `
+            <tr>
+              <td>${index + 1}</td>
+              <td>${item.delivery_no || '-'}</td>
+              <td>${item.delivery_date || '-'}</td>
+              <td>${item.customer_name || '-'}</td>
+              <td>${item.item_name || '-'}</td>
+              <td>${item.qty || 0}</td>
+              <td>${Number(item.price).toLocaleString()}</td>
+              <td>${sum.toLocaleString()}</td>
+            </tr>
+          `;
+        });
+
+        document.getElementById("totalSum").textContent = totalSum.toLocaleString();
+
+      } catch (err) {
+        console.error("โหลดข้อมูลผิดพลาด:", err);
+        document.querySelector("#deliveryTable tbody").innerHTML =
+          `<tr><td colspan="8">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>`;
+      }
+    }
+
+    // ฟังก์ชันค้นหา
+    document.getElementById("searchInput").addEventListener("keyup", function() {
+      let filter = this.value.toLowerCase();
+      let rows = document.querySelectorAll("#deliveryTable tbody tr");
+      rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+      });
+    });
+
+    // โหลดข้อมูลทันทีเมื่อเปิดหน้า
+    loadDeliveries();
+
+// พิมพ์ PDF
+function printPDF(){
+  window.print();
+}
+
+loadData();
+</script>
+
+</body>
+</html>

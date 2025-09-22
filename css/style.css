@@ -1,0 +1,89 @@
+/* รีเซ็ต margin/padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Tahoma, sans-serif;
+}
+
+/* พื้นหลัง */
+body {
+    background-color: #ECEEDF;  /* ครีมอ่อน */
+}
+
+/* header */
+.header {
+    background-color: #d4aa87; /* น้ำตาล */
+    height: 80px;
+    width: 100%;
+}
+
+/* กล่องปุ่ม */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    gap: 30px;
+}
+
+/* ปุ่มลิงก์ */
+.btn {
+    display: inline-block;
+    text-align: center;
+    background-color: #b48f29; /* น้ำตาลอ่อน */
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff7f7;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    background-color: #d9b99b;
+}
+
+    body {
+      font-family: Tahoma, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7e9;
+    }
+    .header {
+      background-color: #cfa787;
+      height: 80px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin: 40px;
+    }
+    .card {
+      background-color: #c28f67;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      width: 260px;
+    }
+    .card img {
+      max-width: 140px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: block;
+      background-color: #e8cbb2;
+      color: #333;
+      text-decoration: none;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: #d9b596;
+    }

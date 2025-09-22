@@ -1,0 +1,332 @@
+@font-face {
+    font-family: "TH SarabunPSK";
+    src: url("./fonts/THSarabunPSK.woff2") format("woff2"),
+         url("./fonts/THSarabunPSK.woff") format("woff"),
+         url("./fonts/THSarabunPSK.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* รีเซ็ต */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "TH SarabunPSK", Tahoma, sans-serif;
+}
+
+body {
+    background: #f7f7f7;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: #fff;
+    width: 210mm;       /* กำหนดตรง A4 */
+    min-height: 297mm;  /* ความสูง A4 */
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ส่วนหัว */
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.company {
+    width: 65%;
+    text-align: left;
+}
+
+.company h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.company h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.company p {
+    font-size: 16px;
+    margin: 3px 0;
+}
+
+.logo {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 200px;
+    height: auto;
+    display: block;
+}
+
+/* หัวใบเสร็จ */
+.doc-title {
+    text-align: center;
+    margin: 20px 0 70px;
+    position: relative;
+}
+
+.doc-title h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.doc-info {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+    text-align: right;
+}
+
+.doc-info span {
+    display: block;
+    margin: 3px 0;
+}
+
+.doc-info label,
+.doc-info span {
+    font-size: 16px;
+}
+
+/* เลขที่/NO ให้อยู่บรรทัดเดียวกับ input */
+.doc-info label {
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.doc-info input[type="text"] {
+  width: 120px;
+  display: inline-block;
+}
+
+/* ลูกค้าและที่อยู่ต่อท้าย label */
+.customer-info label {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  font-weight: bold;
+}
+
+.customer-info input,
+.customer-info textarea {
+  margin-left: 8px;
+  flex: 1;
+}
+
+/* รวมเป็นเงินทั้งสิ้น */
+tfoot td {
+  border: 1px solid #333;
+}
+
+
+/* ฟอร์ม */
+label {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin: 8px 0 4px;
+}
+
+input[type="text"], textarea, input[type="number"] {
+  font-size: 16px;
+  padding: 6px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+/* ตาราง */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  table-layout: fixed; /* ใช้ความกว้างตามที่กำหนด */
+}
+
+table th, table td {
+  border: 1px solid #333;
+  padding: 6px;
+  text-align: center;
+  word-wrap: break-word; /* ตัดบรรทัดอัตโนมัติ */
+}
+
+table th {
+  background: #eee;
+  font-weight: bold;
+}
+
+/* กำหนดสัดส่วนคอลัมน์ */
+table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */
+table th:nth-child(2), table td:nth-child(2) { width: 48%; }  /* รายการ (กว้างสุด) */
+table th:nth-child(3), table td:nth-child(3) { width: 10%; }  /* จำนวน */
+table th:nth-child(4), table td:nth-child(4) { width: 13%; }  /* หน่วย */
+table th:nth-child(5), table td:nth-child(5) { width: 17%; }  /* ราคา/หน่วย */
+table th:nth-child(6), table td:nth-child(6) { width: 17%; }  /* ราคารวม */
+table th:nth-child(7), table td:nth-child(7) { width: 8%; }  /* ลบ */
+
+/* ปุ่ม */
+.button {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 25px;
+  margin: 10px 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-back { background: #d43b3b; }
+.btn-save { background: #2196F3; }
+.btn-print { background: #8a77e2; }
+
+.add-btn {
+  display: block;
+  margin: 15px auto;
+  width: 50px;
+  height: 50px;
+  font-size: 26px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ปุ่มลบ */
+.remove-btn {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.remove-btn:hover {
+  background-color: #ef5350;
+}
+
+/* รวมเงิน */
+.grand-total {
+  text-align: right;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+/* ลายเซ็น */
+.signature {
+  margin-top: 60px;
+  text-align: right;
+  font-size: 18px;
+}
+
+/* @media print */
+@media print {
+  #thaiTextDisplay {
+    display: inline-block !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    color: #000 !important;
+    text-align: center !important;
+  }
+
+  /* ซ่อนปุ่มทั้งหมด */
+  .button, .add-btn, .remove-btn {
+    display: none !important;
+  }
+
+  /* ซ่อนคอลัมน์ลบในตาราง */
+  th:last-child, td:last-child {
+    display: none !important;
+  }
+
+  input, textarea {
+    input, textarea {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    pointer-events: none;
+    font-size: 14px;
+    font-family: "TH SarabunPSK", sans-serif;
+    color: #000;
+    width: auto !important;
+    min-width: 50px !important;
+    box-sizing: content-box !important;
+
+    /* แก้เลขหักครึ่ง */
+    -webkit-appearance: none;
+    appearance: none;
+    line-height: 1.6 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  }
+
+  input.total, input.price, input.qty {
+    text-align: right !important;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: transparent !important;
+  }
+
+  body {
+    background: none !important;
+    padding: 0 !important;
+  }
+
+  .container {
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    width: 210mm !important;
+    min-height: 250mm !important;
+    background: #fff !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  /* td ที่ครอบ span */
+  tfoot tr:last-child td {
+    display: table-cell !important;
+    text-align: left !important;
+    border: none !important;
+    padding-left: 0 !important;
+  }
+
+  .summary-outside {
+  display: none;
+}
+
+
+  /* กำหนดสัดส่วนคอลัมน์ */
+  table th:nth-child(1), table td:nth-child(1) { width: 8% !important; text-align: center; }
+  table th:nth-child(2), table td:nth-child(2) { width: 48% !important; }
+  table th:nth-child(3), table td:nth-child(3) { width: 10% !important; text-align: center; }
+  table th:nth-child(4), table td:nth-child(4) { width: 13% !important; text-align: center; }
+  table th:nth-child(5), table td:nth-child(5) { width: 17% !important; text-align: right; padding-right: 5px; }
+  table th:nth-child(6), table td:nth-child(6) { width: 18% !important; text-align: right; padding-right: 5px; }
+}
+
+.summary-outside {
+  display: none;
+}

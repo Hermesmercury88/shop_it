@@ -1,0 +1,87 @@
+/* รีเซ็ตค่าพื้นฐาน */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "TH Sarabun New", Tahoma, sans-serif;
+}
+
+body {
+    background: #f7f7f7;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: #fff;
+    width: 794px; /* ขนาดใกล้เคียง A4 */
+    min-height: 1123px;
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ส่วนหัว */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.header h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+.header p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* ข้อมูลลูกค้า */
+.info {
+    margin: 20px 0;
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+/* ตารางสินค้า */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+table th, table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+}
+
+table th {
+    background: #eee;
+    font-weight: bold;
+}
+
+.total {
+    text-align: right;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* ช่องเซ็นชื่อ */
+.signature {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    font-size: 18px;
+}
+
+.signature .sig-box {
+    text-align: center;
+    width: 40%;
+}
+.signature .sig-box p {
+    margin-top: 80px;
+    border-top: 1px dashed #333;
+    display: inline-block;
+    padding: 5px 20px;
+}

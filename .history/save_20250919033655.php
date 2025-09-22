@@ -1,0 +1,55 @@
+<?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "shop_it";
+
+// เชื่อมต่อฐานข้อมูล
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . $conn->connect_error);
+}
+
+// รับข้อมูลจากฟอร์ม
+$customer_name = $_POST['customer_name'];
+$customer_address = $_POST['customer_address'];
+$grand_total = $_POST['grand_total'];
+
+$item_names = $_POST['item_name'];
+$qtys = $_POST['qty'];
+$units = $_POST['unit'];
+$prices = $_POST['price'];
+$totals = $_POST['total'];
+
+// บันทึกข้อมูลลูกค้าและรวมทั้งหมด
+$sql_receipt = "INSERT INTO receipts (customer_name, customer_address, grand_total) 
+                VALUES (?, ?, ?)";
+$stmt = $conn->prepare($sql_receipt);
+$stmt->bind_param("ssd", $customer_name, $customer_address, $grand_total);
+$stmt->execute();
+$receipt_id = $stmt->insert_id; // ไอดีใบเสร็จที่เพิ่งบันทึก
+$stmt->close();
+
+// บันทึกรายละเอียดสินค้า
+$sql_item = "INSERT INTO receipt_items (receipt_id, item_name, qty, unit, price, total) 
+             VALUES (?, ?, ?, ?, ?, ?)";
+$stmt_item = $conn->prepare($sql_item);
+
+for ($i = 0; $i < count($item_names); $i++) {
+    $stmt_item->bind_param(
+        "isiddd", 
+        $receipt_id, 
+        $item_names[$i], 
+        $qtys[$i], 
+        $units[$i], 
+        $prices[$i], 
+        $totals[$i]
+    );
+    $stmt_item->execute();
+}
+
+$stmt_item->close();
+$conn->close();
+
+echo "บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a>";
+?>

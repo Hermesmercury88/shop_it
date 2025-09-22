@@ -1,0 +1,30 @@
+{
+    "sourceFile": "receipts1.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1758553093409,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758553104266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,6 +58,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='quotations1.html'>กรอกต่อ</a>\"\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='receipts11.html'>กรอกต่อ</a>\"\";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758553111982,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,6 +58,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='receipts11.html'>กรอกต่อ</a>\"\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='receipts1.html'>กรอกต่อ</a>\";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758553499720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,6 +58,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='receipts1.html'>กรอกต่อ</a>\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='receipts1.html'>กรอกต่อ</a>\";\r\n ?>\r\n"
+                }
+            ],
+            "date": 1758553093409,
+            "name": "Commit-0",
+            "content": "<?php\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\";\r\n\r\n// เชื่อมต่อฐานข้อมูล\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    die(\"เชื่อมต่อฐานข้อมูลล้มเหลว: \" . $conn->connect_error);\r\n}\r\n\r\n// ตรวจสอบว่ามีการส่ง POST หรือไม่\r\nif ($_SERVER['REQUEST_METHOD'] !== 'POST') {\r\n    die(\"กรุณาส่งข้อมูลด้วย POST\");\r\n}\r\n\r\n// รับข้อมูลจากฟอร์ม (ตั้งค่า default ป้องกัน Warning)\r\n$order_no = $_POST['order_no'] ?? '';\r\n$customer_name = $_POST['customer_name'] ?? '';\r\n$customer_address = $_POST['customer_address'] ?? '';\r\n$grand_total = $_POST['grand_total'] ?? 0;\r\n\r\n$item_names = $_POST['item_name'] ?? [];\r\n$qtys = $_POST['qty'] ?? [];\r\n$prices = $_POST['price'] ?? [];\r\n$units = $_POST['unit'] ?? [];\r\n$totals = $_POST['total'] ?? [];\r\n\r\n// บันทึกใบเสร็จ\r\n$stmt = $conn->prepare(\"INSERT INTO receipts (order_no, customer_name, customer_address, grand_total) VALUES (?, ?, ?, ?)\");\r\nif (!$stmt) {\r\n    die(\"Prepare failed: \" . $conn->error);\r\n}\r\n$stmt->bind_param(\"sssd\", $order_no, $customer_name, $customer_address, $grand_total);\r\n$stmt->execute();\r\n$receipt_id = $stmt->insert_id;\r\n$stmt->close();\r\n\r\n// บันทึกรายละเอียดสินค้า\r\nif (!empty($item_names)) {\r\n    $stmt = $conn->prepare(\"INSERT INTO receipt_items (receipt_id, item_name, qty, unit, price, total) VALUES (?, ?, ?, ?, ?, ?)\");\r\n    if (!$stmt) {\r\n        die(\"Prepare failed: \" . $conn->error);\r\n    }\r\n\r\n    for ($i = 0; $i < count($item_names); $i++) {\r\n        $name = $item_names[$i];\r\n        $qty = $qtys[$i] ?? 0;\r\n        $price = $prices[$i] ?? 0;\r\n        $unit = $units[$i] ?? '';\r\n        $total = $totals[$i] ?? 0;\r\n\r\n        $stmt->bind_param(\"isiddd\", $receipt_id, $name, $qty, $unit, $price, $total);\r\n        $stmt->execute();\r\n    }\r\n    $stmt->close();\r\n}\r\n\r\n$conn->close();\r\n\r\necho \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='quotations1.html'>กรอกต่อ</a>\"\";\r\n?>\r\n"
+        }
+    ]
+}

@@ -1,0 +1,47 @@
+/* รีเซ็ต margin/padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Tahoma, sans-serif;
+}
+
+/* พื้นหลัง */
+body {
+    background-color: #f7f9ec;  /* ครีมอ่อน */
+}
+
+/* header */
+.header {
+    background-color: #d4aa87; /* น้ำตาล */
+    height: 80px;
+    width: 100%;
+}
+
+/* กล่องปุ่ม */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    gap: 30px;
+}
+
+/* ปุ่มลิงก์ */
+.btn {
+    display: inline-block;
+    text-align: center;
+    background-color: #c09f44; /* น้ำตาลอ่อน */
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    background-color: #d9b99b;
+}

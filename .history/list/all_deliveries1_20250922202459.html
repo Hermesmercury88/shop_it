@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ใบส่งของ</title>
+  <style>
+    body { margin:0; font-family: Tahoma, sans-serif; background:#f9f9ef; }
+    .sidebar {
+      width: 220px; height:100vh; background:#b89172; float:left; color:#fff;
+      display:flex; flex-direction:column; align-items:center; padding-top:30px;
+    }
+    .sidebar a {
+      color:#fff; text-decoration:none; margin:15px 0; display:block; width:100%; text-align:center;
+    }
+    .content { margin-left:220px; padding:20px; }
+    .topbar {
+      background:#d4b295; padding:10px; text-align:center;
+    }
+    h2 { margin:20px 0; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+    th { background:#e5c3a6; }
+    tr:nth-child(even){background:#fdf5ef;}
+    .search-box { margin:10px 0; }
+    input, select { padding:6px; }
+    .btn-pdf {
+      margin-top:20px; background:#f77c7c; color:#000; padding:10px 20px;
+      border:none; border-radius:6px; cursor:pointer; font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="sidebar">
+  <a href="#">ใบเสนอราคา</a>
+  <a href="#">ใบสั่งของ</a>
+  <a href="#">ใบเสร็จรับเงิน</a>
+</div>
+
+<div class="content">
+  <div class="topbar">
+    <img src="logo.png" alt="LOGO" height="60">
+  </div>
+
+  <h2>รายการใบส่งของ</h2>
+
+  <div class="search-box">
+    <label for="searchColumn">ค้นหาโดย: </label>
+    <select id="searchColumn">
+      <option value="customer_name">ชื่อลูกค้า</option>
+      <option value="delivery_no">เลขที่ / NO.</option>
+      <option value="item_name">สินค้า</option>
+    </select>
+    <input type="text" id="searchInput" placeholder="พิมพ์คำค้นหา...">
+  </div>
+
+  <table id="deliveryTable">
+    <thead>
+      <tr>
+        <th>ลำดับ</th>
+        <th>ชื่อลูกค้า</th>
+        <th>เลขที่ / NO.</th>
+        <th>สินค้า</th>
+        <th>จำนวน</th>
+        <th>ราคา</th>
+        <th>หน่วย</th>
+        <th>ราคารวม</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <button class="btn-pdf" onclick="printPDF()">พิมพ์ PDF</button>
+</div>
+
+<script>
+// โหลดข้อมูลจาก PHP
+async function loadData() {
+  let res = await fetch("http://localhost/shop/list/all_deliveries1.php");
+  let data = await res.json();
+  let tbody = document.querySelector("#deliveryTable tbody");
+  tbody.innerHTML = "";
+
+  if (data.length === 0) {
+    tbody.innerHTML = "<tr><td colspan='8'>ไม่มีข้อมูล</td></tr>";
+    return;
+  }
+
+  data.forEach((row, idx) => {
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td>${row.customer_name}</td>
+      <td>${row.delivery_no}</td>
+      <td>${row.item_name}</td>
+      <td>${row.qty}</td>
+      <td>${parseFloat(row.price).toFixed(2)}</td>
+      <td>${row.unit}</td>
+      <td>${parseFloat(row.total).toFixed(2)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ค้นหา
+document.getElementById("searchInput").addEventListener("keyup", function(){
+  let input = this.value.toLowerCase();
+  let column = document.getElementById("searchColumn").value;
+  let rows = document.querySelectorAll("#deliveryTable tbody tr");
+
+  rows.forEach(r=>{
+    let cellText = r.querySelector("td:nth-child(" + (column==="customer_name"?2: column==="delivery_no"?3:4) + ")").innerText.toLowerCase();
+    r.style.display = cellText.includes(input) ? "" : "none";
+  });
+});
+
+// พิมพ์ PDF
+function printPDF(){
+  window.print();
+}
+
+loadData();
+</script>
+
+</body>
+</html>

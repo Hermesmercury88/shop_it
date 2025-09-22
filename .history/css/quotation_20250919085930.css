@@ -1,0 +1,309 @@
+/* รีเซ็ตค่าพื้นฐาน */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "TH Sarabun New", Tahoma, sans-serif;
+}
+
+body {
+    background: #f7f7f7;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: #fff;
+    width: 794px; /* ขนาดใกล้เคียง A4 */
+    min-height: 1123px;
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ส่วนหัว */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.header h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+.header p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* ข้อมูลลูกค้า */
+.info {
+    margin: 20px 0;
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+/* ตารางสินค้า */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+table th, table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+}
+
+table th {
+    background: #eee;
+    font-weight: bold;
+}
+
+.total {
+    text-align: right;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* ช่องเซ็นชื่อ */
+.signature {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    font-size: 18px;
+}
+
+.signature .sig-box {
+    text-align: center;
+    width: 40%;
+}
+.signature .sig-box p {
+    margin-top: 80px;
+    border-top: 1px dashed #333;
+    display: inline-block;
+    padding: 5px 20px;
+}
+
+/* ปรับขนาดฟอนต์ของ label + input + textarea */
+label {
+  font-size: 22px;
+  font-weight: bold;
+  display: inline-block;
+  margin: 10px 0 6px;
+}
+
+input[type="text"], textarea, input[type="number"] {
+  font-size: 20px;
+  padding: 12px 15px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 15px;
+}
+
+/* ตารางสินค้า */
+table th {
+  background: #eee;
+  font-size: 22px;
+  padding: 12px;
+}
+
+table td {
+  font-size: 20px;
+  padding: 10px;
+}
+
+/* ปุ่มหลัก */
+.button {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 15px 40px;
+  margin: 15px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: white;
+}
+
+/* ปุ่มกลับหน้าหลัก */
+.btn-home {
+  background: linear-gradient(135deg, #4CAF50, #2e7d32);
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.4);
+}
+
+.btn-home:hover {
+  background: linear-gradient(135deg, #66bb6a, #388e3c);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(46, 125, 50, 0.5);
+}
+
+/* ปุ่มบันทึกใบเสร็จ */
+.btn-save {
+  background: linear-gradient(135deg, #2196F3, #1565C0);
+  box-shadow: 0 4px 10px rgba(21, 101, 192, 0.4);
+}
+
+.btn-save:hover {
+  background: linear-gradient(135deg, #42a5f5, #1976d2);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(21, 101, 192, 0.5);
+}
+
+/* ปุ่ม + เพิ่มรายการ */
+.add-btn {
+    display: block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #4CAF50, #2e7d32);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    background: linear-gradient(135deg, #66bb6a, #388e3c);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(46, 125, 50, 0.5);
+}
+
+/* ปุ่ม ❌ ลบแถว */
+.remove-btn {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+.remove-btn:hover {
+    background-color: #ef5350;
+}
+
+/* จัดปุ่มลบให้อยู่ตรงกลางเซลล์ */
+.btn-cell {
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    font-family:"TH Sarabun New",Tahoma,sans-serif;
+    background:#f7f7f7;
+    display:flex;
+    justify-content:center;
+    padding:20px;
+}
+
+.container {
+    background:#fff;
+    width:794px;
+    padding:30px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2, h3, label, input, textarea, table, th, td, .grand-total, button {
+    font-size:18px;
+}
+
+input, textarea {
+    width:100%;
+    padding:6px;
+    margin:4px 0;
+    border:1px solid #999;
+    border-radius:6px;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+table th, table td {
+    border:1px solid #333;
+    padding:6px;
+    text-align:center;
+}
+
+.total {
+    background:#f0f0f0;
+}
+
+.add-btn {
+    display:block;
+    margin:15px auto;
+    width:50px;
+    height:50px;
+    font-size:28px;
+    background:green;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.button.btn-save, .button.btn-home {
+    display:inline-block;
+    padding:10px 20px;
+    font-size:18px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+}
+
+.button.btn-save { background:rgb(232, 120, 247); }
+.button.btn-home { background:green; }
+.button.btn-print { background:rgb(148, 149, 226); }
+.button.btn-print { background:rgb(212, 59, 59); }
+
+.grand-total {
+    text-align:right;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.receipt-info label {
+    display:inline-block;
+    width:100px;
+    font-weight:bold;
+}
+
+.date-line {
+    display:inline-block;
+    border-bottom:1px solid #000;
+    width:200px;
+    margin-left:10px;
+}
+
+.header-info {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.header-info h1 {
+    font-size: 32px; /* ตัวใหญ่ที่สุด */
+    margin-bottom: 10px;
+}
+
+.header-info p {
+    font-size: 20px; /* ตัวอักษรใหญ่พออ่านง่าย แต่เล็กกว่าชื่อบริษัท */
+    margin: 3px 0;
+}
+

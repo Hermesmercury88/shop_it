@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ระบบใบส่งของ</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+    canvas { border: 1px solid #000; }
+  </style>
+</head>
+<body>
+  <h2>ระบบใบส่งของ</h2>
+
+  <input type="file" id="upload" accept=".xlsx"><br><br>
+
+  <table id="invoiceTable">
+    <tr>
+      <th>ลำดับ</th>
+      <th>รายการ</th>
+      <th>จำนวน</th>
+      <th>ราคา</th>
+      <th>รวม</th>
+    </tr>
+  </table>
+
+  <p><b>รวมทั้งหมด:</b> <span id="total">0</span> บาท</p>
+
+  <h3>ลายเซ็นผู้รับของ</h3>
+  <canvas id="signature" width="300" height="150"></canvas><br>
+  <button onclick="saveSignature()">บันทึกลายเซ็น</button>
+  <button onclick="clearSignature()">ลบลายเซ็น</button>
+
+  <script>
+    const table = document.getElementById("invoiceTable");
+
+    // อัปโหลด Excel
+    document.getElementById('upload').addEventListener('change', function(e){
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, {type: 'array'});
+        const sheetName = workbook.SheetNames[0];
+        const sheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header:1});
+        
+        // แสดงข้อมูลลงตาราง
+        sheet.forEach((row, i) => {
+          if(i > 0 && row.length > 0){  // ข้าม header
+            let tr = table.insertRow();
+            row.forEach((cell, j) => {
+              let td = tr.insertCell();
+              td.contentEditable = true; // แก้ไขได้
+              td.innerText = cell;
+            });
+          }
+        });
+        calculateTotal();
+      };
+      reader.readAsArrayBuffer(e.target.files[0]);
+    });
+
+    // คำนวณผลรวม
+    function calculateTotal(){
+      let total = 0;
+      for(let i=1; i<table.rows.length; i++){
+        let row = table.rows[i];
+        let qty = parseFloat(row.cells[2].innerText) || 0;
+        let price = parseFloat(row.cells[3].innerText) || 0;
+        row.cells[4].innerText = (qty * price).toFixed(2);
+        total += qty * price;
+      }
+      document.getElementById('total').innerText = total.toFixed(2);
+    }
+
+    // Signature Pad
+    const canvas = document.getElementById('signature');
+    const signaturePad = new SignaturePad(canvas);
+
+    function saveSignature(){
+      if (signaturePad.isEmpty()){
+        alert("กรุณาเซ็นก่อน");
+        return;
+      }
+      let dataURL = signaturePad.toDataURL();
+      console.log("Signature:", dataURL); // base64 image
+      alert("บันทึกลายเซ็นแล้ว");
+    }
+
+    function clearSignature(){
+      signaturePad.clear();
+    }
+  </script>
+</body>
+</html>

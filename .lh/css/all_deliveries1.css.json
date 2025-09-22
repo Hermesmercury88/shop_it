@@ -1,0 +1,18 @@
+{
+    "sourceFile": "css/all_deliveries1.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758549936047,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758549936047,
+            "name": "Commit-0",
+            "content": "body {\r\n    margin: 0;\r\n    font-family: Tahoma, sans-serif;\r\n    background: #f9f9ef;\r\n}\r\n\r\n/* Sidebar */\r\n.sidebar {\r\n    width: 220px;\r\n    height: 100vh;\r\n    background: #b89172;\r\n    float: left;\r\n    color: #fff;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    padding-top: 30px;\r\n}\r\n.sidebar a {\r\n    color: #fff;\r\n    text-decoration: none;\r\n    margin: 15px 0;\r\n    display: block;\r\n    width: 100%;\r\n    text-align: center;\r\n    transition: background 0.3s;\r\n}\r\n.sidebar a:hover {\r\n    background: rgba(255,255,255,0.2);\r\n    border-radius: 6px;\r\n}\r\n\r\n/* Content */\r\n.content {\r\n    margin-left: 220px;\r\n    padding: 20px;\r\n}\r\n\r\n/* Topbar */\r\n.topbar {\r\n    background: #d4b295;\r\n    padding: 15px 0;\r\n    text-align: center;\r\n    margin-bottom: 25px;\r\n    box-sizing: border-box;\r\n    border-radius: 6px 6px 0 0;\r\n    box-shadow: 0 2px 5px rgba(0,0,0,0.1);\r\n}\r\n.topbar img {\r\n    max-height: 60px;\r\n    display: block;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Headline */\r\nh2 {\r\n    margin: 20px 0;\r\n    font-weight: 600;\r\n    color: #4d3a2c;\r\n}\r\n\r\n/* Table */\r\ntable {\r\n    width: 100%;\r\n    border-collapse: collapse;\r\n    border-radius: 6px;\r\n    overflow: hidden;\r\n    box-shadow: 0 2px 5px rgba(0,0,0,0.05);\r\n}\r\nth, td {\r\n    border: 1px solid #ccc;\r\n    padding: 10px;\r\n    text-align: center;\r\n    transition: background 0.3s;\r\n}\r\nth {\r\n    background: #e5c3a6;\r\n    font-weight: 600;\r\n}\r\ntr:nth-child(even) {\r\n    background: #fdf5ef;\r\n}\r\ntr:hover {\r\n    background: #ffe8d0;\r\n}\r\n\r\n/* Search box */\r\n.search-box {\r\n    margin: 10px 0 15px;\r\n}\r\ninput, select {\r\n    padding: 8px;\r\n    border: 1px solid #ccc;\r\n    border-radius: 4px;\r\n    outline: none;\r\n}\r\ninput:focus, select:focus {\r\n    border-color: #b89172;\r\n}\r\n\r\n/* PDF button */\r\n.btn-pdf {\r\n    margin-top: 20px;\r\n    background: #f77c7c;\r\n    color: #000;\r\n    padding: 10px 25px;\r\n    border: none;\r\n    border-radius: 6px;\r\n    cursor: pointer;\r\n    font-weight: bold;\r\n    transition: background 0.3s;\r\n}\r\n.btn-pdf:hover {\r\n    background: #f55c5c;\r\n}"
+        }
+    ]
+}

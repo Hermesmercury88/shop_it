@@ -1,0 +1,243 @@
+@font-face {
+    font-family: "TH SarabunPSK";
+    src: url("./fonts/THSarabunPSK.woff2") format("woff2"),
+         url("./fonts/THSarabunPSK.woff") format("woff"),
+         url("./fonts/THSarabunPSK.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* รีเซ็ต */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "TH SarabunPSK", Tahoma, sans-serif;
+}
+
+body {
+    background: #f7f7f7;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: #fff;
+    width: 794px; /* A4 */
+    min-height: 1123px;
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ส่วนหัว */
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.company {
+    width: 65%;
+    text-align: left;
+}
+
+.company h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.company h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.company p {
+    font-size: 16px;
+    margin: 3px 0;
+}
+
+/* .logo {
+    width: 30%;
+    text-align: right;
+}
+
+.logo img {
+    max-width: 300px;
+} */
+
+.logo {
+    text-align: left;   /* ถ้าอยากชิดซ้าย */
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 250px;       /* กำหนดความกว้าง */
+    height: auto;       /* รักษาสัดส่วนภาพ */
+    display: block;     /* ทำให้จัดแนวได้ง่าย */
+}
+
+
+/* หัวใบเสร็จ */
+.doc-title {
+    text-align: center;
+    margin: 20px 0 70px; /* เพิ่มจาก 20px 0 → 20px 0 40px */
+    position: relative;
+}
+
+.doc-title h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.doc-info {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+    text-align: right;
+}
+
+
+.doc-info span {
+    display: block;
+    margin: 3px 0;
+}
+
+.doc-info label,
+.doc-info span {
+    font-size: 16px;
+}
+
+
+/* ฟอร์ม */
+label {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin: 8px 0 4px;
+}
+
+input[type="text"], textarea, input[type="number"] {
+  font-size: 16px;
+  padding: 6px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+/* ตาราง */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th, table td {
+  border: 1px solid #333;
+  padding: 6px;
+  text-align: center;
+}
+
+table th {
+  background: #eee;
+  font-weight: bold;
+}
+
+/* ปุ่ม */
+.button {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 25px;
+  margin: 10px 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-back { background: #d43b3b; }
+.btn-save { background: #2196F3; }
+.btn-print { background: #8a77e2; }
+
+.add-btn {
+  display: block;
+  margin: 15px auto;
+  width: 50px;
+  height: 50px;
+  font-size: 26px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ปุ่มลบ */
+.remove-btn {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.remove-btn:hover {
+  background-color: #ef5350;
+}
+
+/* รวมเงิน */
+.grand-total {
+  text-align: right;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+/* ลายเซ็น */
+.signature {
+  margin-top: 60px;
+  text-align: right;
+  font-size: 18px;
+}
+
+
+@media print {
+  /* ซ่อนปุ่มทุกอย่าง */
+  .button,
+  .add-btn,
+  .remove-btn {
+    display: none !important;
+  }
+
+  /* ซ่อนคอลัมน์ลบในตาราง */
+  th:last-child,
+  td:last-child {
+    display: none !important;
+  }
+
+  input, textarea {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    pointer-events: none;
+    font-size: 14px;
+    font-family: "TH SarabunPSK", sans-serif;
+    color: #000;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: transparent !important;
+  }
+
+  @page {
+    margin: -5mm;
+  }
+}
+
+

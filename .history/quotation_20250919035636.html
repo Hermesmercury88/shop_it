@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ใบเสร็จรับเงิน</title>
+<link href="css/quotation.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <!-- ข้อมูลบริษัท -->
+    <div class="company-info">
+        <h1>เอวาริณ คอปเปอร์เรท</h1>
+        <p>227 หมู่ 1 ตำบลนาดี อำเภอยางตลาด จังหวัดกาฬสินธุ์ 46120</p>
+        <p>โทร. 082-1053870 , 093-4435566</p>
+        <p>เลขประจำตัวผู้เสียภาษีอากร 1469900009082</p>
+        <p>ทะเบียนการค้าเลขที่ 4611664000007</p>
+    </div>
+
+    <!-- ใบเสร็จ -->
+    <h2 class="title">ใบเสร็จรับเงิน</h2>
+
+    <!-- เลขที่ / วันที่ -->
+    <div class="header-info">
+        <label>เลขที่/NO.: <input type="text" name="receipt_no"></label>
+        <label>วันที่/Date: <input type="text" name="date"></label>
+    </div>
+
+    <!-- ข้อมูลลูกค้า -->
+    <div class="customer-info">
+        <label>ชื่อลูกค้า:</label>
+        <input type="text" name="customer_name">
+        <label>ที่อยู่:</label>
+        <textarea name="customer_address"></textarea>
+    </div>
+
+    <!-- ตารางสินค้า -->
+    <table>
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>รายการ</th>
+                <th>จำนวน</th>
+                <th>หน่วย</th>
+                <th>ราคา/หน่วย</th>
+                <th>ราคารวม</th>
+            </tr>
+        </thead>
+        <tbody id="itemsTable">
+            <tr>
+                <td>1</td>
+                <td><input type="text" name="item_name[]"></td>
+                <td><input type="number" name="qty[]" class="qty"></td>
+                <td><input type="text" name="unit[]"></td>
+                <td><input type="number" name="price[]" class="price"></td>
+                <td><input type="text" name="total[]" class="total" readonly></td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="add-btn" onclick="addRow()">+ เพิ่ม</button>
+
+    <p class="grand-total">รวมทั้งหมด: <span id="grandTotal">0.00</span> บาท</p>
+
+    <!-- ลายเซ็น -->
+    <div class="signature">
+        <p>ลายเซ็น (..............................................................)</p>
+        <p>( นายอภิชาติ พิมพะนิตย์ )<br>ผู้รับเงิน</p>
+    </div>
+</div>
+
+<script>
+function calculateTotals() {
+    let qtys = document.querySelectorAll(".qty");
+    let prices = document.querySelectorAll(".price");
+    let totals = document.querySelectorAll(".total");
+    let grandTotal = 0;
+    qtys.forEach((qty,index)=>{
+        let q=parseFloat(qty.value)||0;
+        let p=parseFloat(prices[index].value)||0;
+        let sum=q*p;
+        totals[index].value=sum.toFixed(2);
+        grandTotal+=sum;
+    });
+    document.getElementById("grandTotal").innerText = grandTotal.toFixed(2);
+}
+
+document.addEventListener("input",function(e){
+    if(e.target.classList.contains("qty") || e.target.classList.contains("price")){
+        calculateTotals();
+    }
+});
+
+function addRow(){
+    let table=document.getElementById("itemsTable");
+    let rowCount=table.rows.length+1;
+    let row=table.insertRow();
+
+    row.insertCell(0).innerText=rowCount;
+
+    let cell1=row.insertCell(1);
+    let itemInput=document.createElement("input");
+    itemInput.type="text";
+    itemInput.name="item_name[]";
+    cell1.appendChild(itemInput);
+
+    let cell2=row.insertCell(2);
+    let qtyInput=document.createElement("input");
+    qtyInput.type="number";
+    qtyInput.name="qty[]";
+    qtyInput.className="qty";
+    cell2.appendChild(qtyInput);
+
+    let cell3=row.insertCell(3);
+    let unitInput=document.createElement("input");
+    unitInput.type="text";
+    unitInput.name="unit[]";
+    cell3.appendChild(unitInput);
+
+    let cell4=row.insertCell(4);
+    let priceInput=document.createElement("input");
+    priceInput.type="number";
+    priceInput.name="price[]";
+    priceInput.className="price";
+    cell4.appendChild(priceInput);
+
+    let cell5=row.insertCell(5);
+    let totalInput=document.createElement("input");
+    totalInput.type="text";
+    totalInput.name="total[]";
+    totalInput.className="total";
+    totalInput.readOnly=true;
+    cell5.appendChild(totalInput);
+}
+</script>
+</body>
+</html>

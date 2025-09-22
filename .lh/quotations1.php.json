@@ -1,0 +1,46 @@
+{
+    "sourceFile": "quotations1.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1758459946506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758460169475,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,18 +33,13 @@\n     FOREIGN KEY (quotation_id) REFERENCES quotations(id) ON DELETE CASCADE\r\n ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\";\r\n \r\n // รัน SQL\r\n-if ($conn->query($sql1) === TRUE) {\r\n-    echo \"ตาราง quotations ถูกสร้างเรียบร้อย<br>\";\r\n-} else {\r\n-    echo \"Error creating quotations: \" . $conn->error . \"<br>\";\r\n-}\r\n+$conn->query($sql1);\r\n+$conn->query($sql2);\r\n \r\n-if ($conn->query($sql2) === TRUE) {\r\n-    echo \"ตาราง quotation_items ถูกสร้างเรียบร้อย<br>\";\r\n-} else {\r\n-    echo \"Error creating quotation_items: \" . $conn->error . \"<br>\";\r\n-}\r\n+$conn->close();\r\n \r\n-$conn->close();\r\n+// ✅ เสร็จแล้วเด้งกลับไปหน้า index.html\r\n+header(\"Location: index.html\");\r\n+exit;\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758460291290,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,43 +1,62 @@\n <?php\r\n-$servername = \"localhost\";\r\n-$username = \"root\"; // เปลี่ยนตามจริง\r\n-$password = \"\";     // เปลี่ยนตามจริง\r\n+$host = \"localhost\";\r\n+$user = \"root\";\r\n+$pass = \"\";\r\n $dbname = \"shop_it\";\r\n \r\n-// สร้างการเชื่อมต่อ\r\n-$conn = new mysqli($servername, $username, $password, $dbname);\r\n-\r\n-// ตรวจสอบการเชื่อมต่อ\r\n+// เชื่อมต่อฐานข้อมูล\r\n+$conn = new mysqli($host, $user, $pass, $dbname);\r\n if ($conn->connect_error) {\r\n-    die(\"Connection failed: \" . $conn->connect_error);\r\n+    die(\"เชื่อมต่อฐานข้อมูลล้มเหลว: \" . $conn->connect_error);\r\n }\r\n \r\n-// SQL สำหรับสร้างตาราง quotations\r\n-$sql1 = \"CREATE TABLE IF NOT EXISTS quotations (\r\n-    id INT(11) AUTO_INCREMENT PRIMARY KEY,\r\n-    quotation_no VARCHAR(50) NOT NULL,\r\n-    subject VARCHAR(255) NOT NULL,\r\n-    recipient_name VARCHAR(255) NOT NULL,\r\n-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\r\n-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\";\r\n+// ตรวจสอบ method\r\n+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {\r\n+    die(\"กรุณาส่งข้อมูลด้วย POST\");\r\n+}\r\n \r\n-// SQL สำหรับสร้างตาราง quotation_items\r\n-$sql2 = \"CREATE TABLE IF NOT EXISTS quotation_items (\r\n-    id INT(11) AUTO_INCREMENT PRIMARY KEY,\r\n-    quotation_id INT(11) NOT NULL,\r\n-    item_name VARCHAR(255) NOT NULL,\r\n-    qty INT(11) DEFAULT 0,\r\n-    price DECIMAL(10,2) DEFAULT 0.00,\r\n-    unit VARCHAR(50) DEFAULT NULL,\r\n-    total DECIMAL(10,2) DEFAULT 0.00,\r\n-    FOREIGN KEY (quotation_id) REFERENCES quotations(id) ON DELETE CASCADE\r\n-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\";\r\n+// รับค่าจากฟอร์ม\r\n+$quotation_no   = $_POST['quotation_no']   ?? '';\r\n+$subject        = $_POST['subject']        ?? '';\r\n+$recipient_name = $_POST['recipient_name'] ?? '';\r\n \r\n-// รัน SQL\r\n-$conn->query($sql1);\r\n-$conn->query($sql2);\r\n+$item_names = $_POST['item_name'] ?? [];\r\n+$qtys       = $_POST['qty']       ?? [];\r\n+$prices     = $_POST['price']     ?? [];\r\n+$units      = $_POST['unit']      ?? [];\r\n+$totals     = $_POST['total']     ?? [];\r\n \r\n+// บันทึกใบเสนอราคา\r\n+$stmt = $conn->prepare(\"INSERT INTO quotations (quotation_no, subject, recipient_name) VALUES (?, ?, ?)\");\r\n+if (!$stmt) {\r\n+    die(\"Prepare failed: \" . $conn->error);\r\n+}\r\n+$stmt->bind_param(\"sss\", $quotation_no, $subject, $recipient_name);\r\n+$stmt->execute();\r\n+$quotation_id = $stmt->insert_id;\r\n+$stmt->close();\r\n+\r\n+// บันทึกรายการสินค้า\r\n+if (!empty($item_names)) {\r\n+    $stmt = $conn->prepare(\"INSERT INTO quotation_items (quotation_id, item_name, qty, price, unit, total) VALUES (?, ?, ?, ?, ?, ?)\");\r\n+    if (!$stmt) {\r\n+        die(\"Prepare failed: \" . $conn->error);\r\n+    }\r\n+\r\n+    for ($i = 0; $i < count($item_names); $i++) {\r\n+        $name  = $item_names[$i];\r\n+        $qty   = $qtys[$i]   ?? 0;\r\n+        $price = $prices[$i] ?? 0;\r\n+        $unit  = $units[$i]  ?? '';\r\n+        $total = $totals[$i] ?? 0;\r\n+\r\n+        $stmt->bind_param(\"isiddd\", $quotation_id, $name, $qty, $price, $unit, $total);\r\n+        $stmt->execute();\r\n+    }\r\n+    $stmt->close();\r\n+}\r\n+\r\n $conn->close();\r\n \r\n // ✅ เสร็จแล้วเด้งกลับไปหน้า index.html\r\n header(\"Location: index.html\");\r\n"
+                },
+                {
+                    "date": 1758460689690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,8 +57,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-// ✅ เสร็จแล้วเด้งกลับไปหน้า index.html\r\n-header(\"Location: index.html\");\r\n-exit;\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a>\";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758553020709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,6 +57,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a>\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='delivery2.php'>กรอกต่อ</a>\";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758553030635,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,6 +57,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='delivery2.php'>กรอกต่อ</a>\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='quotations1.php'>กรอกต่อ</a>\";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758553037969,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,6 +57,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='quotations1.php'>กรอกต่อ</a>\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='quotations1.html'>กรอกต่อ</a>\";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758553510747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,6 +57,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='quotations1.html'>กรอกต่อ</a>\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='quotations1.html'>กรอกต่อ</a>\";\r\n ?>\r\n"
+                }
+            ],
+            "date": 1758459946506,
+            "name": "Commit-0",
+            "content": "<?php\r\n$servername = \"localhost\";\r\n$username = \"root\"; // เปลี่ยนตามจริง\r\n$password = \"\";     // เปลี่ยนตามจริง\r\n$dbname = \"shop_it\";\r\n\r\n// สร้างการเชื่อมต่อ\r\n$conn = new mysqli($servername, $username, $password, $dbname);\r\n\r\n// ตรวจสอบการเชื่อมต่อ\r\nif ($conn->connect_error) {\r\n    die(\"Connection failed: \" . $conn->connect_error);\r\n}\r\n\r\n// SQL สำหรับสร้างตาราง quotations\r\n$sql1 = \"CREATE TABLE IF NOT EXISTS quotations (\r\n    id INT(11) AUTO_INCREMENT PRIMARY KEY,\r\n    quotation_no VARCHAR(50) NOT NULL,\r\n    subject VARCHAR(255) NOT NULL,\r\n    recipient_name VARCHAR(255) NOT NULL,\r\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\r\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\";\r\n\r\n// SQL สำหรับสร้างตาราง quotation_items\r\n$sql2 = \"CREATE TABLE IF NOT EXISTS quotation_items (\r\n    id INT(11) AUTO_INCREMENT PRIMARY KEY,\r\n    quotation_id INT(11) NOT NULL,\r\n    item_name VARCHAR(255) NOT NULL,\r\n    qty INT(11) DEFAULT 0,\r\n    price DECIMAL(10,2) DEFAULT 0.00,\r\n    unit VARCHAR(50) DEFAULT NULL,\r\n    total DECIMAL(10,2) DEFAULT 0.00,\r\n    FOREIGN KEY (quotation_id) REFERENCES quotations(id) ON DELETE CASCADE\r\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\";\r\n\r\n// รัน SQL\r\nif ($conn->query($sql1) === TRUE) {\r\n    echo \"ตาราง quotations ถูกสร้างเรียบร้อย<br>\";\r\n} else {\r\n    echo \"Error creating quotations: \" . $conn->error . \"<br>\";\r\n}\r\n\r\nif ($conn->query($sql2) === TRUE) {\r\n    echo \"ตาราง quotation_items ถูกสร้างเรียบร้อย<br>\";\r\n} else {\r\n    echo \"Error creating quotation_items: \" . $conn->error . \"<br>\";\r\n}\r\n\r\n$conn->close();\r\n?>\r\n"
+        }
+    ]
+}
