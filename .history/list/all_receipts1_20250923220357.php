@@ -1,0 +1,273 @@
+<?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "shop_it";
+
+// เชื่อมต่อฐานข้อมูล
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . $conn->connect_error);
+}
+
+// ดึงข้อมูลจาก receipts + receipt_items
+$sql = "
+    SELECT 
+        i.id AS item_id,
+        r.order_no,
+        r.customer_name,
+        r.customer_address,
+        i.item_name,
+        i.qty,
+        i.price,
+        i.unit,
+        i.total
+    FROM receipts r
+    JOIN receipt_items i ON i.receipt_id = r.id
+    ORDER BY r.id, i.id
+";
+$result = $conn->query($sql);
+?>
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ใบเสร็จรับเงิน</title>
+<style>
+body {margin:0;font-family:Tahoma,sans-serif;background:#f9f9ef}
+.sidebar{width:220px;height:100vh;background:#b89172;float:left;color:#fff;display:flex;flex-direction:column;align-items:center;padding-top:30px}
+.sidebar a{color:#fff;text-decoration:none;margin:15px 0;display:block;width:100%;text-align:center;transition:background .3s}
+.sidebar a:hover{background:rgba(255,255,255,0.2);border-radius:6px}
+.content{margin-left:220px;padding:20px}
+.topbar{background:#d4b295;padding:15px 0;text-align:center;margin-bottom:25px;border-radius:6px 6px 0 0;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+.topbar img{max-height:60px;margin:0 auto;display:block}
+h2{margin:20px 0;font-weight:600;color:#4d3a2c}
+table{width:100%;border-collapse:collapse;box-shadow:0 2px 5px rgba(0,0,0,.05)}
+th,td{border:1px solid #333;padding:10px;text-align:center}
+th{background:#e5c3a6}
+tr:nth-child(even){background:#fdf5ef}
+tr:hover{background:#ffe8d0}
+.search-box{margin:10px 0 15px}
+input,select{padding:8px;border:1px solid #ccc;border-radius:4px}
+input:focus,select:focus{border-color:#b89172}
+.action-btn{padding:5px 10px;border:none;border-radius:4px;cursor:pointer;margin:2px}
+.btn-edit{background:#4caf50;color:#fff}
+.btn-save{background:#2196f3;color:#fff}
+.btn-cancel{background:#777;color:#fff}
+.btn-delete{background:#f44336;color:#fff}
+.btn-pdf{margin-top:20px;background:#f77c7c;color:#000;padding:10px 25px;border:none;border-radius:6px;cursor:pointer;font-weight:bold}
+.btn-pdf:hover{background:#f55c5c}
+@media print{
+    .sidebar,.search-box,.btn-pdf,.btn-edit,.btn-delete{display:none!important}
+    table{border:5px solid #000}
+    table th:last-child,table td:last-child{display:none!important}
+}
+</style>
+</head>
+<body>
+<div class="sidebar">
+    <a href="all_quotations1.php">ใบเสนอราคา</a>
+    <a href="all_deliveries1.php">ใบส่งของ</a>
+    <a href="all_receipts1.php">ใบเสร็จรับเงิน</a>
+</div>
+
+<div class="content">
+    <div class="topbar">
+        <img src="../pic/logo.png" alt="LOGO">
+    </div>
+
+    <h2>รายการใบเสร็จรับเงิน</h2>
+
+    <div class="search-box">
+        <label>ค้นหาโดย: </label>
+        <select id="searchColumn">
+            <option value="1">เลขที่ใบเสร็จ</option>
+            <option value="2">ชื่อลูกค้า</option>
+        </select>
+        <input type="text" id="searchInput" placeholder="พิมพ์คำค้นหา...">
+        <label>แสดงแถว: </label>
+        <select id="rowsPerPage">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+
+    <table id="receiptTable">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>เลขที่ใบเสร็จ</th>
+                <th>ชื่อลูกค้า</th>
+                <th>ที่อยู่ลูกค้า</th>
+                <th>รายการ</th>
+                <th>จำนวน</th>
+                <th>ราคา</th>
+                <th>หน่วย</th>
+                <th>ราคารวม</th>
+                <th>จัดการ</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $no=1;
+        if($result->num_rows>0){
+            while($row=$result->fetch_assoc()){
+                echo "<tr data-id='{$row['item_id']}'>";
+                echo "<td>".$no++."</td>";
+                echo "<td class='editable'>".htmlspecialchars($row['order_no'])."</td>";
+                echo "<td class='editable'>".htmlspecialchars($row['customer_name'])."</td>";
+                echo "<td class='editable'>".htmlspecialchars($row['customer_address'])."</td>";
+                echo "<td class='editable'>".htmlspecialchars($row['item_name'])."</td>";
+                echo "<td class='editable col-qty'>{$row['qty']}</td>";
+                echo "<td class='editable col-price'>".number_format($row['price'],2)."</td>";
+                echo "<td class='editable'>".htmlspecialchars($row['unit'])."</td>";
+                echo "<td class='editable col-total'>".number_format($row['total'],2)."</td>";
+                echo "<td>
+                        <button class='action-btn btn-edit'>แก้ไข</button>
+                        <button class='action-btn btn-delete'>ลบ</button>
+                      </td>";
+                echo "</tr>";
+            }
+        }else{
+            echo "<tr><td colspan='10'>ยังไม่มีข้อมูล</td></tr>";
+        }
+        ?>
+        </tbody>
+    </table>
+
+    <button class="btn-pdf" onclick="window.location.href='../index.html'">กลับหน้าหลัก</button>
+    <button class="btn-pdf" onclick="window.print()">พิมพ์ PDF</button>
+</div>
+
+<script>
+// ✅ ค้นหา
+document.getElementById("searchInput").addEventListener("keyup",function(){
+    let input=this.value.toLowerCase();
+    let rows=document.querySelectorAll("#receiptTable tbody tr");
+    let col=parseInt(document.getElementById("searchColumn").value);
+    rows.forEach(r=>{
+        let cell=r.getElementsByTagName("td")[col];
+        if(cell) r.style.display=cell.textContent.toLowerCase().includes(input)?"":"none";
+    });
+    updateTableRows();
+});
+
+// ✅ จำกัดจำนวนแถว
+function updateTableRows(){
+    let rowsPerPage=parseInt(document.getElementById("rowsPerPage").value);
+    let rows=document.querySelectorAll("#receiptTable tbody tr");
+    let count=0;
+    rows.forEach(r=>{
+        if(r.style.display!=="none"){
+            count++;
+            r.style.display=(count<=rowsPerPage)?"":"none";
+        }
+    });
+}
+document.getElementById("rowsPerPage").addEventListener("change",updateTableRows);
+updateTableRows();
+
+// ✅ แก้ไข/บันทึก/ยกเลิก
+document.querySelectorAll(".btn-edit").forEach(btn => {
+    btn.addEventListener("click", function() {
+        let row = this.closest("tr");
+        let tds = row.querySelectorAll(".editable");
+
+        if (this.textContent === "แก้ไข") {
+            // แปลงเป็น input
+            tds.forEach(td => {
+                let val = td.textContent.trim();
+                td.innerHTML = `<input value="${val}">`;
+            });
+
+            // ✅ จับช่อง qty, price, total
+            let qtyInput = row.querySelector(".col-qty input");
+            let priceInput = row.querySelector(".col-price input");
+            let totalCell = row.querySelector(".col-total");
+
+            // ฟังก์ชันคำนวณราคารวม
+            function updateTotal() {
+                let qtyStr = qtyInput.value.trim().replace(/,/g, "");
+                let priceStr = priceInput.value.trim().replace(/,/g, "");
+
+                if (!qtyStr) qtyStr = "0";
+                if (!priceStr) priceStr = "0";
+
+                let total = parseFloat(qtyStr) * parseFloat(priceStr);
+
+                if (Number.isInteger(total)) {
+                    totalCell.innerHTML = `<input value="${total}">`; // ถ้าเป็นเลขกลม
+                } else {
+                    totalCell.innerHTML = `<input value="${total.toFixed(2)}">`; // ถ้ามีเศษทศนิยม
+                }
+            }
+
+            // ✅ คำนวณ total เดิมทันที
+            updateTotal();
+
+            qtyInput.addEventListener("input", updateTotal);
+            priceInput.addEventListener("input", updateTotal);
+
+            this.textContent = "บันทึก";
+            this.className = "action-btn btn-save";
+
+            let cancelBtn = document.createElement("button");
+            cancelBtn.textContent = "ยกเลิก";
+            cancelBtn.className = "action-btn btn-cancel";
+            this.after(cancelBtn);
+            cancelBtn.addEventListener("click", () => location.reload());
+
+        } else {
+            // ✅ เก็บค่า input ส่งไป PHP
+            let data = [];
+            tds.forEach(td => {
+                let val = td.querySelector("input").value.trim().replace(/,/g, "");
+                let num = parseFloat(val);
+
+                if (!isNaN(num)) {
+                    if (Number.isInteger(num)) {
+                        data.push(num.toString()); // เก็บเป็น int ถ้าเลขกลม เช่น 7500
+                    } else {
+                        data.push(num.toFixed(2)); // เก็บทศนิยมถ้ามี เช่น 7500.50
+                    }
+                } else {
+                    data.push(val); // เผื่อเป็นข้อความ เช่น "รายการ"
+                }
+            });
+            let id = row.dataset.id;
+
+            fetch("update_receipts_item.php", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({id, data})
+            }).then(r => r.json()).then(res => {
+                if (res.success) location.reload();
+                else alert("บันทึกไม่สำเร็จ");
+            });
+        }
+    });
+});
+
+// ✅ ลบ
+document.querySelectorAll(".btn-delete").forEach(btn=>{
+    btn.addEventListener("click",function(){
+        if(!confirm("คุณต้องการลบข้อมูลนี้หรือไม่?")) return;
+        let row=this.closest("tr");
+        let id=row.dataset.id;
+        fetch("delete_receipts_item.php",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({id})
+        }).then(r=>r.json()).then(res=>{
+            if(res.success) row.remove();
+            else alert("ลบไม่สำเร็จ");
+        });
+    });
+});
+</script>
+</body>
+</html>
+<?php $conn->close(); ?>

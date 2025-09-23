@@ -1,0 +1,18 @@
+{
+    "sourceFile": "list/update_receipts2_item.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758640193858,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758640193858,
+            "name": "Commit-0",
+            "content": "<?php\r\nheader(\"Content-Type: application/json\");\r\n\r\n// 🔹 ตั้งค่าฐานข้อมูล\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\";\r\n\r\n// 🔹 เชื่อมต่อ\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"เชื่อมต่อฐานข้อมูลล้มเหลว\"]);\r\n    exit;\r\n}\r\n\r\n// 🔹 รับค่าจาก frontend\r\n$data = json_decode(file_get_contents(\"php://input\"), true);\r\n$id   = $data[\"id\"] ?? null;\r\n$vals = $data[\"data\"] ?? [];\r\n\r\nif (!$id || count($vals) < 8) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"ข้อมูลไม่ครบ\"]);\r\n    exit;\r\n}\r\n\r\n// 🔹 Map ข้อมูลจากตาราง (เรียงตาม column ที่หน้า all_receipts1.php)\r\n$order_no        = $vals[0];\r\n$customer_name   = $vals[1];\r\n$customer_address= $vals[2];\r\n$item_name       = $vals[3];\r\n$qty             = $vals[4];\r\n$price           = $vals[5];\r\n$unit            = $vals[6];\r\n$total           = $vals[7];\r\n\r\n// 🔹 Update receipt_items\r\n$sql_item = \"UPDATE receipt_items \r\n             SET item_name=?, qty=?, price=?, unit=?, total=? \r\n             WHERE id=?\";\r\n$stmt_item = $conn->prepare($sql_item);\r\nif (!$stmt_item) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"เตรียม statement item ไม่ได้\"]);\r\n    exit;\r\n}\r\n$stmt_item->bind_param(\"sidssi\", $item_name, $qty, $price, $unit, $total, $id);\r\n\r\n// 🔹 Update receipts (ใช้ subquery หา receipt_id จาก item id)\r\n$sql_main = \"UPDATE receipts \r\n             SET order_no=?, customer_name=?, customer_address=? \r\n             WHERE id=(SELECT receipt_id FROM receipt_items WHERE id=?)\";\r\n$stmt_main = $conn->prepare($sql_main);\r\nif (!$stmt_main) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"เตรียม statement main ไม่ได้\"]);\r\n    exit;\r\n}\r\n$stmt_main->bind_param(\"sssi\", $order_no, $customer_name, $customer_address, $id);\r\n\r\n// 🔹 Execute\r\n$success = $stmt_item->execute() && $stmt_main->execute();\r\n\r\nif ($success) {\r\n    echo json_encode([\"success\" => true]);\r\n} else {\r\n    echo json_encode([\r\n        \"success\" => false,\r\n        \"message\" => \"อัปเดตไม่สำเร็จ\",\r\n        \"error_item\" => $stmt_item->error,\r\n        \"error_main\" => $stmt_main->error\r\n    ]);\r\n}\r\n\r\n$stmt_item->close();\r\n$stmt_main->close();\r\n$conn->close();\r\n?>\r\n"
+        }
+    ]
+}

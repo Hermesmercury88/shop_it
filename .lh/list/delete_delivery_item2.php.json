@@ -1,0 +1,18 @@
+{
+    "sourceFile": "list/delete_delivery_item2.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758606493424,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758606493424,
+            "name": "Commit-0",
+            "content": "<?php\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\";\r\n\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    die(json_encode([\"success\" => false, \"message\" => \"เชื่อมต่อฐานข้อมูลล้มเหลว\"]));\r\n}\r\n\r\n$data = json_decode(file_get_contents(\"php://input\"), true);\r\n$id = intval($data['id']);\r\n\r\n// ลบเฉพาะใน delivery_items\r\n$sql = \"DELETE FROM delivery_items WHERE id=$id\";\r\n\r\nif ($conn->query($sql)) {\r\n    echo json_encode([\"success\" => true]);\r\n} else {\r\n    echo json_encode([\"success\" => false, \"message\" => $conn->error]);\r\n}\r\n$conn->close();\r\n"
+        }
+    ]
+}

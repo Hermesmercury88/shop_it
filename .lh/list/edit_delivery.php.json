@@ -1,0 +1,18 @@
+{
+    "sourceFile": "list/edit_delivery.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758603885654,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758603885654,
+            "name": "Commit-0",
+            "content": "<?php\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\";\r\n\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    die(\"เชื่อมต่อฐานข้อมูลล้มเหลว: \" . $conn->connect_error);\r\n}\r\n\r\n$id = $_GET['id'] ?? 0;\r\n\r\n// ถ้ามีการ submit แก้ไข\r\nif ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\r\n    $item_name = $_POST['item_name'];\r\n    $qty = $_POST['qty'];\r\n    $price = $_POST['price'];\r\n    $unit = $_POST['unit'];\r\n    $total = $qty * $price;\r\n\r\n    $stmt = $conn->prepare(\"UPDATE delivery_items SET item_name=?, qty=?, price=?, unit=?, total=? WHERE id=?\");\r\n    $stmt->bind_param(\"sidsdi\", $item_name, $qty, $price, $unit, $total, $id);\r\n\r\n    if ($stmt->execute()) {\r\n        echo \"<script>alert('แก้ไขสำเร็จ'); window.location='all_deliveries1.php';</script>\";\r\n    } else {\r\n        echo \"Error: \" . $stmt->error;\r\n    }\r\n    $stmt->close();\r\n}\r\n\r\n// ดึงข้อมูลเก่า\r\n$stmt = $conn->prepare(\"SELECT item_name, qty, price, unit FROM delivery_items WHERE id=?\");\r\n$stmt->bind_param(\"i\", $id);\r\n$stmt->execute();\r\n$result = $stmt->get_result();\r\n$data = $result->fetch_assoc();\r\n$stmt->close();\r\n?>\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"th\">\r\n<head>\r\n<meta charset=\"UTF-8\">\r\n<title>แก้ไขข้อมูล</title>\r\n</head>\r\n<body>\r\n<h2>แก้ไขข้อมูลสินค้า</h2>\r\n<form method=\"post\">\r\n    รายการ: <input type=\"text\" name=\"item_name\" value=\"<?php echo htmlspecialchars($data['item_name']); ?>\"><br><br>\r\n    จำนวน: <input type=\"number\" name=\"qty\" value=\"<?php echo $data['qty']; ?>\"><br><br>\r\n    ราคา: <input type=\"text\" name=\"price\" value=\"<?php echo $data['price']; ?>\"><br><br>\r\n    หน่วย: <input type=\"text\" name=\"unit\" value=\"<?php echo htmlspecialchars($data['unit']); ?>\"><br><br>\r\n    <input type=\"submit\" value=\"บันทึก\">\r\n</form>\r\n</body>\r\n</html>\r\n<?php $conn->close(); ?>\r\n"
+        }
+    ]
+}

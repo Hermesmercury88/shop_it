@@ -1,0 +1,22 @@
+{
+    "sourceFile": "list/delete_quotations2_item.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758611032859,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758611204218,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,30 +5,33 @@\n $user = \"root\";\r\n $pass = \"\";\r\n $dbname = \"shop_it\";\r\n \r\n+// เชื่อมต่อฐานข้อมูล\r\n $conn = new mysqli($host, $user, $pass, $dbname);\r\n if ($conn->connect_error) {\r\n     echo json_encode([\"success\" => false, \"message\" => \"เชื่อมต่อฐานข้อมูลล้มเหลว\"]);\r\n     exit;\r\n }\r\n \r\n+// รับค่า id จาก JSON\r\n $data = json_decode(file_get_contents(\"php://input\"), true);\r\n-$id = $data[\"id\"] ?? null;\r\n+$id = isset($data[\"id\"]) ? intval($data[\"id\"]) : 0;\r\n \r\n-if (!$id) {\r\n-    echo json_encode([\"success\" => false, \"message\" => \"ไม่พบค่า ID\"]);\r\n+if ($id <= 0) {\r\n+    echo json_encode([\"success\" => false, \"message\" => \"ไม่พบค่า ID หรือค่าไม่ถูกต้อง\"]);\r\n     exit;\r\n }\r\n \r\n+// ลบเฉพาะใน quotation_items\r\n $sql = \"DELETE FROM quotation_items WHERE id = ?\";\r\n $stmt = $conn->prepare($sql);\r\n $stmt->bind_param(\"i\", $id);\r\n \r\n if ($stmt->execute()) {\r\n     echo json_encode([\"success\" => true]);\r\n } else {\r\n-    echo json_encode([\"success\" => false, \"message\" => \"ลบไม่สำเร็จ\"]);\r\n+    echo json_encode([\"success\" => false, \"message\" => $stmt->error]);\r\n }\r\n \r\n $stmt->close();\r\n $conn->close();\r\n"
+                }
+            ],
+            "date": 1758611032859,
+            "name": "Commit-0",
+            "content": "<?php\r\nheader(\"Content-Type: application/json\");\r\n\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\";\r\n\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"เชื่อมต่อฐานข้อมูลล้มเหลว\"]);\r\n    exit;\r\n}\r\n\r\n$data = json_decode(file_get_contents(\"php://input\"), true);\r\n$id = $data[\"id\"] ?? null;\r\n\r\nif (!$id) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"ไม่พบค่า ID\"]);\r\n    exit;\r\n}\r\n\r\n$sql = \"DELETE FROM quotation_items WHERE id = ?\";\r\n$stmt = $conn->prepare($sql);\r\n$stmt->bind_param(\"i\", $id);\r\n\r\nif ($stmt->execute()) {\r\n    echo json_encode([\"success\" => true]);\r\n} else {\r\n    echo json_encode([\"success\" => false, \"message\" => \"ลบไม่สำเร็จ\"]);\r\n}\r\n\r\n$stmt->close();\r\n$conn->close();\r\n"
+        }
+    ]
+}

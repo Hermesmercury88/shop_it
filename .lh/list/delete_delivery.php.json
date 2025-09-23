@@ -1,0 +1,18 @@
+{
+    "sourceFile": "list/delete_delivery.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758603901612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758603901612,
+            "name": "Commit-0",
+            "content": "<?php\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\";\r\n\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    die(\"เชื่อมต่อฐานข้อมูลล้มเหลว: \" . $conn->connect_error);\r\n}\r\n\r\n$id = $_GET['id'] ?? 0;\r\n\r\n$stmt = $conn->prepare(\"DELETE FROM delivery_items WHERE id=?\");\r\n$stmt->bind_param(\"i\", $id);\r\n\r\nif ($stmt->execute()) {\r\n    echo \"<script>alert('ลบสำเร็จ'); window.location='all_deliveries1.php';</script>\";\r\n} else {\r\n    echo \"Error: \" . $stmt->error;\r\n}\r\n\r\n$stmt->close();\r\n$conn->close();\r\n?>\r\n"
+        }
+    ]
+}

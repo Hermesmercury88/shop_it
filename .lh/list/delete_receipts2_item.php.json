@@ -1,0 +1,18 @@
+{
+    "sourceFile": "list/delete_receipts2_item.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1758640210166,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1758640210166,
+            "name": "Commit-0",
+            "content": "<?php\r\nheader(\"Content-Type: application/json\");\r\n\r\n$host = \"localhost\";\r\n$user = \"root\";\r\n$pass = \"\";\r\n$dbname = \"shop_it\"; \r\n\r\n// เชื่อมต่อฐานข้อมูล\r\n$conn = new mysqli($host, $user, $pass, $dbname);\r\nif ($conn->connect_error) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"เชื่อมต่อฐานข้อมูลล้มเหลว\"]);\r\n    exit;\r\n}\r\n\r\n// รับค่า id จาก JSON\r\n$data = json_decode(file_get_contents(\"php://input\"), true);\r\n$id = isset($data[\"id\"]) ? intval($data[\"id\"]) : 0;\r\n\r\nif ($id <= 0) {\r\n    echo json_encode([\"success\" => false, \"message\" => \"ไม่พบค่า ID หรือค่าไม่ถูกต้อง\"]);\r\n    exit;\r\n}\r\n\r\n// ลบเฉพาะใน receipt_items\r\n$sql = \"DELETE FROM receipt_items WHERE id = ?\";\r\n$stmt = $conn->prepare($sql);\r\n$stmt->bind_param(\"i\", $id);\r\n\r\nif ($stmt->execute()) {\r\n    echo json_encode([\"success\" => true]);\r\n} else {\r\n    echo json_encode([\"success\" => false, \"message\" => $stmt->error]);\r\n}\r\n\r\n$stmt->close();\r\n$conn->close();\r\n?>\r\n"
+        }
+    ]
+}

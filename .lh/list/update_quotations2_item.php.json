@@ -1,0 +1,22 @@
+{
+    "sourceFile": "list/update_quotations2_item.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1758611238658,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1758611246759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,59 @@\n+<?php\r\n+header(\"Content-Type: application/json\");\r\n \r\n+$host = \"localhost\";\r\n+$user = \"root\";\r\n+$pass = \"\";\r\n+$dbname = \"shop_it\";\r\n+\r\n+$conn = new mysqli($host, $user, $pass, $dbname);\r\n+if ($conn->connect_error) {\r\n+    echo json_encode([\"success\" => false, \"message\" => \"เชื่อมต่อฐานข้อมูลล้มเหลว\"]);\r\n+    exit;\r\n+}\r\n+\r\n+$data = json_decode(file_get_contents(\"php://input\"), true);\r\n+$id   = $data[\"id\"] ?? null;\r\n+$vals = $data[\"data\"] ?? [];\r\n+\r\n+if (!$id || count($vals) < 8) {  \r\n+    // 8 ช่องเพราะมี quotation_no, subject, recipient_name, item_name, qty, price, unit, total\r\n+    echo json_encode([\"success\" => false, \"message\" => \"ข้อมูลไม่ครบ\"]);\r\n+    exit;\r\n+}\r\n+\r\n+// รับค่าจาก frontend\r\n+$quotation_no   = $vals[0];\r\n+$subject        = $vals[1];\r\n+$recipient_name = $vals[2];\r\n+$item_name      = $vals[3];\r\n+$qty            = $vals[4];\r\n+$price          = $vals[5];\r\n+$unit           = $vals[6];\r\n+$total          = $vals[7];\r\n+\r\n+// ✅ update quotation_items\r\n+$sql_item = \"UPDATE quotation_items \r\n+             SET item_name=?, qty=?, price=?, unit=?, total=? \r\n+             WHERE id=?\";\r\n+$stmt_item = $conn->prepare($sql_item);\r\n+$stmt_item->bind_param(\"sidssi\", $item_name, $qty, $price, $unit, $total, $id);\r\n+\r\n+// ✅ update quotations (เชื่อมโยงด้วยการ subquery หา quotation_id จาก item id)\r\n+$sql_main = \"UPDATE quotations \r\n+             SET quotation_no=?, subject=?, recipient_name=? \r\n+             WHERE id=(SELECT quotation_id FROM quotation_items WHERE id=?)\";\r\n+$stmt_main = $conn->prepare($sql_main);\r\n+$stmt_main->bind_param(\"sssi\", $quotation_no, $subject, $recipient_name, $id);\r\n+\r\n+$success = $stmt_item->execute() && $stmt_main->execute();\r\n+\r\n+if ($success) {\r\n+    echo json_encode([\"success\" => true]);\r\n+} else {\r\n+    echo json_encode([\"success\" => false, \"message\" => \"อัปเดตไม่สำเร็จ\"]);\r\n+}\r\n+\r\n+$stmt_item->close();\r\n+$stmt_main->close();\r\n+$conn->close();\r\n"
+                }
+            ],
+            "date": 1758611238658,
+            "name": "Commit-0",
+            "content": "\r\n"
+        }
+    ]
+}

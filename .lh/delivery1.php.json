@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1758461990516,
@@ -44,6 +44,14 @@
                 {
                     "date": 1758553522752,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,6 +58,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a haref='delivery1.html'>กรอกต่อ</a> \";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='delivery1.html'>กรอกต่อ</a> \";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758635708987,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,27 +37,30 @@\n $delivery_id = $stmt->insert_id;\r\n $stmt->close();\r\n \r\n // บันทึกรายการสินค้า\r\n+// บันทึกรายการสินค้า\r\n if (!empty($item_names)) {\r\n     $stmt = $conn->prepare(\"INSERT INTO delivery_items (delivery_id, item_name, qty, price, unit, total) VALUES (?, ?, ?, ?, ?, ?)\");\r\n     if (!$stmt) {\r\n         die(\"Prepare failed: \" . $conn->error);\r\n     }\r\n \r\n     for ($i = 0; $i < count($item_names); $i++) {\r\n         $name  = $item_names[$i] ?? '';\r\n-        $qty   = $qtys[$i]       ?? 0;\r\n-        $price = $prices[$i]     ?? 0.00;\r\n-        $unit  = $units[$i]      ?? '';\r\n-        $total = $totals[$i]     ?? 0.00;\r\n+        $qty   = (int)($qtys[$i] ?? 0);\r\n+        $price = (float)($prices[$i] ?? 0.00);\r\n+        $unit  = $units[$i] ?? '';\r\n+        $total = (float)($totals[$i] ?? 0.00);\r\n \r\n-        $stmt->bind_param(\"isidss\", $delivery_id, $name, $qty, $price, $unit, $total);\r\n+        // i = int, s = string, i = int, d = decimal, s = string, d = decimal\r\n+        $stmt->bind_param(\"isidsd\", $delivery_id, $name, $qty, $price, $unit, $total);\r\n         $stmt->execute();\r\n     }\r\n     $stmt->close();\r\n }\r\n \r\n+\r\n $conn->close();\r\n \r\n echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='delivery1.html'>กรอกต่อ</a> \";\r\n ?>\r\n"
+                },
+                {
+                    "date": 1758635722021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,8 @@\n $delivery_id = $stmt->insert_id;\r\n $stmt->close();\r\n \r\n // บันทึกรายการสินค้า\r\n-// บันทึกรายการสินค้า\r\n if (!empty($item_names)) {\r\n     $stmt = $conn->prepare(\"INSERT INTO delivery_items (delivery_id, item_name, qty, price, unit, total) VALUES (?, ?, ?, ?, ?, ?)\");\r\n     if (!$stmt) {\r\n         die(\"Prepare failed: \" . $conn->error);\r\n@@ -58,9 +57,8 @@\n     }\r\n     $stmt->close();\r\n }\r\n \r\n-\r\n $conn->close();\r\n \r\n echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='delivery1.html'>กรอกต่อ</a> \";\r\n ?>\r\n"
                 }
             ],
             "date": 1758461990516,
