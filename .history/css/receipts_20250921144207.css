@@ -74,7 +74,7 @@ body {
 }
 
 .logo img {
-    width: 130px;
+    width: 200px;
     height: auto;
     display: block;
 }
@@ -307,18 +307,6 @@ table th:nth-child(7), table td:nth-child(7) { width: 8%; }  /* ลบ */
         padding: 15mm !important;
         box-shadow: none !important;
     }
-      .doc-info {
-    display: inline-block;
-    margin-left: 20mm;   /* ขยับไปทางซ้าย-ขวาได้ตามต้องการ */
-    vertical-align: top;
-  }
-
-  .doc-title h2 {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    vertical-align: top;
-  }
 
     body {
         padding: 0;

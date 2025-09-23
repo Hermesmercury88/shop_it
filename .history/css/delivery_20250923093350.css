@@ -74,7 +74,7 @@ body {
 }
 
 .logo img {
-    width: 130px;
+    width: 200px;
     height: auto;
     display: block;
 }
@@ -278,16 +278,29 @@ table th:nth-child(7), table td:nth-child(7) { width: 8%; }  /* ลบ */
 }
 
 /* ลายเซ็น */
-.signature {
-    width: 250px;          /* กำหนดความกว้างของกล่องลายเซ็น */
-    margin-left: auto;      /* ชิดขวา */
-    text-align: center;     /* ข้อความภายในชิดกลาง */
-    margin-top: 40px;       /* เว้นระยะด้านบน */
+.signatures-container {
+    display: flex;
+    justify-content: space-between; /* จัดฝั่งซ้าย-ขวา */
+    margin-top: 40px;
     font-family: "TH SarabunPSK", sans-serif;
-    font-size: 16px;        /* ขนาดฟอนต์ */
+    font-size: 16px;
 }
 
-/* @media print */
+.signature {
+    width: 250px;       /* ความกว้างของกล่องลายเซ็น */
+    text-align: center; /* ข้อความภายในชิดกลางของกล่อง */
+}
+
+.signature.left {
+    /* ชิดซ้าย */
+}
+
+.signature.right {
+    /* ชิดขวา */
+}
+
+
+
 /* @media print */
 @media print {
   #thaiTextDisplay {
@@ -319,6 +332,7 @@ table th:nth-child(7), table td:nth-child(7) { width: 8%; }  /* ลบ */
     padding: 0;
     vertical-align: top;
   }
+}
 
     body {
         padding: 0;

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1758444104469,
@@ -16,6 +16,18 @@
                 {
                     "date": 1758445895718,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -277,18 +277,31 @@\n   margin-top: 15px;\r\n }\r\n \r\n /* ลายเซ็น */\r\n-.signature {\r\n-    width: 250px;          /* กำหนดความกว้างของกล่องลายเซ็น */\r\n-    margin-left: auto;      /* ชิดขวา */\r\n-    text-align: center;     /* ข้อความภายในชิดกลาง */\r\n-    margin-top: 40px;       /* เว้นระยะด้านบน */\r\n+.signatures-container {\r\n+    display: flex;\r\n+    justify-content: space-between; /* จัดฝั่งซ้าย-ขวา */\r\n+    margin-top: 40px;\r\n     font-family: \"TH SarabunPSK\", sans-serif;\r\n-    font-size: 16px;        /* ขนาดฟอนต์ */\r\n+    font-size: 16px;\r\n }\r\n \r\n+.signature {\r\n+    width: 250px;       /* ความกว้างของกล่องลายเซ็น */\r\n+    text-align: center; /* ข้อความภายในชิดกลางของกล่อง */\r\n+}\r\n \r\n+.signature.left {\r\n+    /* ชิดซ้าย */\r\n+}\r\n+\r\n+.signature.right {\r\n+    /* ชิดขวา */\r\n+}\r\n+\r\n+\r\n+\r\n /* @media print */\r\n @media print {\r\n   #thaiTextDisplay {\r\n     display: inline-block !important;   /* ให้ span แสดงแน่นอน */\r\n"
+                },
+                {
+                    "date": 1758594826610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -319,8 +319,9 @@\n         min-height: auto !important;  /* ให้สูงตามเนื้อหา ไม่บังคับ 297mm */\r\n         padding: 15mm !important;\r\n         box-shadow: none !important;\r\n     }\r\n+    \r\n \r\n     body {\r\n         padding: 0;\r\n     }\r\n"
+                },
+                {
+                    "date": 1758594834160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -319,10 +319,22 @@\n         min-height: auto !important;  /* ให้สูงตามเนื้อหา ไม่บังคับ 297mm */\r\n         padding: 15mm !important;\r\n         box-shadow: none !important;\r\n     }\r\n-    \r\n+      .doc-info {\r\n+    display: inline-block;\r\n+    margin-left: 20mm;   /* ขยับไปทางซ้าย-ขวาได้ตามต้องการ */\r\n+    vertical-align: top;\r\n+  }\r\n \r\n+  .doc-title h2 {\r\n+    display: inline-block;\r\n+    margin: 0;\r\n+    padding: 0;\r\n+    vertical-align: top;\r\n+  }\r\n+  \r\n+\r\n     body {\r\n         padding: 0;\r\n     }\r\n \r\n"
+                },
+                {
+                    "date": 1758594841555,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -331,9 +331,8 @@\n     margin: 0;\r\n     padding: 0;\r\n     vertical-align: top;\r\n   }\r\n-  \r\n \r\n     body {\r\n         padding: 0;\r\n     }\r\n"
                 }
             ],
             "date": 1758444104469,
