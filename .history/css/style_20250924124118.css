@@ -8,12 +8,12 @@
 
 /* พื้นหลัง */
 body {
-    background-color: #DDDAD0;  /* ครีมอ่อน */
+    background-color: #57564F;  /* ครีมอ่อน */
 }
 
 /* header */
 .header {
-    background-color: #57564F; /* น้ำตาล */
+    background-color: #d4aa87; /* น้ำตาล */
     height: 80px;
     width: 100%;
 }
@@ -31,7 +31,7 @@ body {
 .btn {
     display: inline-block;
     text-align: center;
-    background-color: #57564F; /* น้ำตาลอ่อน */
+    background-color: #b48f29; /* น้ำตาลอ่อน */
     padding: 15px 40px;
     font-size: 18px;
     font-weight: bold;
@@ -50,10 +50,10 @@ body {
       font-family: Tahoma, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #FFF8F3;
+      background-color: #f7f7e9;
     }
     .header {
-      background-color: #57564F;
+      background-color: #cfa787;
       height: 80px;
     }
     .container {
@@ -63,7 +63,7 @@ body {
       margin: 40px;
     }
     .card {
-      background-color: #7A7A73;
+      background-color: #c28f67;
       padding: 20px;
       border-radius: 8px;
       text-align: center;
@@ -75,8 +75,8 @@ body {
     }
     .btn {
       display: block;
-      background-color: #57564F;
-      color: #fffdfd;
+      background-color: #e8cbb2;
+      color: #333;
       text-decoration: none;
       padding: 12px;
       margin: 12px 0;
@@ -85,5 +85,5 @@ body {
       transition: background 0.3s;
     }
     .btn:hover {
-      background-color: #a8a699;
+      background-color: #d9b596;
     }

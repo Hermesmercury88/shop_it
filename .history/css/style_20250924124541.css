@@ -76,7 +76,7 @@ body {
     .btn {
       display: block;
       background-color: #57564F;
-      color: #fffdfd;
+      color: #333;
       text-decoration: none;
       padding: 12px;
       margin: 12px 0;
@@ -85,5 +85,5 @@ body {
       transition: background 0.3s;
     }
     .btn:hover {
-      background-color: #a8a699;
+      background-color: #d9b596;
     }

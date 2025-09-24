@@ -40,7 +40,7 @@ $result = $conn->query($sql);
 body {
     margin: 0;
     font-family: Tahoma, sans-serif;
-    background: #fdfdf7ff;
+    background: #ebebe8ff;
 }
 
 /* Sidebar */
@@ -113,7 +113,7 @@ th, td {
     transition: background 0.3s;
 }
 th {
-    background: #456882;
+    background: #7A7A73;
     font-weight: 600;
     color: #fff; /* ทำให้ตัวอักษรเป็นสีขาว */
 }
@@ -123,7 +123,6 @@ tr:nth-child(even) {
 tr:hover {
     background: #DDDAD0;
 }
-
 /* Search box */
 .search-box {
     margin: 10px 0 15px;

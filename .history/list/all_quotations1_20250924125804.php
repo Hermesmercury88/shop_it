@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbname = "shop_it2";
+$dbname = "shop_it";
 
 // เชื่อมต่อฐานข้อมูล
 $conn = new mysqli($host, $user, $pass, $dbname);
@@ -10,44 +10,44 @@ if ($conn->connect_error) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . $conn->connect_error);
 }
 
-// ดึงข้อมูลจากตาราง deliveries + delivery_items
+// ดึงข้อมูลจากตาราง quotations + quotation_items
 $sql = "
     SELECT 
-        i.id AS item_id,  
-        d.customer_name,
-        d.delivery_no,
+        i.id AS item_id,
+        q.quotation_no,
+        q.subject,
+        q.recipient_name,
         i.item_name,
         i.qty,
         i.price,
         i.unit,
         i.total
-    FROM deliveries d
-    JOIN delivery_items i ON i.delivery_id = d.id
-    ORDER BY d.id, i.id
+    FROM quotations q
+    JOIN quotation_items i ON i.quotation_id = q.id
+    ORDER BY q.id, i.id
 ";
 $result = $conn->query($sql);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ใบส่งของ</title>
+<title>ใบเสนอราคา</title>
 
 <style>
 body {
     margin: 0;
     font-family: Tahoma, sans-serif;
-    background: #fdfdf7ff;
+    background: #eeece6ff;
 }
 
 /* Sidebar */
 .sidebar {
     width: 220px;
     height: 100vh;
-    background: #456882;
+    background: #57564F;
     float: left;
     color: #fff;
     display: flex;
@@ -65,7 +65,7 @@ body {
     transition: background 0.3s;
 }
 .sidebar a:hover {
-    background: rgba(255,255,255,0.2);
+    background: #57564F;
     border-radius: 6px;
 }
 
@@ -77,7 +77,7 @@ body {
 
 /* Topbar */
 .topbar {
-    background: #456882;
+    background: #7A7A73;
     padding: 15px 0;
     text-align: center;
     margin-bottom: 25px;
@@ -113,7 +113,7 @@ th, td {
     transition: background 0.3s;
 }
 th {
-    background: #456882;
+    background: #7A7A73;
     font-weight: 600;
     color: #fff; /* ทำให้ตัวอักษรเป็นสีขาว */
 }
@@ -224,30 +224,30 @@ input:focus, select:focus {
         display: none !important;
     }
 
+
 }
 </style>
 </head>
 <body>
 <div class="sidebar">
-    <a href="http://localhost/shop/list/all_quotations2.php">ใบเสนอราคา</a>
-    <a href="http://localhost/shop/list/all_deliveries2.php">ใบส่งของ</a>
-    <a href="http://localhost/shop/list/all_receipts2.php">ใบเสร็จรับเงิน</a>
+    <a href="http://localhost/shop/list/all_quotations1.php">ใบเสนอราคา</a>
+    <a href="http://localhost/shop/list/all_deliveries1.php">ใบส่งของ</a>
+    <a href="http://localhost/shop/list/all_receipts1.php">ใบเสร็จรับเงิน</a>
 </div>
 
 <div class="content">
     <div class="topbar">
-        <img src="../pic/mylogo.png" alt="LOGO">
+        <img src="../pic/logo.png" alt="LOGO">
     </div>
 
-    <h2>รายการใบส่งของ</h2>
+    <h2>ใบเสนอราคา</h2>
 
-    <!-- ✅ search box เดิม -->
     <div class="search-box">
         <label for="searchColumn">ค้นหาโดย: </label>
         <select id="searchColumn">
-            <option value="1">ชื่อลูกค้า</option>
-            <option value="2">เลขที่ / NO.</option>
-            <option value="3">รายการสินค้า</option>
+            <option value="1">เลขที่ใบเสนอราคา</option>
+            <option value="2">เรื่อง</option>
+            <option value="3">เรียน</option>
         </select>
         <input type="text" id="searchInput" placeholder="พิมพ์คำค้นหา...">
 
@@ -260,18 +260,19 @@ input:focus, select:focus {
         </select>
     </div>
 
-    <table id="deliveryTable">
+    <table id="quotationTable">
         <thead>
             <tr>
                 <th>ลำดับ</th>
-                <th>ชื่อลูกค้า</th>
-                <th>เลขที่ / NO.</th>
+                <th>เลขที่ใบเสนอราคา</th>
+                <th>เรื่อง</th>
+                <th>เรียน</th>
                 <th>รายการ</th>
                 <th>จำนวน</th>
                 <th>ราคา</th>
                 <th>หน่วย</th>
                 <th>ราคารวม</th>
-                <th>จัดการ</th> 
+                <th>จัดการ</th>
             </tr>
         </thead>
         <tbody>
@@ -281,8 +282,9 @@ input:focus, select:focus {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr data-id='" . $row['item_id'] . "'>";
                     echo "<td>" . $no++ . "</td>";
-                    echo "<td class='editable'>" . htmlspecialchars($row['customer_name']) . "</td>";
-                    echo "<td class='editable'>" . htmlspecialchars($row['delivery_no']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['quotation_no']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['subject']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['recipient_name']) . "</td>";
                     echo "<td class='editable'>" . htmlspecialchars($row['item_name']) . "</td>";
                     echo "<td class='editable col-qty'>" . $row['qty'] . "</td>";
                     echo "<td class='editable col-price'>" . number_format($row['price'],2) . "</td>";
@@ -295,7 +297,7 @@ input:focus, select:focus {
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='9'>ยังไม่มีข้อมูล</td></tr>";
+                echo "<tr><td colspan='10'>ยังไม่มีข้อมูล</td></tr>";
             }
             ?>
         </tbody>
@@ -303,14 +305,14 @@ input:focus, select:focus {
 
     <button class="btn-pdf" onclick="window.location.href='../index.html'">กลับหน้าหลัก</button>
     <button class="btn-pdf" onclick="window.print()">พิมพ์ PDF</button>
-    <button class="btn-upload" onclick="window.open('../delivery2.html', '_blank')">เพิ่มใบส่งของ</button>
+    <button class="btn-upload" onclick="window.open('../quotations1.html', '_blank')">เพิ่มใบเสนอราคา</button>
 </div>
 
 <script>
 // ✅ ฟังก์ชันค้นหา
 document.getElementById("searchInput").addEventListener("keyup", function() {
     let input = this.value.toLowerCase();
-    let table = document.getElementById("deliveryTable");
+    let table = document.getElementById("quotationTable");
     let rows = table.getElementsByTagName("tr");
     let column = parseInt(document.getElementById("searchColumn").value);
 
@@ -326,7 +328,7 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
 // ✅ ฟังก์ชันเลือกจำนวนแถว
 function updateTableRows() {
     let rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
-    let table = document.getElementById("deliveryTable");
+    let table = document.getElementById("quotationTable");
     let rows = table.getElementsByTagName("tr");
 
     let count = 0;
@@ -409,7 +411,7 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
             });
             let id = row.dataset.id;
 
-            fetch("update_delivery2_item.php", {
+            fetch("update_quotations_item.php", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({id, data})
@@ -421,13 +423,15 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
     });
 });
 
+
+// ✅ ลบ
 document.querySelectorAll(".btn-delete").forEach(btn => {
     btn.addEventListener("click", function() {
         if (!confirm("คุณต้องการลบข้อมูลนี้หรือไม่?")) return;
         let row = this.closest("tr");
         let id = row.dataset.id;
 
-        fetch("delete_delivery2_item.php", {
+        fetch("delete_quotations_item.php", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id})

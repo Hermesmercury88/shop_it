@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbname = "shop_it2";
+$dbname = "shop_it";
 
 // เชื่อมต่อฐานข้อมูล
 $conn = new mysqli($host, $user, $pass, $dbname);
@@ -40,14 +40,14 @@ $result = $conn->query($sql);
 body {
     margin: 0;
     font-family: Tahoma, sans-serif;
-    background: #fdfdf7ff;
+    background: #DDDAD0;
 }
 
 /* Sidebar */
 .sidebar {
     width: 220px;
     height: 100vh;
-    background: #456882;
+    background: #57564F;
     float: left;
     color: #fff;
     display: flex;
@@ -65,7 +65,7 @@ body {
     transition: background 0.3s;
 }
 .sidebar a:hover {
-    background: rgba(255,255,255,0.2);
+    background: #57564F;
     border-radius: 6px;
 }
 
@@ -77,7 +77,7 @@ body {
 
 /* Topbar */
 .topbar {
-    background: #456882;
+    background: #7A7A73;
     padding: 15px 0;
     text-align: center;
     margin-bottom: 25px;
@@ -113,15 +113,14 @@ th, td {
     transition: background 0.3s;
 }
 th {
-    background: #456882;
+    background: #e5c3a6;
     font-weight: 600;
-    color: #fff; /* ทำให้ตัวอักษรเป็นสีขาว */
 }
 tr:nth-child(even) {
     background: #fdf5ef;
 }
 tr:hover {
-    background: #DDDAD0;
+    background: #ffe8d0;
 }
 
 /* Search box */
@@ -224,19 +223,21 @@ input:focus, select:focus {
         display: none !important;
     }
 
+
 }
+
 </style>
 </head>
 <body>
 <div class="sidebar">
-    <a href="http://localhost/shop/list/all_quotations2.php">ใบเสนอราคา</a>
-    <a href="http://localhost/shop/list/all_deliveries2.php">ใบส่งของ</a>
-    <a href="http://localhost/shop/list/all_receipts2.php">ใบเสร็จรับเงิน</a>
+    <a href="http://localhost/shop/list/all_quotations1.php">ใบเสนอราคา</a>
+    <a href="http://localhost/shop/list/all_deliveries1.php">ใบส่งของ</a>
+    <a href="http://localhost/shop/list/all_receipts1.php">ใบเสร็จรับเงิน</a>
 </div>
 
 <div class="content">
     <div class="topbar">
-        <img src="../pic/mylogo.png" alt="LOGO">
+        <img src="../pic/logo.png" alt="LOGO">
     </div>
 
     <h2>รายการใบส่งของ</h2>
@@ -303,7 +304,7 @@ input:focus, select:focus {
 
     <button class="btn-pdf" onclick="window.location.href='../index.html'">กลับหน้าหลัก</button>
     <button class="btn-pdf" onclick="window.print()">พิมพ์ PDF</button>
-    <button class="btn-upload" onclick="window.open('../delivery2.html', '_blank')">เพิ่มใบส่งของ</button>
+    <button class="btn-upload" onclick="window.open('../delivery1.html', '_blank')">เพิ่มใบส่งของ</button>
 </div>
 
 <script>
@@ -409,7 +410,7 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
             });
             let id = row.dataset.id;
 
-            fetch("update_delivery2_item.php", {
+            fetch("update_delivery_item.php", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({id, data})
@@ -427,7 +428,7 @@ document.querySelectorAll(".btn-delete").forEach(btn => {
         let row = this.closest("tr");
         let id = row.dataset.id;
 
-        fetch("delete_delivery2_item.php", {
+        fetch("delete_delivery_item.php", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id})

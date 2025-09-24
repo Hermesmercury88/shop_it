@@ -40,7 +40,7 @@ $result = $conn->query($sql);
 body {
     margin: 0;
     font-family: Tahoma, sans-serif;
-    background: #fdfdf7ff;
+    background: #ebebe8ff;
 }
 
 /* Sidebar */
@@ -95,7 +95,7 @@ body {
 h2 {
     margin: 20px 0;
     font-weight: 600;
-    color: #4d3a2c;
+    color: #456882;
 }
 
 /* Table */
@@ -113,7 +113,7 @@ th, td {
     transition: background 0.3s;
 }
 th {
-    background: #456882;
+    background: #7A7A73;
     font-weight: 600;
     color: #fff; /* ทำให้ตัวอักษรเป็นสีขาว */
 }
