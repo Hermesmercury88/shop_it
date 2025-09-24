@@ -1,0 +1,409 @@
+@font-face {
+    font-family: "TH SarabunPSK";
+    src: url("./fonts/THSarabunPSK.woff2") format("woff2"),
+         url("./fonts/THSarabunPSK.woff") format("woff"),
+         url("./fonts/THSarabunPSK.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* รีเซ็ต */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "TH SarabunPSK", Tahoma, sans-serif;
+}
+
+body {
+    background: #f7f7f7;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: #fff;
+    width: 210mm;       /* กำหนดตรง A4 */
+    min-height: 297mm;  /* ความสูง A4 */
+    padding: 20px 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ส่วนหัว */
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.header-info {
+    margin-bottom: 15px;  /* ลดจาก 22px */
+}
+
+.doc-title {
+    margin: 20px 0 40px;  /* ลดจาก 20px 0 70px */
+}
+
+
+
+
+.company {
+    width: 65%;
+    text-align: left;
+}
+
+.company h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.company h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.company p {
+    font-size: 16px;
+    margin: 3px 0;
+}
+
+.logo {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 130px;
+    height: auto;
+    display: block;
+}
+
+/* หัวใบเสร็จ */
+.doc-title {
+    text-align: center;
+    margin: 20px 0 70px;
+    position: relative;
+}
+
+.doc-title h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.doc-info {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+    text-align: right;
+}
+
+.doc-info span {
+    display: block;
+    margin: 3px 0;
+}
+
+.doc-info label,
+.doc-info span {
+    font-size: 16px;
+}
+
+/* เลขที่/NO ให้อยู่บรรทัดเดียวกับ input */
+.doc-info label {
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.doc-info input[type="text"] {
+  width: 120px;
+  display: inline-block;
+}
+
+
+/* ลูกค้าและที่อยู่ต่อท้าย label */
+.customer-info input,
+.customer-info textarea {
+    margin-bottom: 6px;   /* ลดจาก 12px */
+}
+
+.customer-info label {
+  display: flex;
+  align-items: center;   /* แกนแนวตั้งกลาง */
+  margin: -10px 0;             /* ลดช่องว่างบน-ล่าง */
+  font-weight: bold;
+}
+
+.customer-info input,
+.customer-info textarea {
+  margin-left: 6px;      /* ช่องว่างระหว่าง label กับ field */
+  margin-bottom: 4px;    /* ระยะระหว่างบรรทัดน้อยลง */
+  flex: 1;               
+  font-family: "TH SarabunPSK", sans-serif;
+  font-size: 16px;
+  padding: 3px 5px;      /* ให้พอดี ไม่สูงมาก */
+}
+
+.customer-info textarea {
+  resize: none;
+  line-height: 1.2;      /* ลดระยะบรรทัด */
+  min-height: 25px;      /* ความสูง textarea */
+  white-space: normal;
+  word-wrap: break-word;
+  margin-top: -1px; 
+}
+
+
+
+table { border-collapse: collapse; width: 100%; }
+table, th, td { border: 1px solid #000; }
+th, td { padding: 5px; text-align: center; }
+tfoot td { font-weight: bold; }
+
+.add-btn, .remove-btn { cursor: pointer; }
+
+tfoot .total-row td { border-top: 1px solid #000; }
+tfoot .total-row td:first-child { border-right: 1px solid #000; }
+
+/* รวมเป็นเงินทั้งสิ้น */
+tfoot td {
+  border: 1px solid #333;
+}
+
+
+/* ฟอร์ม */
+label {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin: 8px 0 4px;
+}
+
+input[type="text"], textarea, input[type="number"] {
+  font-size: 16px;
+  padding: 6px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+/* ตาราง */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  table-layout: fixed; /* ใช้ความกว้างตามที่กำหนด */
+}
+
+table th,
+table td {
+  border: 1px solid #333;
+  padding: 6px;
+  text-align: center;
+  font-size: 16px;       
+  word-wrap: break-word;   /* บังคับตัดคำ */
+  word-break: break-word;  /* กันข้อความยาวติดกันไม่ตัด */
+  white-space: normal;     /* ให้ขึ้นบรรทัดใหม่ได้ */
+}
+
+table th {
+  background: #eee;
+  font-weight: bold;
+}
+
+
+
+/* กำหนดสัดส่วนคอลัมน์ */
+table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */
+table th:nth-child(2), table td:nth-child(2) { width: 55%; }  /* รายการ (กว้างสุด) */
+table th:nth-child(3), table td:nth-child(3) { width: 12%; }  /* จำนวน */
+table th:nth-child(5), table td:nth-child(4) { width: 15%; }  /* ราคา/หน่วย */
+table th:nth-child(4), table td:nth-child(5) { width: 13%; }  /* หน่วย */
+table th:nth-child(6), table td:nth-child(6) { width: 15%; }  /* ราคารวม */
+table th:nth-child(7), table td:nth-child(7) { width: 8%; }  /* ลบ */
+
+/* ปุ่ม */
+.button {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 25px;
+  margin: 10px 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-back { background: #d43b3b; }
+.btn-save { background: #378f15; }
+.btn-print { background: #b3832a; }
+
+.add-btn {
+  display: block;
+  margin: 15px auto;
+  width: 50px;
+  height: 50px;
+  font-size: 26px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ปุ่มลบ */
+.remove-btn {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.remove-btn:hover {
+  background-color: #ef5350;
+}
+
+/* รวมเงิน */
+.grand-total {
+  text-align: right;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+/* ลายเซ็น */
+.signature {
+    width: 250px;          /* กำหนดความกว้างของกล่องลายเซ็น */
+    margin-left: auto;      /* ชิดขวา */
+    text-align: center;     /* ข้อความภายในชิดกลาง */
+    margin-top: 40px;       /* เว้นระยะด้านบน */
+    font-family: "TH SarabunPSK", sans-serif;
+    font-size: 16px;        /* ขนาดฟอนต์ */
+}
+
+/* @media print */
+@media print {
+  #thaiTextDisplay {
+    display: inline-block !important;   /* ให้ span แสดงแน่นอน */
+    font-weight: bold !important;
+    font-size: 16px !important;
+    color: #000 !important;
+    text-align: center !important;
+    white-space: normal !important;   /* บังคับให้ตัดบรรทัดได้ */
+    word-wrap: break-word !important; /* ตัดบรรทัดเมื่อเกิน */
+    word-break: break-word !important;
+  }
+
+      .container {
+        width: 210mm !important;
+        min-height: auto !important;  /* ให้สูงตามเนื้อหา ไม่บังคับ 297mm */
+        padding: 15mm !important;
+        box-shadow: none !important;
+    }
+      .doc-info {
+    display: inline-block;
+    margin-left: 20mm;   /* ขยับไปทางซ้าย-ขวาได้ตามต้องการ */
+    vertical-align: top;
+  }
+
+  .doc-title h2 {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+  }
+
+    body {
+        padding: 0;
+    }
+
+    /* ซ่อนปุ่มทั้งหมด */
+    .button, 
+    .add-btn, 
+    .remove-btn, 
+    .add-add-percent, 
+    .add-item-only,
+    .pdf-upload-container {  /* ครอบ div ของ label+input */
+        display: none !important;
+    }
+
+  /* ซ่อนคอลัมน์ลบในตาราง */
+  th:last-child, td:last-child {
+    display: none !important;
+  }
+
+  input, textarea {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    pointer-events: none;
+    font-size: 16px !important;   /* ฟอนต์ 16 */
+    font-family: "TH SarabunPSK", sans-serif;
+    color: #000;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: transparent !important;
+  }
+
+  body {
+    background: none !important;
+    padding: 0 !important;
+  }
+
+  .container {
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    width: 210mm !important;
+    min-height: 260mm !important;
+    background: #fff !important;
+    padding: 20px 30px;  /* ลดจาก 30px 40px */
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+}
+
+/* td ที่ครอบ span ใน tfoot */
+tfoot tr:last-child td {
+  display: table-cell !important;
+  text-align: left !important;
+  border: none !important;
+  padding-left: 0 !important;
+  font-size: 16px !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+/* กำหนดสัดส่วนคอลัมน์ */
+table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */
+table th:nth-child(2), table td:nth-child(2) { width: 58%; }  /* รายการ (กว้างสุด) */
+table th:nth-child(3), table td:nth-child(3) { width: 13%; }  /* จำนวน */
+table th:nth-child(4), table td:nth-child(4) { width: 19%; }  /* ราคา/หน่วย */
+table th:nth-child(5), table td:nth-child(5) { width: 13%; }  /* หน่วย */
+table th:nth-child(6), table td:nth-child(6) { width: 19%; }  /* ราคารวม */
+
+.summary-outside {
+  display: none !important;
+}
+
+/* ข้อความในตาราง */
+table th, table td {
+  font-size: 16px !important;
+  white-space: normal !important;   /* บังคับให้ขึ้นบรรทัด */
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+

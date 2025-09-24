@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1758465076312,
@@ -32,6 +32,14 @@
                 {
                     "date": 1758635849843,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n <?php\r\n $host = \"localhost\";\r\n $user = \"root\";\r\n $pass = \"\";\r\n-$dbname = \"shop_it\";\r\n+$dbname = \"shop_it2\";\r\n \r\n // เชื่อมต่อฐานข้อมูล\r\n $conn = new mysqli($host, $user, $pass, $dbname);\r\n if ($conn->connect_error) {\r\n"
+                },
+                {
+                    "date": 1758719044747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n <?php\r\n $host = \"localhost\";\r\n $user = \"root\";\r\n $pass = \"\";\r\n-$dbname = \"shop_it2\";\r\n+$dbname = \"shop_it\";\r\n \r\n // เชื่อมต่อฐานข้อมูล\r\n $conn = new mysqli($host, $user, $pass, $dbname);\r\n if ($conn->connect_error) {\r\n@@ -26,19 +26,51 @@\n $prices     = $_POST['price']     ?? [];\r\n $units      = $_POST['unit']      ?? [];\r\n $totals     = $_POST['total']     ?? [];\r\n \r\n+// ---------------------------\r\n+// อัพโหลดไฟล์ PDF\r\n+// ---------------------------\r\n+$pdf_file_path = null;\r\n+\r\n+if (!empty($_FILES['pdf_file']['name'])) {\r\n+    // ตรวจสอบว่ามีโฟลเดอร์ uploads/deliveries หรือยัง ถ้าไม่มีสร้างใหม่\r\n+    if (!is_dir('uploads/deliveries')) {\r\n+        mkdir('uploads/deliveries', 0777, true);\r\n+    }\r\n+\r\n+    $fileName = time() . \"_\" . basename($_FILES[\"pdf_file\"][\"name\"]);\r\n+    $targetFilePath = 'uploads/deliveries/' . $fileName;\r\n+\r\n+    $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));\r\n+\r\n+    // ตรวจสอบว่าเป็น PDF\r\n+    if ($fileType === \"pdf\") {\r\n+        if (move_uploaded_file($_FILES[\"pdf_file\"][\"tmp_name\"], $targetFilePath)) {\r\n+            $pdf_file_path = $targetFilePath; // เก็บ path ลงฐานข้อมูล\r\n+        } else {\r\n+            die(\"ไม่สามารถอัพโหลดไฟล์ได้\");\r\n+        }\r\n+    } else {\r\n+        die(\"ไฟล์ต้องเป็น PDF เท่านั้น\");\r\n+    }\r\n+}\r\n+\r\n+// ---------------------------\r\n // บันทึกใบส่งของ\r\n-$stmt = $conn->prepare(\"INSERT INTO deliveries (delivery_no, customer_name, customer_address, order_no) VALUES (?, ?, ?, ?)\");\r\n+// ---------------------------\r\n+$stmt = $conn->prepare(\"INSERT INTO deliveries (delivery_no, customer_name, customer_address, order_no, pdf_file) VALUES (?, ?, ?, ?, ?)\");\r\n if (!$stmt) {\r\n     die(\"Prepare failed: \" . $conn->error);\r\n }\r\n-$stmt->bind_param(\"ssss\", $delivery_no, $customer_name, $customer_address, $order_no);\r\n+$stmt->bind_param(\"sssss\", $delivery_no, $customer_name, $customer_address, $order_no, $pdf_file_path);\r\n $stmt->execute();\r\n $delivery_id = $stmt->insert_id;\r\n $stmt->close();\r\n \r\n+// ---------------------------\r\n // บันทึกรายการสินค้า\r\n+// ---------------------------\r\n if (!empty($item_names)) {\r\n     $stmt = $conn->prepare(\"INSERT INTO delivery_items (delivery_id, item_name, qty, price, unit, total) VALUES (?, ?, ?, ?, ?, ?)\");\r\n     if (!$stmt) {\r\n         die(\"Prepare failed: \" . $conn->error);\r\n@@ -50,9 +82,8 @@\n         $price = (float)($prices[$i] ?? 0.00);\r\n         $unit  = $units[$i] ?? '';\r\n         $total = (float)($totals[$i] ?? 0.00);\r\n \r\n-        // i = int, s = string, i = int, d = decimal, s = string, d = decimal\r\n         $stmt->bind_param(\"isidsd\", $delivery_id, $name, $qty, $price, $unit, $total);\r\n         $stmt->execute();\r\n     }\r\n     $stmt->close();\r\n"
+                },
+                {
+                    "date": 1758725213000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n <?php\r\n $host = \"localhost\";\r\n $user = \"root\";\r\n $pass = \"\";\r\n-$dbname = \"shop_it\";\r\n+$dbname = \"shop_it2\";\r\n \r\n // เชื่อมต่อฐานข้อมูล\r\n $conn = new mysqli($host, $user, $pass, $dbname);\r\n if ($conn->connect_error) {\r\n@@ -90,6 +90,6 @@\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='delivery1.html'>กรอกต่อ</a> \";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='delivery2.html'>กรอกต่อ</a> \";\r\n ?>\r\n"
                 }
             ],
             "date": 1758465076312,

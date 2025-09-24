@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 24,
             "patches": [
                 {
                     "date": 1758444104469,
@@ -28,6 +28,82 @@
                 {
                     "date": 1758594841555,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -331,9 +331,8 @@\n     margin: 0;\r\n     padding: 0;\r\n     vertical-align: top;\r\n   }\r\n-  \r\n \r\n     body {\r\n         padding: 0;\r\n     }\r\n"
+                },
+                {
+                    "date": 1758719913109,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -253,8 +253,21 @@\n   border-radius: 8px;\r\n   cursor: pointer;\r\n }\r\n \r\n+.add-btn {\r\n+  display: block;\r\n+  margin: 15px auto;\r\n+  width: 50px;\r\n+  height: 50px;\r\n+  font-size: 26px;\r\n+  background: green;\r\n+  color: white;\r\n+  border: none;\r\n+  border-radius: 8px;\r\n+  cursor: pointer;\r\n+}\r\n+\r\n /* ปุ่มลบ */\r\n .remove-btn {\r\n   background-color: #e53935;\r\n   color: white;\r\n"
+                },
+                {
+                    "date": 1758719922023,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -253,9 +253,9 @@\n   border-radius: 8px;\r\n   cursor: pointer;\r\n }\r\n \r\n-.add-btn {\r\n+.add-add-percent {\r\n   display: block;\r\n   margin: 15px auto;\r\n   width: 50px;\r\n   height: 50px;\r\n"
+                },
+                {
+                    "date": 1758719939960,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -259,9 +259,9 @@\n   margin: 15px auto;\r\n   width: 50px;\r\n   height: 50px;\r\n   font-size: 26px;\r\n-  background: green;\r\n+  background: rgb(113, 0, 128);\r\n   color: white;\r\n   border: none;\r\n   border-radius: 8px;\r\n   cursor: pointer;\r\n"
+                },
+                {
+                    "date": 1758719951464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -259,15 +259,28 @@\n   margin: 15px auto;\r\n   width: 50px;\r\n   height: 50px;\r\n   font-size: 26px;\r\n-  background: rgb(113, 0, 128);\r\n+  background: rgb(139, 33, 153);\r\n   color: white;\r\n   border: none;\r\n   border-radius: 8px;\r\n   cursor: pointer;\r\n }\r\n \r\n+.add-add-percent {\r\n+  display: block;\r\n+  margin: 15px auto;\r\n+  width: 50px;\r\n+  height: 50px;\r\n+  font-size: 26px;\r\n+  background: rgb(139, 33, 153);\r\n+  color: white;\r\n+  border: none;\r\n+  border-radius: 8px;\r\n+  cursor: pointer;\r\n+}\r\n+\r\n /* ปุ่มลบ */\r\n .remove-btn {\r\n   background-color: #e53935;\r\n   color: white;\r\n"
+                },
+                {
+                    "date": 1758719961965,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -266,9 +266,9 @@\n   border-radius: 8px;\r\n   cursor: pointer;\r\n }\r\n \r\n-.add-add-percent {\r\n+.add-item-only {\r\n   display: block;\r\n   margin: 15px auto;\r\n   width: 50px;\r\n   height: 50px;\r\n"
+                },
+                {
+                    "date": 1758720763594,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -272,9 +272,9 @@\n   margin: 15px auto;\r\n   width: 50px;\r\n   height: 50px;\r\n   font-size: 26px;\r\n-  background: rgb(139, 33, 153);\r\n+  background: rgb(190, 149, 141);\r\n   color: white;\r\n   border: none;\r\n   border-radius: 8px;\r\n   cursor: pointer;\r\n"
+                },
+                {
+                    "date": 1758720778494,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -272,9 +272,9 @@\n   margin: 15px auto;\r\n   width: 50px;\r\n   height: 50px;\r\n   font-size: 26px;\r\n-  background: rgb(190, 149, 141);\r\n+  background: rgb(161, 117, 108);\r\n   color: white;\r\n   border: none;\r\n   border-radius: 8px;\r\n   cursor: pointer;\r\n"
+                },
+                {
+                    "date": 1758721530797,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -240,8 +240,10 @@\n .btn-back { background: #d43b3b; }\r\n .btn-save { background: #378f15; }\r\n .btn-print { background: #b3832a; }\r\n \r\n+\r\n+\r\n .add-btn {\r\n   display: block;\r\n   margin: 15px auto;\r\n   width: 50px;\r\n"
+                },
+                {
+                    "date": 1758721574784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -240,49 +240,39 @@\n .btn-back { background: #d43b3b; }\r\n .btn-save { background: #378f15; }\r\n .btn-print { background: #b3832a; }\r\n \r\n+.button-row {\r\n+    display: flex;\r\n+    justify-content: center;\r\n+    gap: 10px; /* ระยะห่างระหว่างปุ่ม */\r\n+    margin: 15px 0; /* ระยะจากตารางหรือส่วนอื่น */\r\n+}\r\n \r\n+.button-row button {\r\n+    width: 50px;\r\n+    height: 50px;\r\n+    font-size: 26px;\r\n+    border-radius: 8px;\r\n+    border: none;\r\n+    cursor: pointer;\r\n+    color: white;\r\n+}\r\n \r\n+/* สีพื้นปุ่มแต่ละปุ่ม */\r\n .add-btn {\r\n-  display: block;\r\n-  margin: 15px auto;\r\n-  width: 50px;\r\n-  height: 50px;\r\n-  font-size: 26px;\r\n-  background: green;\r\n-  color: white;\r\n-  border: none;\r\n-  border-radius: 8px;\r\n-  cursor: pointer;\r\n+    background: green;\r\n }\r\n \r\n-.add-add-percent {\r\n-  display: block;\r\n-  margin: 15px auto;\r\n-  width: 50px;\r\n-  height: 50px;\r\n-  font-size: 26px;\r\n-  background: rgb(139, 33, 153);\r\n-  color: white;\r\n-  border: none;\r\n-  border-radius: 8px;\r\n-  cursor: pointer;\r\n+.add-percent {\r\n+    background: rgb(139, 33, 153);\r\n }\r\n \r\n .add-item-only {\r\n-  display: block;\r\n-  margin: 15px auto;\r\n-  width: 50px;\r\n-  height: 50px;\r\n-  font-size: 26px;\r\n-  background: rgb(161, 117, 108);\r\n-  color: white;\r\n-  border: none;\r\n-  border-radius: 8px;\r\n-  cursor: pointer;\r\n+    background: rgb(161, 117, 108);\r\n }\r\n \r\n+\r\n /* ปุ่มลบ */\r\n .remove-btn {\r\n   background-color: #e53935;\r\n   color: white;\r\n"
+                },
+                {
+                    "date": 1758721612025,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -249,9 +249,9 @@\n }\r\n \r\n .button-row button {\r\n     width: 50px;\r\n-    height: 50px;\r\n+    height: 20px;\r\n     font-size: 26px;\r\n     border-radius: 8px;\r\n     border: none;\r\n     cursor: pointer;\r\n"
+                },
+                {
+                    "date": 1758721619590,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -249,9 +249,9 @@\n }\r\n \r\n .button-row button {\r\n     width: 50px;\r\n-    height: 20px;\r\n+    height: 35px;\r\n     font-size: 26px;\r\n     border-radius: 8px;\r\n     border: none;\r\n     cursor: pointer;\r\n"
+                },
+                {
+                    "date": 1758721840094,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -255,8 +255,9 @@\n     border-radius: 8px;\r\n     border: none;\r\n     cursor: pointer;\r\n     color: white;\r\n+    font-size: 16px;\r\n }\r\n \r\n /* สีพื้นปุ่มแต่ละปุ่ม */\r\n .add-btn {\r\n"
+                },
+                {
+                    "date": 1758721929569,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -309,18 +309,9 @@\n     width: 250px;       /* ความกว้างของกล่องลายเซ็น */\r\n     text-align: center; /* ข้อความภายในชิดกลางของกล่อง */\r\n }\r\n \r\n-.signature.left {\r\n-    /* ชิดซ้าย */\r\n-}\r\n \r\n-.signature.right {\r\n-    /* ชิดขวา */\r\n-}\r\n-\r\n-\r\n-\r\n /* @media print */\r\n @media print {\r\n   #thaiTextDisplay {\r\n     display: inline-block !important;   /* ให้ span แสดงแน่นอน */\r\n"
+                },
+                {
+                    "date": 1758721937822,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -309,9 +309,18 @@\n     width: 250px;       /* ความกว้างของกล่องลายเซ็น */\r\n     text-align: center; /* ข้อความภายในชิดกลางของกล่อง */\r\n }\r\n \r\n+.signature.left {\r\n+    /* ชิดซ้าย */\r\n+}\r\n \r\n+.signature.right {\r\n+    /* ชิดขวา */\r\n+}\r\n+\r\n+\r\n+\r\n /* @media print */\r\n @media print {\r\n   #thaiTextDisplay {\r\n     display: inline-block !important;   /* ให้ span แสดงแน่นอน */\r\n"
+                },
+                {
+                    "date": 1758721956999,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -356,9 +356,9 @@\n         padding: 0;\r\n     }\r\n \r\n   /* ซ่อนปุ่มทั้งหมด */\r\n-  .button, .add-btn, .remove-btn {\r\n+  .button, .add-btn, .remove-btn, {\r\n     display: none !important;\r\n   }\r\n \r\n   /* ซ่อนคอลัมน์ลบในตาราง */\r\n"
+                },
+                {
+                    "date": 1758721965996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -356,9 +356,9 @@\n         padding: 0;\r\n     }\r\n \r\n   /* ซ่อนปุ่มทั้งหมด */\r\n-  .button, .add-btn, .remove-btn, {\r\n+  .button, .add-btn, .remove-btn, .add-percent, .add-item-only {\r\n     display: none !important;\r\n   }\r\n \r\n   /* ซ่อนคอลัมน์ลบในตาราง */\r\n"
+                },
+                {
+                    "date": 1758722142780,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -355,12 +355,19 @@\n     body {\r\n         padding: 0;\r\n     }\r\n \r\n-  /* ซ่อนปุ่มทั้งหมด */\r\n-  .button, .add-btn, .remove-btn, .add-percent, .add-item-only {\r\n-    display: none !important;\r\n-  }\r\n+    /* ซ่อนปุ่มทั้งหมด */\r\n+    .button, \r\n+    .add-btn, \r\n+    .remove-btn, \r\n+    .add-add-percent, \r\n+    .add-item-only,\r\n+    input[type=\"file\"],      /* ซ่อน input file */\r\n+    label[for=\"pdf_file\"],   /* ถ้ามี label ใช้ for ก็ซ่อนด้วย */\r\n+    div label > input[type=\"file\"] { /* ครอบกรณี label ข้างบน */\r\n+        display: none !important;\r\n+    }\r\n \r\n   /* ซ่อนคอลัมน์ลบในตาราง */\r\n   th:last-child, td:last-child {\r\n     display: none !important;\r\n"
+                },
+                {
+                    "date": 1758722238454,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -355,20 +355,20 @@\n     body {\r\n         padding: 0;\r\n     }\r\n \r\n+    /@media print {\r\n     /* ซ่อนปุ่มทั้งหมด */\r\n     .button, \r\n     .add-btn, \r\n     .remove-btn, \r\n     .add-add-percent, \r\n     .add-item-only,\r\n-    input[type=\"file\"],      /* ซ่อน input file */\r\n-    label[for=\"pdf_file\"],   /* ถ้ามี label ใช้ for ก็ซ่อนด้วย */\r\n-    div label > input[type=\"file\"] { /* ครอบกรณี label ข้างบน */\r\n+    .pdf-upload-container {  /* ครอบ div ของ label+input */\r\n         display: none !important;\r\n     }\r\n \r\n+\r\n   /* ซ่อนคอลัมน์ลบในตาราง */\r\n   th:last-child, td:last-child {\r\n     display: none !important;\r\n   }\r\n"
+                },
+                {
+                    "date": 1758722245341,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -355,9 +355,8 @@\n     body {\r\n         padding: 0;\r\n     }\r\n \r\n-    /@media print {\r\n     /* ซ่อนปุ่มทั้งหมด */\r\n     .button, \r\n     .add-btn, \r\n     .remove-btn, \r\n@@ -366,9 +365,8 @@\n     .pdf-upload-container {  /* ครอบ div ของ label+input */\r\n         display: none !important;\r\n     }\r\n \r\n-\r\n   /* ซ่อนคอลัมน์ลบในตาราง */\r\n   th:last-child, td:last-child {\r\n     display: none !important;\r\n   }\r\n"
                 }
             ],
             "date": 1758444104469,

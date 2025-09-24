@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1758552331987,
@@ -32,6 +32,10 @@
                 {
                     "date": 1758552769387,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -263,9 +263,8 @@\n     <button style=\"padding: 10px 10px; background:#b89172; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold;\"\r\n             onclick=\"window.location.href='../index.html'\">\r\n         กลับหน้าหลัก\r\n     </button>\r\n-    </div>\r\n </div>\r\n \r\n <script>\r\n // ฟังก์ชันค้นหา (client side)\r\n"
+                },
+                {
+                    "date": 1758728471510,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -441,5 +441,7 @@\n     });\r\n });\r\n </script>\r\n \r\n-</bo\n\\ No newline at end of file\n+</body>\r\n+</html>\r\n+<?php $conn->close(); ?>\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1758552331987,

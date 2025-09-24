@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1758466860945,
@@ -44,6 +44,18 @@
                 {
                     "date": 1758594942801,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -302,19 +302,10 @@\n }\r\n \r\n \r\n /* @media print */\r\n+/* @media print */\r\n @media print {\r\n-\r\n-  .logo img {\r\n-    width: 130px !important;\r\n-    height: auto !important;\r\n-    display: block !important;\r\n-    -webkit-print-color-adjust: exact !important; /* Chrome / Edge */\r\n-    print-color-adjust: exact !important;         /* Firefox */\r\n-    image-rendering: high-quality !important;     /* ช่วยไม่ให้แตก */\r\n-  }\r\n-\r\n   #thaiTextDisplay {\r\n     display: inline-block !important;   /* ให้ span แสดงแน่นอน */\r\n     font-weight: bold !important;\r\n     font-size: 16px !important;\r\n@@ -330,9 +321,21 @@\n         min-height: auto !important;  /* ให้สูงตามเนื้อหา ไม่บังคับ 297mm */\r\n         padding: 15mm !important;\r\n         box-shadow: none !important;\r\n     }\r\n+      .doc-info {\r\n+    display: inline-block;\r\n+    margin-left: 20mm;   /* ขยับไปทางซ้าย-ขวาได้ตามต้องการ */\r\n+    vertical-align: top;\r\n+  }\r\n \r\n+  .doc-title h2 {\r\n+    display: inline-block;\r\n+    margin: 0;\r\n+    padding: 0;\r\n+    vertical-align: top;\r\n+  }\r\n+\r\n     body {\r\n         padding: 0;\r\n     }\r\n \r\n@@ -380,9 +383,8 @@\n   @page {\r\n     size: A4 portrait;\r\n     margin: 15mm;\r\n   }\r\n-\r\n }\r\n \r\n /* td ที่ครอบ span ใน tfoot */\r\n tfoot tr:last-child td {\r\n@@ -397,13 +399,13 @@\n }\r\n \r\n /* กำหนดสัดส่วนคอลัมน์ */\r\n table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */\r\n-table th:nth-child(2), table td:nth-child(2) { width: 55%; }  /* รายการ (กว้างสุด) */\r\n-table th:nth-child(3), table td:nth-child(3) { width: 12%; }  /* จำนวน */\r\n-table th:nth-child(5), table td:nth-child(4) { width: 15%; }  /* ราคา/หน่วย */\r\n-table th:nth-child(4), table td:nth-child(5) { width: 13%; }  /* หน่วย */\r\n-table th:nth-child(6), table td:nth-child(6) { width: 15%; }  /* ราคารวม */\r\n+table th:nth-child(2), table td:nth-child(2) { width: 58%; }  /* รายการ (กว้างสุด) */\r\n+table th:nth-child(3), table td:nth-child(3) { width: 13%; }  /* จำนวน */\r\n+table th:nth-child(4), table td:nth-child(4) { width: 19%; }  /* ราคา/หน่วย */\r\n+table th:nth-child(5), table td:nth-child(5) { width: 13%; }  /* หน่วย */\r\n+table th:nth-child(6), table td:nth-child(6) { width: 19%; }  /* ราคารวม */\r\n \r\n .summary-outside {\r\n   display: none !important;\r\n }\r\n"
+                },
+                {
+                    "date": 1758722704371,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -301,10 +301,9 @@\n   line-height: 1.8;\r\n }\r\n \r\n \r\n-/* @media print */\r\n-/* @media print */\r\n+//* @media print */\r\n @media print {\r\n   #thaiTextDisplay {\r\n     display: inline-block !important;   /* ให้ span แสดงแน่นอน */\r\n     font-weight: bold !important;\r\n@@ -338,12 +337,17 @@\n     body {\r\n         padding: 0;\r\n     }\r\n \r\n-  /* ซ่อนปุ่มทั้งหมด */\r\n-  .button, .add-btn, .remove-btn {\r\n-    display: none !important;\r\n-  }\r\n+    /* ซ่อนปุ่มทั้งหมด */\r\n+    .button, \r\n+    .add-btn, \r\n+    .remove-btn, \r\n+    .add-add-percent, \r\n+    .add-item-only,\r\n+    .pdf-upload-container {  /* ครอบ div ของ label+input */\r\n+        display: none !important;\r\n+    }\r\n \r\n   /* ซ่อนคอลัมน์ลบในตาราง */\r\n   th:last-child, td:last-child {\r\n     display: none !important;\r\n"
+                },
+                {
+                    "date": 1758722725270,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -301,9 +301,9 @@\n   line-height: 1.8;\r\n }\r\n \r\n \r\n-//* @media print */\r\n+/* @media print */\r\n @media print {\r\n   #thaiTextDisplay {\r\n     display: inline-block !important;   /* ให้ span แสดงแน่นอน */\r\n     font-weight: bold !important;\r\n"
+                },
+                {
+                    "date": 1758724085562,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -425,5 +425,19 @@\n table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */\r\n table th:nth-child(2), table td:nth-child(2) { width: 58%; }  /* รายการ (กว้างสุด) */\r\n table th:nth-child(3), table td:nth-child(3) { width: 13%; }  /* จำนวน */\r\n table th:nth-child(4), table td:nth-child(4) { width: 19%; }  /* ราคา/หน่วย */\r\n-table th:nth-child(5), table td:nth-child(5) { width: 13%;\n\\ No newline at end of file\n+table th:nth-child(5), table td:nth-child(5) { width: 13%; }  /* หน่วย */\r\n+table th:nth-child(6), table td:nth-child(6) { width: 19%; }  /* ราคารวม */\r\n+\r\n+.summary-outside {\r\n+  display: none !important;\r\n+}\r\n+\r\n+/* ข้อความในตาราง */\r\n+table th, table td {\r\n+  font-size: 16px !important;\r\n+  white-space: normal !important;   /* บังคับให้ขึ้นบรรทัด */\r\n+  word-wrap: break-word !important;\r\n+  word-break: break-word !important;\r\n+}\r\n+\r\n"
                 }
             ],
             "date": 1758466860945,
