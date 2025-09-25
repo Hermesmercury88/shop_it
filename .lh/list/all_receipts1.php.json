@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 46,
+            "activePatchIndex": 60,
             "patches": [
                 {
                     "date": 1758552087197,
@@ -192,6 +192,62 @@
                 {
                     "date": 1758732162810,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -330,9 +330,10 @@\n \r\n // ✅ ฟังก์ชันเลือกจำนวนแถว\r\n function updateTableRows() {\r\n     let rowsPerPage = parseInt(document.getElementById(\"rowsPerPage\").value);\r\n-    let table = document.getElementById(\"quotationTable\");\r\n+    let table = document.getElementById(\"receiptTable\");\r\n+\r\n     let rows = table.getElementsByTagName(\"tr\");\r\n \r\n     let count = 0;\r\n     for (let i = 1; i < rows.length; i++) {\r\n"
+                },
+                {
+                    "date": 1758769945078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -185,49 +185,82 @@\n /* Print PDF */\r\n @media print {\r\n     @page {\r\n         size: A4 portrait;\r\n-        margin: 5mm;\r\n+        margin: 10mm;\r\n     }\r\n \r\n     body {\r\n         background: #fff;\r\n         margin: 0;\r\n         font-size: 12pt;\r\n+        display: flex;\r\n+        justify-content: center;\r\n     }\r\n \r\n     .sidebar,\r\n     .search-box,\r\n     .btn-pdf,\r\n     .btn-upload,\r\n     .btn-edit,\r\n-    .btn-delete\r\n-    {\r\n+    .btn-delete {\r\n         display: none !important;\r\n     }\r\n \r\n-    table {\r\n+    #deliveryTable {\r\n         border-collapse: collapse;\r\n-        width: auto;            /* ขนาดตามเนื้อหา */\r\n-        margin: 0;              /* ชิดซ้ายสุด */\r\n-        border: 5px solid #000; /* เส้นรอบตารางหนาชัด */\r\n+        margin: auto;\r\n+        border: 3px solid #000; /* เส้นรอบนอก */\r\n     }\r\n \r\n-    th, td {\r\n-        border: 1px solid #000; /* เส้นด้านในปกติ */\r\n-        padding: 6px;\r\n+    #deliveryTable th,\r\n+    #deliveryTable td {\r\n+        border: 1.5px solid #000; /* เส้นด้านใน */\r\n+        padding: 8px;\r\n         text-align: center;\r\n     }\r\n \r\n-    /* ซ่อนคอลัมน์สุดท้าย */\r\n-    table th:last-child,\r\n-    table td:last-child {\r\n+    /* ขีดเส้นหนารอบตาราง */\r\n+    #deliveryTable tr:first-child th {\r\n+        border-top: 3px solid #000;   /* เส้นบน */\r\n+    }\r\n+\r\n+    #deliveryTable tr th:first-child,\r\n+    #deliveryTable tr td:first-child {\r\n+        border-left: 3px solid #000;  /* เส้นซ้าย */\r\n+    }\r\n+\r\n+    #deliveryTable tr th:last-child,\r\n+    #deliveryTable tr td:last-child {\r\n+        border-right: 3px solid #000; /* เส้นขวา */\r\n+    }\r\n+\r\n+    /* ซ่อน 2 คอลัมน์สุดท้าย (PDF + จัดการ) */\r\n+    #deliveryTable th:nth-last-child(-n+2),\r\n+    #deliveryTable td:nth-last-child(-n+2) {\r\n         display: none !important;\r\n     }\r\n \r\n+    /* ขีดเส้นหนารอบตาราง */\r\n+#deliveryTable {\r\n+    border-collapse: collapse;\r\n+    margin: auto;\r\n+    border-top: 3px solid #000;    /* เส้นบน */\r\n+    border-bottom: 3px solid #000; /* เส้นล่าง */\r\n+    border-left: 3px solid #000;   /* เส้นซ้าย */\r\n+    border-right: 3px solid #000;  /* เส้นขวา */\r\n+}\r\n \r\n+#deliveryTable th,\r\n+#deliveryTable td {\r\n+    border: 1.5px solid #000; /* เส้นด้านใน */\r\n+    padding: 8px;\r\n+    text-align: center;\r\n }\r\n \r\n+\r\n+}\r\n+\r\n </style>\r\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n@@ -331,9 +364,8 @@\n // ✅ ฟังก์ชันเลือกจำนวนแถว\r\n function updateTableRows() {\r\n     let rowsPerPage = parseInt(document.getElementById(\"rowsPerPage\").value);\r\n     let table = document.getElementById(\"receiptTable\");\r\n-\r\n     let rows = table.getElementsByTagName(\"tr\");\r\n \r\n     let count = 0;\r\n     for (let i = 1; i < rows.length; i++) {\r\n"
+                },
+                {
+                    "date": 1758770386955,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -223,9 +223,9 @@\n     #deliveryTable tr:first-child th {\r\n         border-top: 3px solid #000;   /* เส้นบน */\r\n     }\r\n \r\n-    #deliveryTable tr th:first-child,\r\n+    #receiptTable tr th:first-child,\r\n     #deliveryTable tr td:first-child {\r\n         border-left: 3px solid #000;  /* เส้นซ้าย */\r\n     }\r\n \r\n"
+                },
+                {
+                    "date": 1758770452158,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -205,9 +205,9 @@\n     .btn-delete {\r\n         display: none !important;\r\n     }\r\n \r\n-    #deliveryTable {\r\n+    #receiptTable {\r\n         border-collapse: collapse;\r\n         margin: auto;\r\n         border: 3px solid #000; /* เส้นรอบนอก */\r\n     }\r\n@@ -219,9 +219,9 @@\n         text-align: center;\r\n     }\r\n \r\n     /* ขีดเส้นหนารอบตาราง */\r\n-    #deliveryTable tr:first-child th {\r\n+    #receiptTable tr:first-child th {\r\n         border-top: 3px solid #000;   /* เส้นบน */\r\n     }\r\n \r\n     #receiptTable tr th:first-child,\r\n"
+                },
+                {
+                    "date": 1758770459943,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -211,10 +211,10 @@\n         margin: auto;\r\n         border: 3px solid #000; /* เส้นรอบนอก */\r\n     }\r\n \r\n-    #deliveryTable th,\r\n-    #deliveryTable td {\r\n+    #receiptTable th,\r\n+    #receiptTable td {\r\n         border: 1.5px solid #000; /* เส้นด้านใน */\r\n         padding: 8px;\r\n         text-align: center;\r\n     }\r\n"
+                },
+                {
+                    "date": 1758770467039,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -224,9 +224,9 @@\n         border-top: 3px solid #000;   /* เส้นบน */\r\n     }\r\n \r\n     #receiptTable tr th:first-child,\r\n-    #deliveryTable tr td:first-child {\r\n+    #receiptTable tr td:first-child {\r\n         border-left: 3px solid #000;  /* เส้นซ้าย */\r\n     }\r\n \r\n     #deliveryTable tr th:last-child,\r\n"
+                },
+                {
+                    "date": 1758770476229,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -234,10 +234,10 @@\n         border-right: 3px solid #000; /* เส้นขวา */\r\n     }\r\n \r\n     /* ซ่อน 2 คอลัมน์สุดท้าย (PDF + จัดการ) */\r\n-    #deliveryTable th:nth-last-child(-n+2),\r\n-    #deliveryTable td:nth-last-child(-n+2) {\r\n+    #receiptTable th:nth-last-child(-n+2),\r\n+    #receiptTable td:nth-last-child(-n+2) {\r\n         display: none !important;\r\n     }\r\n \r\n     /* ขีดเส้นหนารอบตาราง */\r\n"
+                },
+                {
+                    "date": 1758770483770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -240,18 +240,18 @@\n         display: none !important;\r\n     }\r\n \r\n     /* ขีดเส้นหนารอบตาราง */\r\n-#deliveryTable {\r\n+#receiptTable {\r\n     border-collapse: collapse;\r\n     margin: auto;\r\n     border-top: 3px solid #000;    /* เส้นบน */\r\n     border-bottom: 3px solid #000; /* เส้นล่าง */\r\n     border-left: 3px solid #000;   /* เส้นซ้าย */\r\n     border-right: 3px solid #000;  /* เส้นขวา */\r\n }\r\n \r\n-#deliveryTable th,\r\n+#receiptTable th,\r\n #deliveryTable td {\r\n     border: 1.5px solid #000; /* เส้นด้านใน */\r\n     padding: 8px;\r\n     text-align: center;\r\n"
+                },
+                {
+                    "date": 1758770498121,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -228,9 +228,9 @@\n     #receiptTable tr td:first-child {\r\n         border-left: 3px solid #000;  /* เส้นซ้าย */\r\n     }\r\n \r\n-    #deliveryTable tr th:last-child,\r\n+    #receiptTablee tr th:last-child,\r\n     #deliveryTable tr td:last-child {\r\n         border-right: 3px solid #000; /* เส้นขวา */\r\n     }\r\n \r\n@@ -250,9 +250,9 @@\n     border-right: 3px solid #000;  /* เส้นขวา */\r\n }\r\n \r\n #receiptTable th,\r\n-#deliveryTable td {\r\n+#receiptTable td {\r\n     border: 1.5px solid #000; /* เส้นด้านใน */\r\n     padding: 8px;\r\n     text-align: center;\r\n }\r\n"
+                },
+                {
+                    "date": 1758770604937,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -228,10 +228,10 @@\n     #receiptTable tr td:first-child {\r\n         border-left: 3px solid #000;  /* เส้นซ้าย */\r\n     }\r\n \r\n-    #receiptTablee tr th:last-child,\r\n-    #deliveryTable tr td:last-child {\r\n+    #receiptTable tr th:last-child,\r\n+    #receiptTable tr td:last-child {\r\n         border-right: 3px solid #000; /* เส้นขวา */\r\n     }\r\n \r\n     /* ซ่อน 2 คอลัมน์สุดท้าย (PDF + จัดการ) */\r\n@@ -257,8 +257,9 @@\n     text-align: center;\r\n }\r\n \r\n \r\n+\r\n }\r\n \r\n </style>\r\n </head>\r\n"
+                },
+                {
+                    "date": 1758770616172,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -256,8 +256,12 @@\n     padding: 8px;\r\n     text-align: center;\r\n }\r\n \r\n+    /* ขีดเส้นหนารอบตาราง */\r\n+#receiptTable th tr:first-child th {\r\n+    border-top: 3px solid #000;   /* เส้นบน */\r\n+}\r\n \r\n \r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1758770623207,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -257,9 +257,9 @@\n     text-align: center;\r\n }\r\n \r\n     /* ขีดเส้นหนารอบตาราง */\r\n-#receiptTable th tr:first-child th {\r\n+#receiptTable th, #receiptTable tr:first-child th {\r\n     border-top: 3px solid #000;   /* เส้นบน */\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1758770629912,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -257,9 +257,9 @@\n     text-align: center;\r\n }\r\n \r\n     /* ขีดเส้นหนารอบตาราง */\r\n-#receiptTable th, #receiptTable tr:first-child th {\r\n+#deliveryTable tr:first-child th {\r\n     border-top: 3px solid #000;   /* เส้นบน */\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1758770636771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -257,9 +257,9 @@\n     text-align: center;\r\n }\r\n \r\n     /* ขีดเส้นหนารอบตาราง */\r\n-#deliveryTable tr:first-child th {\r\n+#receiptTable  tr:first-child th {\r\n     border-top: 3px solid #000;   /* เส้นบน */\r\n }\r\n \r\n \r\n"
+                },
+                {
+                    "date": 1758770965142,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -184,9 +184,9 @@\n \r\n /* Print PDF */\r\n @media print {\r\n     @page {\r\n-        size: A4 portrait;\r\n+        size: A3 portrait;\r\n         margin: 10mm;\r\n     }\r\n \r\n     body {\r\n@@ -218,54 +218,37 @@\n         padding: 8px;\r\n         text-align: center;\r\n     }\r\n \r\n-    /* ขีดเส้นหนารอบตาราง */\r\n+    /* เส้นหนารอบบน */\r\n     #receiptTable tr:first-child th {\r\n-        border-top: 3px solid #000;   /* เส้นบน */\r\n+        border-top: 3px solid #000;\r\n     }\r\n \r\n+    /* เส้นหนาซ้าย */\r\n     #receiptTable tr th:first-child,\r\n     #receiptTable tr td:first-child {\r\n-        border-left: 3px solid #000;  /* เส้นซ้าย */\r\n+        border-left: 3px solid #000;\r\n     }\r\n \r\n+    /* เส้นหนาขวา */\r\n     #receiptTable tr th:last-child,\r\n     #receiptTable tr td:last-child {\r\n-        border-right: 3px solid #000; /* เส้นขวา */\r\n+        border-right: 3px solid #000;\r\n     }\r\n \r\n+    /* เส้นหนาล่างสุด */\r\n+    #receiptTable tr:last-child td {\r\n+        border-bottom: 3px solid #000;\r\n+    }\r\n+\r\n     /* ซ่อน 2 คอลัมน์สุดท้าย (PDF + จัดการ) */\r\n     #receiptTable th:nth-last-child(-n+2),\r\n     #receiptTable td:nth-last-child(-n+2) {\r\n         display: none !important;\r\n     }\r\n-\r\n-    /* ขีดเส้นหนารอบตาราง */\r\n-#receiptTable {\r\n-    border-collapse: collapse;\r\n-    margin: auto;\r\n-    border-top: 3px solid #000;    /* เส้นบน */\r\n-    border-bottom: 3px solid #000; /* เส้นล่าง */\r\n-    border-left: 3px solid #000;   /* เส้นซ้าย */\r\n-    border-right: 3px solid #000;  /* เส้นขวา */\r\n }\r\n \r\n-#receiptTable th,\r\n-#receiptTable td {\r\n-    border: 1.5px solid #000; /* เส้นด้านใน */\r\n-    padding: 8px;\r\n-    text-align: center;\r\n-}\r\n-\r\n-    /* ขีดเส้นหนารอบตาราง */\r\n-#receiptTable  tr:first-child th {\r\n-    border-top: 3px solid #000;   /* เส้นบน */\r\n-}\r\n-\r\n-\r\n-}\r\n-\r\n </style>\r\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n"
                 }
             ],
             "date": 1758552087197,
