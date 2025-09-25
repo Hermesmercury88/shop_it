@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 20,
+            "activePatchIndex": 22,
             "patches": [
                 {
                     "date": 1758461990516,
@@ -88,6 +88,14 @@
                 {
                     "date": 1758715013214,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,24 +32,27 @@\n // ---------------------------\r\n $pdf_file_path = null;\r\n \r\n if (!empty($_FILES['pdf_file']['name'])) {\r\n-    $targetDir = \"uploads/deliveries/\";   // เก็บไฟล์ไว้ในโฟลเดอร์นี้\r\n-    if (!is_dir($targetDir)) {\r\n-        mkdir($targetDir, 0777, true); // ถ้าไม่มีโฟลเดอร์ ให้สร้างใหม่\r\n+    // ตรวจสอบว่ามีโฟลเดอร์ uploads/deliveries หรือยัง ถ้าไม่มีสร้างใหม่\r\n+    if (!is_dir('uploads/deliveries')) {\r\n+        mkdir('uploads/deliveries', 0777, true);\r\n     }\r\n \r\n     $fileName = time() . \"_\" . basename($_FILES[\"pdf_file\"][\"name\"]);\r\n-    $targetFilePath = $targetDir . $fileName;\r\n+    $targetFilePath = 'uploads/deliveries/' . $fileName;\r\n \r\n     $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));\r\n \r\n     // ตรวจสอบว่าเป็น PDF\r\n     if ($fileType === \"pdf\") {\r\n         if (move_uploaded_file($_FILES[\"pdf_file\"][\"tmp_name\"], $targetFilePath)) {\r\n-            // เก็บเฉพาะ path ที่เบราว์เซอร์ใช้ได้\r\n-            $pdf_file_path = $targetFilePath;  // ตัวอย่าง: uploads/deliveries/1695563729_test.pdf\r\n+            $pdf_file_path = $targetFilePath; // เก็บ path ลงฐานข้อมูล\r\n+        } else {\r\n+            die(\"ไม่สามารถอัพโหลดไฟล์ได้\");\r\n         }\r\n+    } else {\r\n+        die(\"ไฟล์ต้องเป็น PDF เท่านั้น\");\r\n     }\r\n }\r\n \r\n // ---------------------------\r\n"
+                },
+                {
+                    "date": 1758814728659,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,9 +61,10 @@\n $stmt = $conn->prepare(\"INSERT INTO deliveries (delivery_no, customer_name, customer_address, order_no, pdf_file) VALUES (?, ?, ?, ?, ?)\");\r\n if (!$stmt) {\r\n     die(\"Prepare failed: \" . $conn->error);\r\n }\r\n-$stmt->bind_param(\"sssss\", $delivery_no, $customer_name, $customer_address, $order_no, $pdf_file_path);\r\n+$stmt->bind_param(\"isidsd\", $delivery_id, $name, $qty, $price, $unit, $total);\r\n+\r\n $stmt->execute();\r\n $delivery_id = $stmt->insert_id;\r\n $stmt->close();\r\n \r\n"
+                },
+                {
+                    "date": 1758814734356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,8 @@\n if (!$stmt) {\r\n     die(\"Prepare failed: \" . $conn->error);\r\n }\r\n $stmt->bind_param(\"isidsd\", $delivery_id, $name, $qty, $price, $unit, $total);\r\n-\r\n $stmt->execute();\r\n $delivery_id = $stmt->insert_id;\r\n $stmt->close();\r\n \r\n"
                 }
             ],
             "date": 1758461990516,

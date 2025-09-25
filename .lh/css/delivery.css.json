@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 24,
+            "activePatchIndex": 32,
             "patches": [
                 {
                     "date": 1758444104469,
@@ -104,6 +104,38 @@
                 {
                     "date": 1758722245341,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -355,9 +355,8 @@\n     body {\r\n         padding: 0;\r\n     }\r\n \r\n-    /@media print {\r\n     /* ซ่อนปุ่มทั้งหมด */\r\n     .button, \r\n     .add-btn, \r\n     .remove-btn, \r\n@@ -366,9 +365,8 @@\n     .pdf-upload-container {  /* ครอบ div ของ label+input */\r\n         display: none !important;\r\n     }\r\n \r\n-\r\n   /* ซ่อนคอลัมน์ลบในตาราง */\r\n   th:last-child, td:last-child {\r\n     display: none !important;\r\n   }\r\n"
+                },
+                {
+                    "date": 1758808300685,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -401,8 +401,18 @@\n     background: #fff !important;\r\n     padding: 20px 30px;  /* ลดจาก 30px 40px */\r\n   }\r\n \r\n+      /* ซ่อน tfoot หรือแถวสรุปราคาใน PDF */\r\n+    table tfoot {\r\n+        display: none !important;\r\n+    }\r\n+\r\n+    /* หรือถ้าสรุปราคาอยู่แถวสุดท้ายของ tbody */\r\n+    table tbody tr.summary-row {\r\n+        display: none !important;\r\n+    }\r\n+\r\n   @page {\r\n     size: A4 portrait;\r\n     margin: 15mm;\r\n   }\r\n"
+                },
+                {
+                    "date": 1758808336704,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -441,8 +441,18 @@\n .summary-outside {\r\n   display: none !important;\r\n }\r\n \r\n+    /* ซ่อน tfoot หรือแถวสรุปราคาใน PDF */\r\n+    table tfoot {\r\n+        display: none !important;\r\n+    }\r\n+\r\n+    /* หรือถ้าสรุปราคาอยู่แถวสุดท้ายของ tbody */\r\n+    table tbody tr.summary-row {\r\n+        display: none !important;\r\n+    }\r\n+\r\n /* ข้อความในตาราง */\r\n table th, table td {\r\n   font-size: 16px !important;\r\n   white-space: normal !important;   /* บังคับให้ขึ้นบรรทัด */\r\n"
+                },
+                {
+                    "date": 1758808353180,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -441,17 +441,9 @@\n .summary-outside {\r\n   display: none !important;\r\n }\r\n \r\n-    /* ซ่อน tfoot หรือแถวสรุปราคาใน PDF */\r\n-    table tfoot {\r\n-        display: none !important;\r\n-    }\r\n \r\n-    /* หรือถ้าสรุปราคาอยู่แถวสุดท้ายของ tbody */\r\n-    table tbody tr.summary-row {\r\n-        display: none !important;\r\n-    }\r\n \r\n /* ข้อความในตาราง */\r\n table th, table td {\r\n   font-size: 16px !important;\r\n"
+                },
+                {
+                    "date": 1758808944118,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -401,15 +401,15 @@\n     background: #fff !important;\r\n     padding: 20px 30px;  /* ลดจาก 30px 40px */\r\n   }\r\n \r\n-      /* ซ่อน tfoot หรือแถวสรุปราคาใน PDF */\r\n-    table tfoot {\r\n+    /* ซ่อน tfoot ทั้งหมดสำหรับ PDF */\r\n+    #itemsTable tfoot {\r\n         display: none !important;\r\n     }\r\n \r\n-    /* หรือถ้าสรุปราคาอยู่แถวสุดท้ายของ tbody */\r\n-    table tbody tr.summary-row {\r\n+    /* ถ้ามีแถวสรุปใน tbody */\r\n+    #itemsTable tbody tr.summary-row {\r\n         display: none !important;\r\n     }\r\n \r\n   @page {\r\n@@ -441,10 +441,8 @@\n .summary-outside {\r\n   display: none !important;\r\n }\r\n \r\n-\r\n-\r\n /* ข้อความในตาราง */\r\n table th, table td {\r\n   font-size: 16px !important;\r\n   white-space: normal !important;   /* บังคับให้ขึ้นบรรทัด */\r\n"
+                },
+                {
+                    "date": 1758810314584,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -401,17 +401,18 @@\n     background: #fff !important;\r\n     padding: 20px 30px;  /* ลดจาก 30px 40px */\r\n   }\r\n \r\n-    /* ซ่อน tfoot ทั้งหมดสำหรับ PDF */\r\n-    #itemsTable tfoot {\r\n-        display: none !important;\r\n-    }\r\n+  #itemsTable tfoot tr {\r\n+    page-break-inside: avoid !important; /* ห้ามตัดกลางแถว */\r\n+    page-break-before: auto !important;\r\n+    page-break-after: auto !important;\r\n+  }\r\n \r\n-    /* ถ้ามีแถวสรุปใน tbody */\r\n-    #itemsTable tbody tr.summary-row {\r\n-        display: none !important;\r\n-    }\r\n+  #itemsTable tfoot {\r\n+    display: table-row-group !important; /* บังคับให้ tfoot แสดงเหมือน tbody */\r\n+    page-break-inside: avoid !important; /* กันไม่ให้ตัดกลาง tfoot */\r\n+  }\r\n \r\n   @page {\r\n     size: A4 portrait;\r\n     margin: 15mm;\r\n"
+                },
+                {
+                    "date": 1758811069342,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -431,9 +431,9 @@\n   word-break: break-word !important;\r\n }\r\n \r\n /* กำหนดสัดส่วนคอลัมน์ */\r\n-table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */\r\n+table th:nth-child(1), table td:nth-child(1) { width: 9%; }   /* ลำดับ */\r\n table th:nth-child(2), table td:nth-child(2) { width: 58%; }  /* รายการ (กว้างสุด) */\r\n table th:nth-child(3), table td:nth-child(3) { width: 13%; }  /* จำนวน */\r\n table th:nth-child(4), table td:nth-child(4) { width: 19%; }  /* ราคา/หน่วย */\r\n table th:nth-child(5), table td:nth-child(5) { width: 13%; }  /* หน่วย */\r\n"
+                },
+                {
+                    "date": 1758811078172,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -431,9 +431,9 @@\n   word-break: break-word !important;\r\n }\r\n \r\n /* กำหนดสัดส่วนคอลัมน์ */\r\n-table th:nth-child(1), table td:nth-child(1) { width: 9%; }   /* ลำดับ */\r\n+table th:nth-child(1), table td:nth-child(1) { width: 10%; }   /* ลำดับ */\r\n table th:nth-child(2), table td:nth-child(2) { width: 58%; }  /* รายการ (กว้างสุด) */\r\n table th:nth-child(3), table td:nth-child(3) { width: 13%; }  /* จำนวน */\r\n table th:nth-child(4), table td:nth-child(4) { width: 19%; }  /* ราคา/หน่วย */\r\n table th:nth-child(5), table td:nth-child(5) { width: 13%; }  /* หน่วย */\r\n"
+                },
+                {
+                    "date": 1758811086131,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -431,9 +431,9 @@\n   word-break: break-word !important;\r\n }\r\n \r\n /* กำหนดสัดส่วนคอลัมน์ */\r\n-table th:nth-child(1), table td:nth-child(1) { width: 10%; }   /* ลำดับ */\r\n+table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */\r\n table th:nth-child(2), table td:nth-child(2) { width: 58%; }  /* รายการ (กว้างสุด) */\r\n table th:nth-child(3), table td:nth-child(3) { width: 13%; }  /* จำนวน */\r\n table th:nth-child(4), table td:nth-child(4) { width: 19%; }  /* ราคา/หน่วย */\r\n table th:nth-child(5), table td:nth-child(5) { width: 13%; }  /* หน่วย */\r\n"
                 }
             ],
             "date": 1758444104469,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 13,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1758466948248,
@@ -60,6 +60,10 @@
                 {
                     "date": 1758723931938,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -240,9 +240,8 @@\n .btn-back { background: #d43b3b; }\r\n .btn-save { background: #378f15; }\r\n .btn-print { background: #b3832a; }\r\n \r\n-\r\n .button-row {\r\n     display: flex;\r\n     justify-content: center;\r\n     gap: 10px; /* ระยะห่างระหว่างปุ่ม */\r\n"
+                },
+                {
+                    "date": 1758810437134,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -402,8 +402,19 @@\n     background: #fff !important;\r\n     padding: 20px 30px;  /* ลดจาก 30px 40px */\r\n   }\r\n \r\n+      #itemsTable tfoot tr {\r\n+    page-break-inside: avoid !important; /* ห้ามตัดกลางแถว */\r\n+    page-break-before: auto !important;\r\n+    page-break-after: auto !important;\r\n+  }\r\n+\r\n+  #itemsTable tfoot {\r\n+    display: table-row-group !important; /* บังคับให้ tfoot แสดงเหมือน tbody */\r\n+    page-break-inside: avoid !important; /* กันไม่ให้ตัดกลาง tfoot */\r\n+  }\r\n+\r\n   @page {\r\n     size: A4 portrait;\r\n     margin: 15mm;\r\n   }\r\n"
                 }
             ],
             "date": 1758466948248,

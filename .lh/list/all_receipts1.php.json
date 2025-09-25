@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 60,
+            "activePatchIndex": 65,
             "patches": [
                 {
                     "date": 1758552087197,
@@ -248,6 +248,26 @@
                 {
                     "date": 1758770965142,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -184,9 +184,9 @@\n \r\n /* Print PDF */\r\n @media print {\r\n     @page {\r\n-        size: A4 portrait;\r\n+        size: A3 portrait;\r\n         margin: 10mm;\r\n     }\r\n \r\n     body {\r\n@@ -218,54 +218,37 @@\n         padding: 8px;\r\n         text-align: center;\r\n     }\r\n \r\n-    /* ขีดเส้นหนารอบตาราง */\r\n+    /* เส้นหนารอบบน */\r\n     #receiptTable tr:first-child th {\r\n-        border-top: 3px solid #000;   /* เส้นบน */\r\n+        border-top: 3px solid #000;\r\n     }\r\n \r\n+    /* เส้นหนาซ้าย */\r\n     #receiptTable tr th:first-child,\r\n     #receiptTable tr td:first-child {\r\n-        border-left: 3px solid #000;  /* เส้นซ้าย */\r\n+        border-left: 3px solid #000;\r\n     }\r\n \r\n+    /* เส้นหนาขวา */\r\n     #receiptTable tr th:last-child,\r\n     #receiptTable tr td:last-child {\r\n-        border-right: 3px solid #000; /* เส้นขวา */\r\n+        border-right: 3px solid #000;\r\n     }\r\n \r\n+    /* เส้นหนาล่างสุด */\r\n+    #receiptTable tr:last-child td {\r\n+        border-bottom: 3px solid #000;\r\n+    }\r\n+\r\n     /* ซ่อน 2 คอลัมน์สุดท้าย (PDF + จัดการ) */\r\n     #receiptTable th:nth-last-child(-n+2),\r\n     #receiptTable td:nth-last-child(-n+2) {\r\n         display: none !important;\r\n     }\r\n-\r\n-    /* ขีดเส้นหนารอบตาราง */\r\n-#receiptTable {\r\n-    border-collapse: collapse;\r\n-    margin: auto;\r\n-    border-top: 3px solid #000;    /* เส้นบน */\r\n-    border-bottom: 3px solid #000; /* เส้นล่าง */\r\n-    border-left: 3px solid #000;   /* เส้นซ้าย */\r\n-    border-right: 3px solid #000;  /* เส้นขวา */\r\n }\r\n \r\n-#receiptTable th,\r\n-#receiptTable td {\r\n-    border: 1.5px solid #000; /* เส้นด้านใน */\r\n-    padding: 8px;\r\n-    text-align: center;\r\n-}\r\n-\r\n-    /* ขีดเส้นหนารอบตาราง */\r\n-#receiptTable  tr:first-child th {\r\n-    border-top: 3px solid #000;   /* เส้นบน */\r\n-}\r\n-\r\n-\r\n-}\r\n-\r\n </style>\r\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n"
+                },
+                {
+                    "date": 1758812516190,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -181,8 +181,22 @@\n .btn-save { background: #2196f3; color: #fff; }\r\n .btn-cancel { background: #777; color: #fff; }\r\n .btn-delete { background: #f44336; color: #fff; }\r\n \r\n+.scroll-btn:hover {\r\n+    background-color: #45a049;\r\n+    transform: translateY(-50%) scale(1.1);\r\n+}\r\n+\r\n+.scroll-btn.left {\r\n+    left: -20px;\r\n+}\r\n+\r\n+.scroll-btn.right {\r\n+    right: -20px;\r\n+}\r\n+\r\n+\r\n /* Print PDF */\r\n @media print {\r\n     @page {\r\n         size: A3 portrait;\r\n"
+                },
+                {
+                    "date": 1758812555852,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -215,9 +215,10 @@\n     .search-box,\r\n     .btn-pdf,\r\n     .btn-upload,\r\n     .btn-edit,\r\n-    .btn-delete {\r\n+    .btn-delete,\r\n+    .scroll-btn {\r\n         display: none !important;\r\n     }\r\n \r\n     #receiptTable {\r\n"
+                },
+                {
+                    "date": 1758812681481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -340,8 +340,11 @@\n         }\r\n         ?>\r\n         </tbody>\r\n     </table>\r\n+        </div>\r\n+    <button class=\"scroll-btn right\">&gt;</button>\r\n+</div>\r\n \r\n     <button class=\"btn-pdf\" onclick=\"window.location.href='../index.html'\">กลับหน้าหลัก</button>\r\n     <button class=\"btn-pdf\" onclick=\"window.print()\">พิมพ์ PDF</button>\r\n     <button class=\"btn-upload\" onclick=\"window.open('../receipts1.html', '_blank')\">เพิ่มใบเสร็จ</button>\r\n"
+                },
+                {
+                    "date": 1758812891517,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -464,9 +464,17 @@\n         }\r\n     });\r\n });\r\n \r\n+document.querySelector(\".scroll-btn.left\").addEventListener(\"click\", () => {\r\n+    scrollTable.scrollBy({ left: -colWidth, behavior: \"smooth\" });\r\n+});\r\n \r\n+document.querySelector(\".scroll-btn.right\").addEventListener(\"click\", () => {\r\n+    scrollTable.scrollBy({ left: colWidth, behavior: \"smooth\" });\r\n+});\r\n+\r\n+\r\n // ✅ ลบ\r\n document.querySelectorAll(\".btn-delete\").forEach(btn => {\r\n     btn.addEventListener(\"click\", function() {\r\n         if (!confirm(\"คุณต้องการลบข้อมูลนี้หรือไม่?\")) return;\r\n"
+                },
+                {
+                    "date": 1758813177134,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -293,9 +293,13 @@\n             <option value=\"20\">20</option>\r\n             <option value=\"50\">50</option>\r\n         </select>\r\n     </div>\r\n-    \r\n+    <div class=\"table-wrapper\" style=\"position: relative; max-height: 400px; overflow: hidden;\">\r\n+    <button class=\"scroll-btn up\">▲</button>\r\n+    <button class=\"scroll-btn down\">▼</button>\r\n+\r\n+    <div class=\"scrollable-table\" style=\"overflow-y: auto; max-height: 400px;\">\r\n     <table id=\"receiptTable\">\r\n         <thead>\r\n             <tr>\r\n                 <th>ลำดับ</th>\r\n"
                 }
             ],
             "date": 1758552087197,
