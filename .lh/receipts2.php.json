@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1758465251298,
@@ -28,6 +28,10 @@
                 {
                     "date": 1758734137564,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n <?php\r\n $host = \"localhost\";\r\n $user = \"root\";\r\n $pass = \"\";\r\n-$dbname = \"shop_it\";\r\n+$dbname = \"shop_it2\";\r\n \r\n // เชื่อมต่อฐานข้อมูล\r\n $conn = new mysqli($host, $user, $pass, $dbname);\r\n if ($conn->connect_error) {\r\n@@ -82,9 +82,10 @@\n         $unit  = $units[$i] ?? '';\r\n         $price = (float)($prices[$i] ?? 0);\r\n         $total = (float)($totals[$i] ?? 0);\r\n \r\n-        $stmt->bind_param(\"isiddd\", $receipt_id, $name, $qty, $unit, $price, $total);\r\n+        $stmt->bind_param(\"isissd\", $receipt_id, $name, $qty, $unit, $price, $total);\r\n+\r\n         $stmt->execute();\r\n     }\r\n     $stmt->close();\r\n }\r\n"
+                },
+                {
+                    "date": 1758781315010,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,14 +83,13 @@\n         $price = (float)($prices[$i] ?? 0);\r\n         $total = (float)($totals[$i] ?? 0);\r\n \r\n         $stmt->bind_param(\"isissd\", $receipt_id, $name, $qty, $unit, $price, $total);\r\n-\r\n         $stmt->execute();\r\n     }\r\n     $stmt->close();\r\n }\r\n \r\n $conn->close();\r\n \r\n-echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='receipts1.html'>กรอกต่อ</a>\";\r\n+echo \"บันทึกข้อมูลเรียบร้อยแล้ว <a href='index.html'>กลับหน้าหลัก</a> หรืออยาก <a href='receipts2.html'>กรอกต่อ</a>\";\r\n ?>\r\n"
                 }
             ],
             "date": 1758465251298,
