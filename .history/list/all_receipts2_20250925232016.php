@@ -197,7 +197,7 @@ input:focus, select:focus {
     transition: background 0.3s;
 }
 .scroll-btn:hover {
-    background: #324d61ff;
+    background: #57564F;
 }
 #pageInfo {
     margin: 0 10px;

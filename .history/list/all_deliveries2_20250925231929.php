@@ -10,23 +10,22 @@ if ($conn->connect_error) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . $conn->connect_error);
 }
 
-// ดึงข้อมูลจาก receipts + receipt_items
+// ดึงข้อมูลจากตาราง deliveries + delivery_items
 $sql = "
     SELECT 
         i.id AS item_id,
-        r.id AS receipt_id,
-        r.order_no,
-        r.customer_name,
-        r.customer_address,
-        r.pdf_file,
+        d.id AS delivery_id,
+        d.customer_name,
+        d.delivery_no,
+        d.pdf_file,
         i.item_name,
         i.qty,
         i.price,
         i.unit,
         i.total
-    FROM receipts r
-    JOIN receipt_items i ON i.receipt_id = r.id
-    ORDER BY r.id, i.id
+    FROM deliveries d
+    JOIN delivery_items i ON i.delivery_id = d.id
+    ORDER BY d.id, i.id
 ";
 $result = $conn->query($sql);
 ?>
@@ -35,7 +34,9 @@ $result = $conn->query($sql);
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>ใบเสร็จรับเงิน</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ใบส่งของ</title>
+
 <style>
 body {
     margin: 0;
@@ -197,14 +198,13 @@ input:focus, select:focus {
     transition: background 0.3s;
 }
 .scroll-btn:hover {
-    background: #324d61ff;
+    background: #456882;
 }
 #pageInfo {
     margin: 0 10px;
     font-weight: bold;
-    color: #456882;
+    color: #4d3a2c;
 }
-
 
 
 /* Print PDF */
@@ -232,49 +232,49 @@ input:focus, select:focus {
         display: none !important;
     }
 
-    #receiptTable {
+    #deliveryTable {
         border-collapse: collapse;
         margin: auto;
         border: 3px solid #000; /* เส้นรอบนอก */
     }
 
-    #receiptTable th,
-    #receiptTable td {
+    #deliveryTable th,
+    #deliveryTable td {
         border: 1.5px solid #000; /* เส้นด้านใน */
         padding: 8px;
         text-align: center;
     }
 
     /* เส้นหนารอบบน */
-    #receiptTable tr:first-child th {
+    #deliveryTable tr:first-child th {
         border-top: 3px solid #000;
     }
 
     /* เส้นหนาซ้าย */
-    #receiptTable tr th:first-child,
-    #receiptTable tr td:first-child {
+    #deliveryTable tr th:first-child,
+    #deliveryTable tr td:first-child {
         border-left: 3px solid #000;
     }
 
     /* เส้นหนาขวา */
-    #receiptTable tr th:last-child,
-    #receiptTable tr td:last-child {
+    #deliveryTable tr th:last-child,
+    #deliveryTablee tr td:last-child {
         border-right: 3px solid #000;
     }
 
     /* เส้นหนาล่างสุด */
-    #receiptTable tr:last-child td {
+    #deliveryTable tr:last-child td {
         border-bottom: 3px solid #000;
     }
 
     /* ซ่อน 2 คอลัมน์สุดท้าย (PDF + จัดการ) */
-    #receiptTable th:nth-last-child(-n+2),
-    #receiptTable td:nth-last-child(-n+2) {
+    #deliveryTable th:nth-last-child(-n+2),
+    #deliveryTable td:nth-last-child(-n+2) {
         display: none !important;
     }
 }
-
 </style>
+
 </head>
 <body>
 <div class="sidebar">
@@ -285,19 +285,22 @@ input:focus, select:focus {
 
 <div class="content">
     <div class="topbar">
-        <img src="../pic/logo.png" alt="LOGO">
+        <img src="../pic/mylogo.png" alt="LOGO">
     </div>
 
-    <h2>รายการใบเสร็จรับเงิน</h2>
+    <h2>รายการใบส่งของ</h2>
 
+    <!-- ✅ search box เดิม -->
     <div class="search-box">
-        <label>ค้นหาโดย: </label>
+        <label for="searchColumn">ค้นหาโดย: </label>
         <select id="searchColumn">
-            <option value="1">เลขที่ใบเสร็จ</option>
-            <option value="2">ชื่อลูกค้า</option>
+            <option value="1">ชื่อลูกค้า</option>
+            <option value="2">เลขที่ / NO.</option>
+            <option value="3">รายการสินค้า</option>
         </select>
         <input type="text" id="searchInput" placeholder="พิมพ์คำค้นหา...">
-        <label>แสดงแถว: </label>
+
+        <label for="rowsPerPage">แสดงแถว: </label>
         <select id="rowsPerPage">
             <option value="5">5</option>
             <option value="10" selected>10</option>
@@ -306,52 +309,61 @@ input:focus, select:focus {
         </select>
     </div>
 
-    <table id="receiptTable">
+    <table id="deliveryTable">
         <thead>
             <tr>
                 <th>ลำดับ</th>
-                <th>เลขที่ใบเสร็จ</th>
                 <th>ชื่อลูกค้า</th>
-                <th>ที่อยู่ลูกค้า</th>
+                <th>เลขที่ / NO.</th>
                 <th>รายการ</th>
                 <th>จำนวน</th>
                 <th>ราคา</th>
                 <th>หน่วย</th>
                 <th>ราคารวม</th>
                 <th>PDF</th>
-                <th>จัดการ</th>
+                <th>จัดการ</th> 
             </tr>
         </thead>
         <tbody>
-        <?php
-        $no=1;
-        if($result->num_rows>0){
-            while($row=$result->fetch_assoc()){
-                echo "<tr data-id='{$row['item_id']}'>";
-                echo "<td>".$no++."</td>";
-                echo "<td class='editable'>".htmlspecialchars($row['order_no'])."</td>";
-                echo "<td class='editable'>".htmlspecialchars($row['customer_name'])."</td>";
-                echo "<td class='editable'>".htmlspecialchars($row['customer_address'])."</td>";
-                echo "<td class='editable'>".htmlspecialchars($row['item_name'])."</td>";
-                echo "<td class='editable col-qty'>{$row['qty']}</td>";
-                echo "<td class='editable col-price'>".number_format($row['price'],2)."</td>";
-                echo "<td class='editable'>".htmlspecialchars($row['unit'])."</td>";
-                echo "<td class='editable col-total'>".number_format($row['total'],2)."</td>";
-                $pdf_file = $row['pdf_file'] ?? "";
-                $pdf_link = $pdf_file ? "../".$pdf_file : "#";
-                echo "<td><a class='action-btn btn-viewpdf' href='{$pdf_link}' target='_blank'>ดู PDF</a></td>";
-                echo "<td>
-                        <button class='action-btn btn-edit'>แก้ไข</button>
-                        <button class='action-btn btn-delete'>ลบ</button>
-                      </td>";
-                echo "</tr>";
+            <?php
+            $no = 1;
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr data-id='" . $row['item_id'] . "'>";
+                    echo "<td>" . $no++ . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['customer_name']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['delivery_no']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['item_name']) . "</td>";
+                    echo "<td class='editable col-qty'>" . $row['qty'] . "</td>";
+                    echo "<td class='editable col-price'>" . number_format($row['price'],2) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['unit']) . "</td>";
+                    echo "<td class='editable col-total'>" . number_format($row['total'],2) . "</td>";
+                        $pdf_file = isset($row['pdf_file']) ? $row['pdf_file'] : "";
+                        if ($pdf_file) {
+                            if (strpos($pdf_file, 'uploads/deliveries/') === false) {
+                                $pdf_link = "../uploads/deliveries/" . $pdf_file;
+                            } else {
+                                $pdf_link = "../" . $pdf_file;
+                            }
+                        } else {
+                            $pdf_link = "#"; }
+                            echo "<td>";
+                            echo "<a class='action-btn btn-viewpdf' href='{$pdf_link}' target='_blank'>ดู PDF</a>";
+                            echo "</td>";
+                    echo "<td>
+                            <button class='action-btn btn-edit'>แก้ไข</button>
+                            <button class='action-btn btn-delete'>ลบ</button>
+                          </td>";
+                    echo "</tr>";
+                    $no++;
+                }
+            } else {
+                echo "<tr><td colspan='9'>ยังไม่มีข้อมูล</td></tr>";
             }
-        }else{
-            echo "<tr><td colspan='10'>ยังไม่มีข้อมูล</td></tr>";
-        }
-        ?>
+            ?>
         </tbody>
     </table>
+
     <div class="pagination">
     <button id="prevPage" class="scroll-btn">⬅</button>
     <span id="pageInfo"></span>
@@ -360,14 +372,14 @@ input:focus, select:focus {
 
     <button class="btn-pdf" onclick="window.location.href='../index.html'">กลับหน้าหลัก</button>
     <button class="btn-pdf" onclick="window.print()">พิมพ์ PDF</button>
-    <button class="btn-upload" onclick="window.open('../receipts2.html', '_blank')">เพิ่มใบเสร็จ</button>
+    <button class="btn-upload" onclick="window.open('../delivery2.html', '_blank')">เพิ่มใบส่งของ</button>
 </div>
 
 <script>
 // ✅ ฟังก์ชันค้นหา
 document.getElementById("searchInput").addEventListener("keyup", function() {
     let input = this.value.toLowerCase();
-    let table = document.getElementById("receiptTable");
+    let table = document.getElementById("deliveryTable");
     let rows = table.getElementsByTagName("tr");
     let column = parseInt(document.getElementById("searchColumn").value);
 
@@ -383,7 +395,7 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
 // ✅ ฟังก์ชันเลือกจำนวนแถว
 function updateTableRows() {
     let rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
-    let table = document.getElementById("receiptTable");
+    let table = document.getElementById("deliveryTable");
     let rows = table.getElementsByTagName("tr");
 
     let count = 0;
@@ -466,7 +478,7 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
             });
             let id = row.dataset.id;
 
-            fetch("update_receipts2_item.php", {
+            fetch("update_delivery2_item.php", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({id, data})
@@ -478,11 +490,13 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
     });
 });
 
+
+
 let currentPage = 1;
 
 function renderTable() {
     let rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
-    let table = document.getElementById("receiptTable"); // ✅ ใช้ id เดียวกัน
+    let table = document.getElementById("deliveryTable"); // ✅ ใช้ id เดียวกัน
     let rows = table.getElementsByTagName("tr");
 
     let visibleRows = [];
@@ -544,14 +558,13 @@ renderTable();
 
 
 
-// ✅ ลบ
 document.querySelectorAll(".btn-delete").forEach(btn => {
     btn.addEventListener("click", function() {
         if (!confirm("คุณต้องการลบข้อมูลนี้หรือไม่?")) return;
         let row = this.closest("tr");
         let id = row.dataset.id;
 
-        fetch("delete_receipts2_item.php", {
+        fetch("delete_delivery2_item.php", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id})
@@ -561,6 +574,7 @@ document.querySelectorAll(".btn-delete").forEach(btn => {
         });
     });
 });
+
 </script>
 
 </body>
