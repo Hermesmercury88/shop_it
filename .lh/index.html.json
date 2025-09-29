@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 41,
+            "activePatchIndex": 44,
             "patches": [
                 {
                     "date": 1758253792752,
@@ -172,6 +172,18 @@
                 {
                     "date": 1758555613449,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n   <div class=\"container\">\r\n     <!-- Avalin Copperrate -->\r\n     <div class=\"card\">\r\n       <img src=\"pic/logo.png\" alt=\"Avalin Logo\">\r\n+      <a href=\"http://localhost/shop/list/all_quotations1.php\" class=\"btn\">รายชื่อ - เอวาริณ คอปเปอร์เรท</a>\r\n       <a href=\"receipts1.html\" class=\"btn\">ใบเสร็จรับเงิน</a>\r\n       <a href=\"quotations1.html\" class=\"btn\">ใบเสนอราคา</a>\r\n       <a href=\"delivery1.html\" class=\"btn\">ใบส่งของ</a>\r\n     </div>\r\n"
+                },
+                {
+                    "date": 1759159306549,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n   <div class=\"container\">\r\n     <!-- Avalin Copperrate -->\r\n     <div class=\"card\">\r\n       <img src=\"pic/logo.png\" alt=\"Avalin Logo\">\r\n-      <a href=\"http://localhost/shop/list/all_quotations1.php\" class=\"btn\">รายชื่อ - เอวาริณ คอปเปอร์เรท</a>\r\n+      <a href=\"list/all_quotations1.php\" class=\"btn\">รายชื่อ</a>\r\n       <a href=\"receipts1.html\" class=\"btn\">ใบเสร็จรับเงิน</a>\r\n       <a href=\"quotations1.html\" class=\"btn\">ใบเสนอราคา</a>\r\n       <a href=\"delivery1.html\" class=\"btn\">ใบส่งของ</a>\r\n     </div>\r\n"
+                },
+                {
+                    "date": 1759159313648,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n   <div class=\"container\">\r\n     <!-- Avalin Copperrate -->\r\n     <div class=\"card\">\r\n       <img src=\"pic/logo.png\" alt=\"Avalin Logo\">\r\n-      <a href=\"list/all_quotations1.php\" class=\"btn\">รายชื่อ</a>\r\n+      <a href=\"../list/all_quotations1.php\" class=\"btn\">รายชื่อ</a>\r\n       <a href=\"receipts1.html\" class=\"btn\">ใบเสร็จรับเงิน</a>\r\n       <a href=\"quotations1.html\" class=\"btn\">ใบเสนอราคา</a>\r\n       <a href=\"delivery1.html\" class=\"btn\">ใบส่งของ</a>\r\n     </div>\r\n"
+                },
+                {
+                    "date": 1759159321720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,9 @@\n \r\n     <!-- LCIT -->\r\n     <div class=\"card\">\r\n       <img src=\"pic/mylogo.png\" alt=\"LCIT Logo\">\r\n-      <a href=\"http://localhost/shop/list/all_quotations2.php\" class=\"btn\">รายชื่อ</a>\r\n+      <a href=\"./list/all_quotations2.php\" class=\"btn\">รายชื่อ</a>\r\n       <a href=\"receipts2.html\" class=\"btn\">ใบเสร็จรับเงิน</a>\r\n       <a href=\"quotations2.html\" class=\"btn\">ใบเสนอราคา</a>\r\n       <a href=\"delivery2.html\" class=\"btn\">ใบส่งของ</a>\r\n     </div>\r\n"
                 }
             ],
             "date": 1758253792752,
