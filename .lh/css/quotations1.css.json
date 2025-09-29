@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1758466948248,
@@ -64,6 +64,10 @@
                 {
                     "date": 1758810437134,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -402,8 +402,19 @@\n     background: #fff !important;\r\n     padding: 20px 30px;  /* ลดจาก 30px 40px */\r\n   }\r\n \r\n+      #itemsTable tfoot tr {\r\n+    page-break-inside: avoid !important; /* ห้ามตัดกลางแถว */\r\n+    page-break-before: auto !important;\r\n+    page-break-after: auto !important;\r\n+  }\r\n+\r\n+  #itemsTable tfoot {\r\n+    display: table-row-group !important; /* บังคับให้ tfoot แสดงเหมือน tbody */\r\n+    page-break-inside: avoid !important; /* กันไม่ให้ตัดกลาง tfoot */\r\n+  }\r\n+\r\n   @page {\r\n     size: A4 portrait;\r\n     margin: 15mm;\r\n   }\r\n"
+                },
+                {
+                    "date": 1759162397935,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -319,8 +319,14 @@\n   margin-left: auto; /* ชิดขวาสุด */\r\n   line-height: 1.8;\r\n }\r\n \r\n+.auto-expand {\r\n+  width: 100%;\r\n+  min-height: 25px;\r\n+  resize: none; /* ปิดการลากขยายเอง */\r\n+  overflow: hidden;\r\n+}\r\n \r\n /* @media print */\r\n @media print {\r\n   #thaiTextDisplay {\r\n"
                 }
             ],
             "date": 1758466948248,

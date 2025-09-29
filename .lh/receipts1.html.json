@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 27,
+            "activePatchIndex": 30,
             "patches": [
                 {
                     "date": 1758458893413,
@@ -116,6 +116,18 @@
                 {
                     "date": 1758809670245,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,8 +68,24 @@\n                     <td><input type=\"text\" name=\"total[]\" class=\"total\" readonly></td>\r\n                     <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n                 </tr>\r\n             </tbody>\r\n+            <tfoot>\r\n+                <!-- รวมเป็นเงินทั้งสิ้น -->\r\n+                 <tr>\r\n+                    <td colspan=\"5\" style=\"text-align:center;font-weight:bold;\">รวมเป็นเงินทั้งสิ้น</td>\r\n+                    <td style=\"text-align:right;font-weight:bold;\">\r\n+                        <span id=\"grandTotalDisplay\">0.00</span>\r\n+                    </td>\r\n+                    <td></td>\r\n+                </tr>\r\n+                <!-- ตัวอักษร -->\r\n+                 <tr>\r\n+                    <td colspan=\"7\" style=\"text-align:left;font-weight:bold;\">\r\n+                        (ตัวอักษร: <span id=\"thaiTextDisplay\">ศูนย์บาทถ้วน</span>)\r\n+                    </td>\r\n+                </tr>\r\n+            </tfoot>\r\n         </table>\r\n \r\n         <input type=\"hidden\" name=\"grand_total\" id=\"grand_total_input\">\r\n \r\n"
+                },
+                {
+                    "date": 1759162159457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -255,9 +255,9 @@\n     row.classList.add(\"note-row\");\r\n \r\n     row.innerHTML = `\r\n         <td></td>  <!-- ช่องลำดับจะอัปเดตอัตโนมัติ -->\r\n-        <td><input type=\"text\" name=\"item_name[]\" class=\"item-name\" placeholder=\"กรอกหมายเหตุ/รายการ\"></td>\r\n+        <textarea name=\"item_name[]\" class=\"item-name auto-expand\" placeholder=\"กรอกหมายเหตุ/รายการ\"></textarea>\r\n         <td></td>\r\n         <td></td>\r\n         <td></td>\r\n         <td></td>\r\n"
+                },
+                {
+                    "date": 1759162243267,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -267,9 +267,17 @@\n     // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n     updateRowNumbers();\r\n });\r\n \r\n+// auto expand textarea\r\n+document.addEventListener(\"input\", function(e) {\r\n+  if (e.target.classList.contains(\"auto-expand\")) {\r\n+    e.target.style.height = \"auto\"; // reset ก่อน\r\n+    e.target.style.height = e.target.scrollHeight + \"px\"; // ปรับตามเนื้อหา\r\n+  }\r\n+});\r\n \r\n+\r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n     window.print();\r\n }\r\n"
+                },
+                {
+                    "date": 1759162358629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -262,11 +262,8 @@\n         <td></td>\r\n         <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n-\r\n-    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n-    updateRowNumbers();\r\n });\r\n \r\n // auto expand textarea\r\n document.addEventListener(\"input\", function(e) {\r\n"
                 }
             ],
             "date": 1758458893413,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 24,
+            "activePatchIndex": 30,
             "patches": [
                 {
                     "date": 1758446662879,
@@ -104,6 +104,30 @@
                 {
                     "date": 1758808851631,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -266,21 +266,28 @@\n         calculateTotals();\r\n     }\r\n });\r\n \r\n-// ปุ่มเพิ่มแถวเฉพาะช่องรายการ (หมายเหตุ)\r\n+// ปุ่มเพิ่มแถวเฉพาะช่องรายการ (หมายเหตุ)// ปุ่มเพิ่มแถวเฉพาะช่องรายการ (หมายเหตุ)\r\n document.querySelector(\".add-item-only\").addEventListener(\"click\", function(){\r\n     let table = document.querySelector(\"#itemsTable tbody\");\r\n     let row = table.insertRow();\r\n \r\n-    // กำหนด class \"note-row\" เพื่อแยกจากแถวปกติ (ไม่มีเลขลำดับ, ไม่คำนวณ)\r\n+    // กำหนด class \"note-row\" เพื่อแยกจากแถวปกติ\r\n     row.classList.add(\"note-row\");\r\n+\r\n     row.innerHTML = `\r\n+        <td></td>  <!-- ช่องลำดับจะอัปเดตอัตโนมัติ -->\r\n+        <td><input type=\"text\" name=\"item_name[]\" class=\"item-name\" placeholder=\"กรอกหมายเหตุ/รายการ\"></td>\r\n         <td></td>\r\n-        <td colspan=\"4\"><input type=\"text\" name=\"item_name[]\" class=\"item-name\" placeholder=\"กรอกหมายเหตุ/รายการ\"></td>\r\n-        <td><input type=\"text\" name=\"total[]\" class=\"total\" value=\"\" readonly></td>\r\n+        <td></td>\r\n+        <td></td>\r\n+        <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n+\r\n+    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n+    updateRowNumbers();\r\n });\r\n \r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n"
+                },
+                {
+                    "date": 1759162125589,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -276,9 +276,9 @@\n     row.classList.add(\"note-row\");\r\n \r\n     row.innerHTML = `\r\n         <td></td>  <!-- ช่องลำดับจะอัปเดตอัตโนมัติ -->\r\n-        <td><input type=\"text\" name=\"item_name[]\" class=\"item-name\" placeholder=\"กรอกหมายเหตุ/รายการ\"></td>\r\n+        <textarea name=\"item_name[]\" class=\"item-name auto-expand\" placeholder=\"กรอกหมายเหตุ/รายการ\"></textarea>\r\n         <td></td>\r\n         <td></td>\r\n         <td></td>\r\n         <td></td>\r\n"
+                },
+                {
+                    "date": 1759162217736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -292,8 +292,16 @@\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n     window.print();\r\n }\r\n+// auto expand textarea\r\n+document.addEventListener(\"input\", function(e) {\r\n+  if (e.target.classList.contains(\"auto-expand\")) {\r\n+    e.target.style.height = \"auto\"; // reset ก่อน\r\n+    e.target.style.height = e.target.scrollHeight + \"px\"; // ปรับตามเนื้อหา\r\n+  }\r\n+});\r\n+\r\n </script>\r\n \r\n </body>\r\n </html>\r\n"
+                },
+                {
+                    "date": 1759162284555,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -284,16 +284,15 @@\n         <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n \r\n-    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n-    updateRowNumbers();\r\n });\r\n \r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n     window.print();\r\n }\r\n+\r\n // auto expand textarea\r\n document.addEventListener(\"input\", function(e) {\r\n   if (e.target.classList.contains(\"auto-expand\")) {\r\n     e.target.style.height = \"auto\"; // reset ก่อน\r\n"
+                },
+                {
+                    "date": 1759162291837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -284,8 +284,10 @@\n         <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n \r\n+    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n+    updateRowNumbers();\r\n });\r\n \r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n"
+                },
+                {
+                    "date": 1759162298451,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -284,10 +284,9 @@\n         <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n \r\n-    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n-    updateRowNumbers();\r\n+();\r\n });\r\n \r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n"
+                },
+                {
+                    "date": 1759162303706,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -284,9 +284,9 @@\n         <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n \r\n-();\r\n+\r\n });\r\n \r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n"
                 }
             ],
             "date": 1758446662879,

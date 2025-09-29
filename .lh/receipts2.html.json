@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 21,
             "patches": [
                 {
                     "date": 1758458950348,
@@ -72,6 +72,26 @@
                 {
                     "date": 1758814184068,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -245,23 +245,29 @@\n         calculateTotals();\r\n     }\r\n });\r\n \r\n-// ปุ่มเพิ่มแถวเฉพาะช่องรายการ (หมายเหตุ)\r\n+// ปุ่มเพิ่มแถวเฉพาะช่องรายการ (หมายเหตุ)// ปุ่มเพิ่มแถวเฉพาะช่องรายการ (หมายเหตุ)\r\n document.querySelector(\".add-item-only\").addEventListener(\"click\", function(){\r\n     let table = document.querySelector(\"#itemsTable tbody\");\r\n     let row = table.insertRow();\r\n \r\n-    // กำหนด class \"note-row\" เพื่อแยกจากแถวปกติ (ไม่มีเลขลำดับ, ไม่คำนวณ)\r\n+    // กำหนด class \"note-row\" เพื่อแยกจากแถวปกติ\r\n     row.classList.add(\"note-row\");\r\n+\r\n     row.innerHTML = `\r\n+        <td></td>  <!-- ช่องลำดับจะอัปเดตอัตโนมัติ -->\r\n+        <td><input type=\"text\" name=\"item_name[]\" class=\"item-name\" placeholder=\"กรอกหมายเหตุ/รายการ\"></td>\r\n         <td></td>\r\n-        <td colspan=\"4\"><input type=\"text\" name=\"item_name[]\" class=\"item-name\" placeholder=\"กรอกหมายเหตุ/รายการ\"></td>\r\n-        <td><input type=\"text\" name=\"total[]\" class=\"total\" value=\"\" readonly></td>\r\n+        <td></td>\r\n+        <td></td>\r\n+        <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n+\r\n+    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n+    updateRowNumbers();\r\n });\r\n-\r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n     window.print();\r\n }\r\n"
+                },
+                {
+                    "date": 1759162175007,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -255,9 +255,9 @@\n     row.classList.add(\"note-row\");\r\n \r\n     row.innerHTML = `\r\n         <td></td>  <!-- ช่องลำดับจะอัปเดตอัตโนมัติ -->\r\n-        <td><input type=\"text\" name=\"item_name[]\" class=\"item-name\" placeholder=\"กรอกหมายเหตุ/รายการ\"></td>\r\n+        <textarea name=\"item_name[]\" class=\"item-name auto-expand\" placeholder=\"กรอกหมายเหตุ/รายการ\"></textarea>\r\n         <td></td>\r\n         <td></td>\r\n         <td></td>\r\n         <td></td>\r\n@@ -266,8 +266,9 @@\n \r\n     // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n     updateRowNumbers();\r\n });\r\n+\r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n     window.print();\r\n }\r\n"
+                },
+                {
+                    "date": 1759162249194,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -267,8 +267,16 @@\n     // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n     updateRowNumbers();\r\n });\r\n \r\n+// auto expand textarea\r\n+document.addEventListener(\"input\", function(e) {\r\n+  if (e.target.classList.contains(\"auto-expand\")) {\r\n+    e.target.style.height = \"auto\"; // reset ก่อน\r\n+    e.target.style.height = e.target.scrollHeight + \"px\"; // ปรับตามเนื้อหา\r\n+  }\r\n+});\r\n+\r\n // ปุ่มพิมพ์ PDF\r\n function printPDF() {\r\n     window.print();\r\n }\r\n"
+                },
+                {
+                    "date": 1759162334924,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -263,10 +263,9 @@\n         <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n \r\n-    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n-    updateRowNumbers();\r\n+\r\n });\r\n \r\n // auto expand textarea\r\n document.addEventListener(\"input\", function(e) {\r\n"
+                },
+                {
+                    "date": 1759162343771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -281,5 +281,8 @@\n }\r\n </script>\r\n \r\n </body>\r\n-</html>\n\\ No newline at end of file\n+</html>\r\n+\r\n+    // อัปเดตเลขลำดับให้แถวทั้งหมด\r\n+    <!-- updateRowNumbers(); -->\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1759162351901,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -263,9 +263,8 @@\n         <td></td>\r\n         <td><button type=\"button\" class=\"remove-btn\">-</button></td>\r\n     `;\r\n \r\n-\r\n });\r\n \r\n // auto expand textarea\r\n document.addEventListener(\"input\", function(e) {\r\n"
                 }
             ],
             "date": 1758458950348,

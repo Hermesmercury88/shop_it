@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 32,
+            "activePatchIndex": 33,
             "patches": [
                 {
                     "date": 1758444104469,
@@ -136,6 +136,10 @@
                 {
                     "date": 1758811086131,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -431,9 +431,9 @@\n   word-break: break-word !important;\r\n }\r\n \r\n /* กำหนดสัดส่วนคอลัมน์ */\r\n-table th:nth-child(1), table td:nth-child(1) { width: 10%; }   /* ลำดับ */\r\n+table th:nth-child(1), table td:nth-child(1) { width: 8%; }   /* ลำดับ */\r\n table th:nth-child(2), table td:nth-child(2) { width: 58%; }  /* รายการ (กว้างสุด) */\r\n table th:nth-child(3), table td:nth-child(3) { width: 13%; }  /* จำนวน */\r\n table th:nth-child(4), table td:nth-child(4) { width: 19%; }  /* ราคา/หน่วย */\r\n table th:nth-child(5), table td:nth-child(5) { width: 13%; }  /* หน่วย */\r\n"
+                },
+                {
+                    "date": 1759161693273,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -319,8 +319,9 @@\n }\r\n \r\n \r\n \r\n+\r\n /* @media print */\r\n @media print {\r\n   #thaiTextDisplay {\r\n     display: inline-block !important;   /* ให้ span แสดงแน่นอน */\r\n"
                 }
             ],
             "date": 1758444104469,
