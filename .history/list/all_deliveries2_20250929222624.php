@@ -278,9 +278,9 @@ input:focus, select:focus {
 </head>
 <body>
 <div class="sidebar">
-    <a href="all_quotations2.php">ใบเสนอราคา</a>
-    <a href="all_deliveries2.php">ใบส่งของ</a>
-    <a href="all_receipts2.php">ใบเสร็จรับเงิน</a>
+    <a href="./all_quotations2.php">ใบเสนอราคา</a>
+    <a href="./all_deliveries2.php">ใบส่งของ</a>
+    <a href="./all_receipts2.php">ใบเสร็จรับเงิน</a>
 </div>
 
 <div class="content">

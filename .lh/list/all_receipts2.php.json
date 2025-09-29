@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 61,
+            "activePatchIndex": 66,
             "patches": [
                 {
                     "date": 1758552509395,
@@ -252,6 +252,26 @@
                 {
                     "date": 1758817247340,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -196,9 +196,9 @@\n     margin: 0 5px;\r\n     transition: background 0.3s;\r\n }\r\n .scroll-btn:hover {\r\n-    background: #57564F;\r\n+    background: #324d61ff;\r\n }\r\n #pageInfo {\r\n     margin: 0 10px;\r\n     font-weight: bold;\r\n"
+                },
+                {
+                    "date": 1759159671180,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -277,9 +277,9 @@\n </style>\r\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n-    <a href=\"http://localhost/shop/list/all_quotations2.php\">ใบเสนอราคา</a>\r\n+    <a href=\"./all_quotations2.php\">ใบเสนอราคา</a>\r\n     <a href=\"http://localhost/shop/list/all_deliveries2.php\">ใบส่งของ</a>\r\n     <a href=\"http://localhost/shop/list/all_receipts2.php\">ใบเสร็จรับเงิน</a>\r\n </div>\r\n \r\n"
+                },
+                {
+                    "date": 1759159679585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -278,10 +278,10 @@\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n     <a href=\"./all_quotations2.php\">ใบเสนอราคา</a>\r\n-    <a href=\"http://localhost/shop/list/all_deliveries2.php\">ใบส่งของ</a>\r\n-    <a href=\"http://localhost/shop/list/all_receipts2.php\">ใบเสร็จรับเงิน</a>\r\n+    <a href=\"./all_deliveries2.php\">ใบส่งของ</a>\r\n+    <a href=\"./all_receipts2.php\">ใบเสร็จรับเงิน</a>\r\n </div>\r\n \r\n <div class=\"content\">\r\n     <div class=\"topbar\">\r\n"
+                },
+                {
+                    "date": 1759159706031,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -277,9 +277,9 @@\n </style>\r\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n-    <a href=\"./all_quotations2.php\">ใบเสนอราคา</a>\r\n+    <a href=\"all_quotations2.php\">ใบเสนอราคา</a>\r\n     <a href=\"./all_deliveries2.php\">ใบส่งของ</a>\r\n     <a href=\"./all_receipts2.php\">ใบเสร็จรับเงิน</a>\r\n </div>\r\n \r\n"
+                },
+                {
+                    "date": 1759159712743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -278,10 +278,10 @@\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n     <a href=\"all_quotations2.php\">ใบเสนอราคา</a>\r\n-    <a href=\"./all_deliveries2.php\">ใบส่งของ</a>\r\n-    <a href=\"./all_receipts2.php\">ใบเสร็จรับเงิน</a>\r\n+    <a href=\"all_deliveries2.php\">ใบส่งของ</a>\r\n+    <a href=\"all_receipts2.php\">ใบเสร็จรับเงิน</a>\r\n </div>\r\n \r\n <div class=\"content\">\r\n     <div class=\"topbar\">\r\n"
+                },
+                {
+                    "date": 1759159719178,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -279,9 +279,9 @@\n <body>\r\n <div class=\"sidebar\">\r\n     <a href=\"all_quotations2.php\">ใบเสนอราคา</a>\r\n     <a href=\"all_deliveries2.php\">ใบส่งของ</a>\r\n-    <a href=\".\">ใบเสร็จรับเงิน</a>\r\n+    <a href=\"./\">ใบเสร็จรับเงิน</a>\r\n </div>\r\n \r\n <div class=\"content\">\r\n     <div class=\"topbar\">\r\n"
                 }
             ],
             "date": 1758552509395,

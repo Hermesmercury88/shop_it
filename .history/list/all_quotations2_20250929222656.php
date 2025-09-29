@@ -10,22 +10,23 @@ if ($conn->connect_error) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . $conn->connect_error);
 }
 
-// ดึงข้อมูลจากตาราง deliveries + delivery_items
+// ดึงข้อมูลจากตาราง quotations + quotation_items
 $sql = "
     SELECT 
         i.id AS item_id,
-        d.id AS delivery_id,
-        d.customer_name,
-        d.delivery_no,
-        d.pdf_file,
+        q.id AS quotation_id,
+        q.quotation_no,
+        q.subject,
+        q.recipient_name,
+        q.pdf_file,
         i.item_name,
         i.qty,
         i.price,
         i.unit,
         i.total
-    FROM deliveries d
-    JOIN delivery_items i ON i.delivery_id = d.id
-    ORDER BY d.id, i.id
+    FROM quotations q
+    JOIN quotation_items i ON i.quotation_id = q.id
+    ORDER BY q.id, i.id
 ";
 $result = $conn->query($sql);
 ?>
@@ -35,7 +36,7 @@ $result = $conn->query($sql);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ใบส่งของ</title>
+<title>ใบเสนอราคา</title>
 
 <style>
 body {
@@ -207,6 +208,7 @@ input:focus, select:focus {
 }
 
 
+
 /* Print PDF */
 @media print {
     @page {
@@ -232,55 +234,56 @@ input:focus, select:focus {
         display: none !important;
     }
 
-    #deliveryTable {
+    #quotationTable {
         border-collapse: collapse;
         margin: auto;
         border: 3px solid #000; /* เส้นรอบนอก */
     }
 
-    #deliveryTable th,
-    #deliveryTable td {
+    #quotationTable th,
+    #quotationTable td {
         border: 1.5px solid #000; /* เส้นด้านใน */
         padding: 8px;
         text-align: center;
     }
 
     /* เส้นหนารอบบน */
-    #deliveryTable tr:first-child th {
+    #quotationTable tr:first-child th {
         border-top: 3px solid #000;
     }
 
     /* เส้นหนาซ้าย */
-    #deliveryTable tr th:first-child,
-    #deliveryTable tr td:first-child {
+    #quotationTable tr th:first-child,
+    #quotationTable tr td:first-child {
         border-left: 3px solid #000;
     }
 
     /* เส้นหนาขวา */
-    #deliveryTable tr th:last-child,
-    #deliveryTablee tr td:last-child {
+    #quotationTable tr th:last-child,
+    #quotationTable tr td:last-child {
         border-right: 3px solid #000;
     }
 
     /* เส้นหนาล่างสุด */
-    #deliveryTable tr:last-child td {
+    #quotationTable tr:last-child td {
         border-bottom: 3px solid #000;
     }
 
     /* ซ่อน 2 คอลัมน์สุดท้าย (PDF + จัดการ) */
-    #deliveryTable th:nth-last-child(-n+2),
-    #deliveryTable td:nth-last-child(-n+2) {
+    #quotationTable th:nth-last-child(-n+2),
+    #quotationTable td:nth-last-child(-n+2) {
         display: none !important;
     }
 }
+
 </style>
 
 </head>
 <body>
 <div class="sidebar">
-    <a href="all_quotations2.php">ใบเสนอราคา</a>
-    <a href="all_deliveries2.php">ใบส่งของ</a>
-    <a href="all_receipts2.php">ใบเสร็จรับเงิน</a>
+    <a href="./all_quotations2.php">ใบเสนอราคา</a>
+    <a href="http://localhost/shop/list/all_deliveries2.php">ใบส่งของ</a>
+    <a href="http://localhost/shop/list/all_receipts2.php">ใบเสร็จรับเงิน</a>
 </div>
 
 <div class="content">
@@ -288,15 +291,14 @@ input:focus, select:focus {
         <img src="../pic/mylogo.png" alt="LOGO">
     </div>
 
-    <h2>รายการใบส่งของ</h2>
+    <h2>รายการใบเสนอราคา</h2>
 
-    <!-- ✅ search box เดิม -->
     <div class="search-box">
         <label for="searchColumn">ค้นหาโดย: </label>
         <select id="searchColumn">
-            <option value="1">ชื่อลูกค้า</option>
-            <option value="2">เลขที่ / NO.</option>
-            <option value="3">รายการสินค้า</option>
+            <option value="1">เลขที่ใบเสนอราคา</option>
+            <option value="2">เรื่อง</option>
+            <option value="3">เรียน</option>
         </select>
         <input type="text" id="searchInput" placeholder="พิมพ์คำค้นหา...">
 
@@ -309,19 +311,20 @@ input:focus, select:focus {
         </select>
     </div>
 
-    <table id="deliveryTable">
+    <table id="quotationTable">
         <thead>
             <tr>
                 <th>ลำดับ</th>
-                <th>ชื่อลูกค้า</th>
-                <th>เลขที่ / NO.</th>
+                <th>เลขที่ใบเสนอราคา</th>
+                <th>เรื่อง</th>
+                <th>เรียน</th>
                 <th>รายการ</th>
                 <th>จำนวน</th>
                 <th>ราคา</th>
                 <th>หน่วย</th>
                 <th>ราคารวม</th>
                 <th>PDF</th>
-                <th>จัดการ</th> 
+                <th>จัดการ</th>
             </tr>
         </thead>
         <tbody>
@@ -331,34 +334,26 @@ input:focus, select:focus {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr data-id='" . $row['item_id'] . "'>";
                     echo "<td>" . $no++ . "</td>";
-                    echo "<td class='editable'>" . htmlspecialchars($row['customer_name']) . "</td>";
-                    echo "<td class='editable'>" . htmlspecialchars($row['delivery_no']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['quotation_no']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['subject']) . "</td>";
+                    echo "<td class='editable'>" . htmlspecialchars($row['recipient_name']) . "</td>";
                     echo "<td class='editable'>" . htmlspecialchars($row['item_name']) . "</td>";
                     echo "<td class='editable col-qty'>" . $row['qty'] . "</td>";
                     echo "<td class='editable col-price'>" . number_format($row['price'],2) . "</td>";
                     echo "<td class='editable'>" . htmlspecialchars($row['unit']) . "</td>";
                     echo "<td class='editable col-total'>" . number_format($row['total'],2) . "</td>";
-                        $pdf_file = isset($row['pdf_file']) ? $row['pdf_file'] : "";
-                        if ($pdf_file) {
-                            if (strpos($pdf_file, 'uploads/deliveries/') === false) {
-                                $pdf_link = "../uploads/deliveries/" . $pdf_file;
-                            } else {
-                                $pdf_link = "../" . $pdf_file;
-                            }
-                        } else {
-                            $pdf_link = "#"; }
-                            echo "<td>";
-                            echo "<a class='action-btn btn-viewpdf' href='{$pdf_link}' target='_blank'>ดู PDF</a>";
-                            echo "</td>";
+                    $pdf_file = isset($row['pdf_file']) ? $row['pdf_file'] : "";
+                    $pdf_link = $pdf_file ? "../uploads/quotations/" . basename($pdf_file) : "#";
+                    echo "<td><a class='action-btn btn-viewpdf' href='{$pdf_link}' target='_blank'>ดู PDF</a></td>";
+
                     echo "<td>
                             <button class='action-btn btn-edit'>แก้ไข</button>
                             <button class='action-btn btn-delete'>ลบ</button>
                           </td>";
                     echo "</tr>";
-                    $no++;
                 }
             } else {
-                echo "<tr><td colspan='9'>ยังไม่มีข้อมูล</td></tr>";
+                echo "<tr><td colspan='10'>ยังไม่มีข้อมูล</td></tr>";
             }
             ?>
         </tbody>
@@ -372,14 +367,14 @@ input:focus, select:focus {
 
     <button class="btn-pdf" onclick="window.location.href='../index.html'">กลับหน้าหลัก</button>
     <button class="btn-pdf" onclick="window.print()">พิมพ์ PDF</button>
-    <button class="btn-upload" onclick="window.open('../delivery2.html', '_blank')">เพิ่มใบส่งของ</button>
+    <button class="btn-upload" onclick="window.open('../quotations2.html', '_blank')">เพิ่มใบเสนอราคา</button>
 </div>
 
 <script>
 // ✅ ฟังก์ชันค้นหา
 document.getElementById("searchInput").addEventListener("keyup", function() {
     let input = this.value.toLowerCase();
-    let table = document.getElementById("deliveryTable");
+    let table = document.getElementById("quotationTable");
     let rows = table.getElementsByTagName("tr");
     let column = parseInt(document.getElementById("searchColumn").value);
 
@@ -395,7 +390,7 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
 // ✅ ฟังก์ชันเลือกจำนวนแถว
 function updateTableRows() {
     let rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
-    let table = document.getElementById("deliveryTable");
+    let table = document.getElementById("quotationTable");
     let rows = table.getElementsByTagName("tr");
 
     let count = 0;
@@ -478,7 +473,7 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
             });
             let id = row.dataset.id;
 
-            fetch("update_delivery2_item.php", {
+            fetch("update_quotations2_item.php", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({id, data})
@@ -491,12 +486,11 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
 });
 
 
-
 let currentPage = 1;
 
 function renderTable() {
     let rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
-    let table = document.getElementById("deliveryTable"); // ✅ ใช้ id เดียวกัน
+    let table = document.getElementById("quotationTable"); // ✅ ใช้ id เดียวกัน
     let rows = table.getElementsByTagName("tr");
 
     let visibleRows = [];
@@ -558,13 +552,15 @@ renderTable();
 
 
 
+
+// ✅ ลบ
 document.querySelectorAll(".btn-delete").forEach(btn => {
     btn.addEventListener("click", function() {
         if (!confirm("คุณต้องการลบข้อมูลนี้หรือไม่?")) return;
         let row = this.closest("tr");
         let id = row.dataset.id;
 
-        fetch("delete_delivery2_item.php", {
+        fetch("delete_quotations2_item.php", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id})
@@ -574,7 +570,6 @@ document.querySelectorAll(".btn-delete").forEach(btn => {
         });
     });
 });
-
 </script>
 
 </body>

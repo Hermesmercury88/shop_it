@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 65,
+            "activePatchIndex": 66,
             "patches": [
                 {
                     "date": 1758552087197,
@@ -268,6 +268,10 @@
                 {
                     "date": 1758813177134,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -293,9 +293,13 @@\n             <option value=\"20\">20</option>\r\n             <option value=\"50\">50</option>\r\n         </select>\r\n     </div>\r\n-    \r\n+    <div class=\"table-wrapper\" style=\"position: relative; max-height: 400px; overflow: hidden;\">\r\n+    <button class=\"scroll-btn up\">▲</button>\r\n+    <button class=\"scroll-btn down\">▼</button>\r\n+\r\n+    <div class=\"scrollable-table\" style=\"overflow-y: auto; max-height: 400px;\">\r\n     <table id=\"receiptTable\">\r\n         <thead>\r\n             <tr>\r\n                 <th>ลำดับ</th>\r\n"
+                },
+                {
+                    "date": 1759159658591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -278,9 +278,9 @@\n </head>\r\n <body>\r\n <div class=\"sidebar\">\r\n     <a href=\"./all_quotations1.php\">ใบเสนอราคา</a>\r\n-    <a href=\"http://localhost/shop/list/all_deliveries1.php\">ใบส่งของ</a>\r\n+    <a href=\"./list/all_deliveries1.php\">ใบส่งของ</a>\r\n     <a href=\"http://localhost/shop/list/all_receipts1.php\">ใบเสร็จรับเงิน</a>\r\n </div>\r\n \r\n <div class=\"content\">\r\n"
                 }
             ],
             "date": 1758552087197,

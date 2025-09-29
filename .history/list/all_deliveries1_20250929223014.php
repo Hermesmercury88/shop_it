@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbname = "shop_it2";
+$dbname = "shop_it";
 
 // เชื่อมต่อฐานข้อมูล
 $conn = new mysqli($host, $user, $pass, $dbname);
@@ -41,14 +41,14 @@ $result = $conn->query($sql);
 body {
     margin: 0;
     font-family: Tahoma, sans-serif;
-    background: #fdfdf7ff;
+    background: #eeece6ff;
 }
 
 /* Sidebar */
 .sidebar {
     width: 220px;
     height: 100vh;
-    background: #456882;
+    background: #57564F;
     float: left;
     color: #fff;
     display: flex;
@@ -66,7 +66,7 @@ body {
     transition: background 0.3s;
 }
 .sidebar a:hover {
-    background: rgba(255,255,255,0.2);
+    background: #57564F;
     border-radius: 6px;
 }
 
@@ -78,7 +78,7 @@ body {
 
 /* Topbar */
 .topbar {
-    background: #456882;
+    background: #7A7A73;
     padding: 15px 0;
     text-align: center;
     margin-bottom: 25px;
@@ -114,7 +114,7 @@ th, td {
     transition: background 0.3s;
 }
 th {
-    background: #456882;
+    background: #7A7A73;
     font-weight: 600;
     color: #fff; /* ทำให้ตัวอักษรเป็นสีขาว */
 }
@@ -136,7 +136,7 @@ input, select {
     outline: none;
 }
 input:focus, select:focus {
-    border-color: #b89172;
+    border-color: #a3a2b1ff;
 }
 
 /* PDF button */
@@ -188,7 +188,7 @@ input:focus, select:focus {
     text-align: center;
 }
 .scroll-btn {
-    background: #456882;
+    background: #7A7A73;
     color: #fff;
     padding: 8px 15px;
     border: none;
@@ -198,12 +198,12 @@ input:focus, select:focus {
     transition: background 0.3s;
 }
 .scroll-btn:hover {
-    background: #324d61ff;
+    background: #57564F;
 }
 #pageInfo {
     margin: 0 10px;
     font-weight: bold;
-    color: #456882;
+    color: #4d3a2c;
 }
 
 
@@ -273,19 +273,20 @@ input:focus, select:focus {
         display: none !important;
     }
 }
+
 </style>
 
 </head>
 <body>
 <div class="sidebar">
-    <a href="all_quotations2.php">ใบเสนอราคา</a>
-    <a href="all_deliveries2.php">ใบส่งของ</a>
-    <a href="all_receipts2.php">ใบเสร็จรับเงิน</a>
+    <a href="all_quotations1.php">ใบเสนอราคา</a>
+    <a href="./all_deliveries1.php">ใบส่งของ</a>
+    <a href="./all_receipts1.php">ใบเสร็จรับเงิน</a>
 </div>
 
 <div class="content">
     <div class="topbar">
-        <img src="../pic/mylogo.png" alt="LOGO">
+        <img src="../pic/logo.png" alt="LOGO">
     </div>
 
     <h2>รายการใบส่งของ</h2>
@@ -372,7 +373,7 @@ input:focus, select:focus {
 
     <button class="btn-pdf" onclick="window.location.href='../index.html'">กลับหน้าหลัก</button>
     <button class="btn-pdf" onclick="window.print()">พิมพ์ PDF</button>
-    <button class="btn-upload" onclick="window.open('../delivery2.html', '_blank')">เพิ่มใบส่งของ</button>
+    <button class="btn-upload" onclick="window.open('../delivery1.html', '_blank')">เพิ่มใบส่งของ</button>
 </div>
 
 <script>
@@ -478,7 +479,7 @@ document.querySelectorAll(".btn-edit").forEach(btn => {
             });
             let id = row.dataset.id;
 
-            fetch("update_delivery2_item.php", {
+            fetch("update_delivery_item.php", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({id, data})
@@ -557,14 +558,13 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
 renderTable();
 
 
-
 document.querySelectorAll(".btn-delete").forEach(btn => {
     btn.addEventListener("click", function() {
         if (!confirm("คุณต้องการลบข้อมูลนี้หรือไม่?")) return;
         let row = this.closest("tr");
         let id = row.dataset.id;
 
-        fetch("delete_delivery2_item.php", {
+        fetch("delete_delivery_item.php", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id})
